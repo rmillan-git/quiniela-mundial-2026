@@ -101,6 +101,27 @@
     </div>
   </div>
 
+  <!-- Modal: Reset Password -->
+  <div class="modal fade" id="modal-reset-pwd" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title" id="modal-reset-title">🔑 Resetear Contraseña</h6>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p class="small text-muted mb-2" id="modal-reset-name"></p>
+          <input type="password" class="form-control" id="reset-pwd-input" placeholder="Nueva contraseña (mín. 6 caracteres)" minlength="6">
+          <div id="reset-pwd-alert" class="alert mt-2 d-none"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-warning btn-sm" id="btn-confirm-reset">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Modal: Participant Predictions -->
   <div class="modal fade" id="modal-quiniela" tabindex="-1">
     <div class="modal-dialog modal-xl modal-dialog-scrollable">
@@ -213,9 +234,8 @@
             <td class="small text-muted">${new Date(p.registered_at).toLocaleDateString()}</td>
             <td>${p.is_approved ? '<span class="badge bg-success">Aprobado</span>' : '<span class="badge bg-warning text-dark">Pendiente</span>'}</td>
             <td class="text-nowrap">
-              <button class="btn btn-info btn-sm me-1" onclick="viewQuiniela(${p.id}, '${p.name.replace(/'/g, "\\'")}')">
-                📋 Ver Quiniela
-              </button>
+              <button class="btn btn-info btn-sm me-1" onclick="viewQuiniela(${p.id}, '${p.name.replace(/'/g, "\\'")}')">📋 Ver Quiniela</button>
+              <button class="btn btn-secondary btn-sm me-1" onclick="openResetPwd(${p.id}, '${p.name.replace(/'/g, "\\'")}')">🔑 Contraseña</button>
               ${!p.is_approved ? `<button class="btn btn-success btn-sm me-1" onclick="approve(${p.id})">Aprobar</button>` : ""}
               <button class="btn btn-danger btn-sm" onclick="removeParticipant(${p.id})">Eliminar</button>
             </td>
@@ -242,6 +262,36 @@
       await api.delete(`/participants/${id}`);
       document.getElementById(`row-${id}`).remove();
     }
+
+    // ── Reset Password ───────────────────────────────────────────────────────
+    let _resetPid = null;
+
+    function openResetPwd(pid, name) {
+      _resetPid = pid;
+      document.getElementById("modal-reset-name").textContent = `Participante: ${name}`;
+      document.getElementById("reset-pwd-input").value = "";
+      document.getElementById("reset-pwd-alert").className = "alert d-none";
+      new bootstrap.Modal(document.getElementById("modal-reset-pwd")).show();
+    }
+
+    document.getElementById("btn-confirm-reset").addEventListener("click", async () => {
+      const pwd = document.getElementById("reset-pwd-input").value.trim();
+      const alertEl = document.getElementById("reset-pwd-alert");
+      if (pwd.length < 6) {
+        alertEl.className = "alert alert-danger";
+        alertEl.textContent = "Mínimo 6 caracteres.";
+        return;
+      }
+      const res = await api.patch(`/participants/${_resetPid}/reset-password`, { new_password: pwd });
+      if (res.ok) {
+        alertEl.className = "alert alert-success";
+        alertEl.textContent = "✅ Contraseña actualizada.";
+        setTimeout(() => bootstrap.Modal.getInstance(document.getElementById("modal-reset-pwd")).hide(), 1200);
+      } else {
+        alertEl.className = "alert alert-danger";
+        alertEl.textContent = "Error: " + JSON.stringify(res);
+      }
+    });
 
     // ── View Participant Quiniela ─────────────────────────────────────────────
     const ROUND_LABELS = {

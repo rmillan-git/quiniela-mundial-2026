@@ -1,8 +1,12 @@
 from fastapi import APIRouter, Depends, HTTPException
+from pydantic import BaseModel
 from sqlalchemy.orm import Session
+from passlib.context import CryptContext
 from database import get_db
 from models import Participant, Prediction
 from routes.auth import get_current_admin
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 router = APIRouter(prefix="/participants", tags=["participants"])
 
@@ -59,6 +63,22 @@ def approve(pid: int, db: Session = Depends(get_db), _: Participant = Depends(ge
     if not p:
         raise HTTPException(404, "Participant not found")
     p.is_approved = True
+    db.commit()
+    return {"ok": True}
+
+
+class PasswordResetRequest(BaseModel):
+    new_password: str
+
+
+@router.patch("/{pid}/reset-password")
+def reset_password(pid: int, req: PasswordResetRequest, db: Session = Depends(get_db), _: Participant = Depends(get_current_admin)):
+    if len(req.new_password) < 6:
+        raise HTTPException(400, "Password must be at least 6 characters")
+    p = db.query(Participant).get(pid)
+    if not p:
+        raise HTTPException(404, "Participant not found")
+    p.hashed_password = pwd_context.hash(req.new_password)
     db.commit()
     return {"ok": True}
 
