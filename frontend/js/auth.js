@@ -8,7 +8,8 @@ const auth = {
       localStorage.setItem("user", JSON.stringify(user));
       return user;
     }
-    localStorage.removeItem("token");
+    // Only clear token on explicit auth errors, not network errors
+    if (!user.error) localStorage.removeItem("token");
     return null;
   },
 

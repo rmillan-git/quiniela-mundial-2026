@@ -42,13 +42,15 @@
     </div>
 
     <div id="predictions-content" class="d-none">
+      <!-- Sticky save bar -->
+      <div class="d-flex align-items-center gap-3 mb-3 p-2 bg-white border rounded shadow-sm sticky-top" style="top:56px;z-index:100">
+        <button class="btn btn-success" id="btn-save" data-i18n="pred.save">💾 Guardar Predicciones</button>
+        <span id="save-status" class="text-muted small"></span>
+        <div id="save-alert" class="mb-0 d-none alert py-1 px-2 small"></div>
+      </div>
+
       <ul class="nav nav-tabs mb-3" id="round-tabs"></ul>
       <div id="matches-container"></div>
-      <div class="d-flex align-items-center gap-3 mt-3 flex-wrap">
-        <button class="btn btn-success btn-lg" id="btn-save">💾 Save All Predictions</button>
-        <span id="save-status" class="text-muted small"></span>
-      </div>
-      <div id="save-alert" class="mt-2 d-none"></div>
     </div>
   </div>
 
