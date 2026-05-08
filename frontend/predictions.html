@@ -103,6 +103,23 @@
       const predMap = {};
       myPreds.forEach(p => predMap[p.match_id] = p);
 
+      // Build lookup: match_number → short team label for bracket context
+      const numToLabel = {};
+      matches.forEach(m => {
+        const hTBD = !m.home_flag || m.home_flag === "🏳️";
+        const aTBD = !m.away_flag || m.away_flag === "🏳️";
+        const h = hTBD ? m.home_team : `${m.home_flag} ${m.home_team}`;
+        const a = aTBD ? m.away_team : `${m.away_flag} ${m.away_team}`;
+        numToLabel[m.match_number] = `${h} vs ${a}`;
+      });
+
+      enrichTeam = function(name) {
+        const m = name.match(/P(\d{2,3})/);
+        if (!m) return name;
+        const ref = parseInt(m[1]);
+        return numToLabel[ref] ? `${name} <span class="text-muted small">(${numToLabel[ref]})</span>` : name;
+      };
+
       document.getElementById("predictions-loading").classList.add("d-none");
       document.getElementById("predictions-content").classList.remove("d-none");
       document.getElementById("save-bar").classList.remove("d-none");
@@ -153,8 +170,11 @@
       });
     }
 
+    let enrichTeam = name => name; // overridden after matches load
+
     function teamLabel(flag, name) {
-      return (flag && flag !== "🏳️") ? `${flag} ${name}` : `<span class="text-muted fst-italic">${name}</span>`;
+      if (flag && flag !== "🏳️") return `${flag} ${name}`;
+      return `<span class="text-muted fst-italic">${enrichTeam(name)}</span>`;
     }
 
     function matchCard(m, predMap) {
