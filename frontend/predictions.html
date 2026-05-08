@@ -103,7 +103,6 @@
       document.getElementById("predictions-content").classList.remove("d-none");
 
       const rounds = ["group_stage", "round_of_32", "round_of_16", "qf", "sf", "final"];
-      const roundLabels = { group_stage: "Group Stage", round_of_32: "R32", round_of_16: "R16", qf: "QF", sf: "SF", final: "Final" };
 
       const tabsEl = document.getElementById("round-tabs");
       const containerEl = document.getElementById("matches-container");
@@ -113,32 +112,44 @@
         const roundMatches = matches.filter(m => m.round === round);
         if (!roundMatches.length) return;
 
+        const label = t(`pred.round.${round}`);
         const active = firstActive ? "active" : "";
         firstActive = false;
-        tabsEl.innerHTML += `<li class="nav-item"><a class="nav-link ${active}" data-bs-toggle="tab" href="#tab-${round}">${roundLabels[round]}</a></li>`;
+        tabsEl.innerHTML += `<li class="nav-item"><a class="nav-link ${active}" data-bs-toggle="tab" href="#tab-${round}">${label}</a></li>`;
 
         let html = `<div class="tab-pane fade ${active ? "show active" : ""}" id="tab-${round}">`;
 
         if (round === "group_stage") {
           const groups = [...new Set(roundMatches.map(m => m.group))].sort();
-          // Two groups per row
           for (let i = 0; i < groups.length; i += 2) {
             html += '<div class="row g-3 mb-2">';
             for (let j = i; j < Math.min(i + 2, groups.length); j++) {
               const g = groups[j];
               html += '<div class="col-md-6">';
-              html += `<h5 class="mt-2 mb-2 text-success">Group ${g}</h5>`;
+              html += `<h5 class="mt-2 mb-2 text-success">${window.LANG === "en" ? "Group" : "Grupo"} ${g}</h5>`;
               roundMatches.filter(m => m.group === g).forEach(m => html += matchCard(m, predMap));
               html += '</div>';
             }
             html += '</div>';
           }
         } else {
+          const isTBD = roundMatches.every(m => !m.home_flag || m.home_flag === "🏳️");
+          if (isTBD) {
+            html += `<div class="alert alert-info py-2 small mb-3">
+              ${window.LANG === "en"
+                ? "⏳ Teams will be confirmed once previous round results are known. You can already enter your predictions!"
+                : "⏳ Los equipos se confirmarán cuando terminen los resultados de la ronda anterior. ¡Ya puedes ingresar tus predicciones!"}
+            </div>`;
+          }
           roundMatches.forEach(m => html += matchCard(m, predMap));
         }
         html += "</div>";
         containerEl.innerHTML += html;
       });
+    }
+
+    function teamLabel(flag, name) {
+      return (flag && flag !== "🏳️") ? `${flag} ${name}` : `<span class="text-muted fst-italic">${name}</span>`;
     }
 
     function matchCard(m, predMap) {
@@ -156,7 +167,7 @@
           <div class="card-body py-2 px-3">
             <div class="d-flex align-items-center gap-2 flex-wrap">
               <span class="text-muted small">#${m.match_number}</span>
-              <span class="fw-semibold">${m.home_flag} ${m.home_team}</span>
+              <span class="fw-semibold">${teamLabel(m.home_flag, m.home_team)}</span>
               <input type="number" min="0" max="20" step="1"
                 class="form-control form-control-sm pred-input text-center ${locked?"":"border-success"}"
                 data-match="${m.id}" data-side="home"
@@ -168,13 +179,13 @@
                 data-match="${m.id}" data-side="away"
                 value="${pa}" ${locked ? "disabled" : "required"} style="width:62px"
                 oninput="this.value=this.value.replace(/[^0-9]/g,'')">
-              <span class="fw-semibold">${m.away_flag} ${m.away_team}</span>
+              <span class="fw-semibold">${teamLabel(m.away_flag, m.away_team)}</span>
               ${scoreDisplay}${pts}
             </div>
             <div class="d-flex justify-content-between align-items-center mt-1 flex-wrap gap-1">
               <span class="text-muted small">📍 ${m.venue || ""}</span>
               <span class="small">${toLocalTime(m.kickoff_utc)}</span>
-              ${locked ? '<span class="badge bg-secondary">🔒 Locked</span>' : ""}
+              ${locked ? `<span class="badge bg-secondary">${t("pred.locked")}</span>` : ""}
             </div>
           </div>
         </div>`;
