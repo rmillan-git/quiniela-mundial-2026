@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bracket – Quiniela 2026</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+  <style>
+    .bracket-wrap { overflow-x: auto; }
+    .bracket-grid { display: flex; gap: 0; min-width: 900px; }
+    .bracket-col { flex: 1; display: flex; flex-direction: column; border-right: 1px solid #dee2e6; }
+    .bracket-col:last-child { border-right: none; }
+    .bracket-col-header {
+      background: #198754; color: #fff; font-weight: 700;
+      text-align: center; padding: 8px 4px; font-size: .8rem; letter-spacing: .5px;
+    }
+    .bracket-matches { flex: 1; display: flex; flex-direction: column; padding: 8px 6px; gap: 6px; }
+    .b-match {
+      border: 1px solid #dee2e6; border-radius: 6px; overflow: hidden;
+      background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.06);
+    }
+    .b-team {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 4px 8px; font-size: .8rem; border-bottom: 1px solid #f0f0f0;
+    }
+    .b-team:last-child { border-bottom: none; }
+    .b-team.winner { background: #d1e7dd; font-weight: 700; }
+    .b-team.tbd { color: #adb5bd; font-style: italic; }
+    .b-match-meta { font-size: .7rem; color: #6c757d; padding: 2px 8px; background: #f8f9fa; border-top: 1px solid #f0f0f0; }
+    .round-r32 .bracket-col-header { background: #6c757d; }
+    .round-r16 .bracket-col-header { background: #0d6efd; }
+    .round-qf  .bracket-col-header { background: #fd7e14; }
+    .round-sf  .bracket-col-header { background: #dc3545; }
+    .round-final .bracket-col-header { background: #198754; }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-dark bg-success">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold" href="index.html">⚽ Quiniela Mundial 2026</a>
+      <div class="d-flex gap-2 flex-wrap align-items-center">
+        <span class="text-white-50 small wc-countdown"></span>
+        <a href="groups.html" class="btn btn-outline-light btn-sm" data-i18n="nav.groups">Grupos</a>
+        <a href="index.html" class="btn btn-outline-light btn-sm" data-i18n="nav.leaderboard">Posiciones</a>
+        <button class="btn btn-outline-light btn-sm lang-btn">🇺🇸 EN</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container-fluid py-4">
+    <h2 class="mb-1" data-i18n="bracket.title">Bracket Eliminatorio</h2>
+    <p class="text-muted small mb-3">
+      🟩 Top 2 de cada grupo · 🟨 8 mejores 3ros clasificados
+    </p>
+
+    <div id="loading" class="text-center py-5"><div class="spinner-border text-success" role="status"></div></div>
+    <div id="bracket-empty" class="alert alert-info d-none" data-i18n="bracket.empty">La fase eliminatoria aún no ha comenzado.</div>
+
+    <div id="bracket-container" class="d-none">
+      <!-- Bracket built by JS -->
+    </div>
+
+    <div class="mt-4 card">
+      <div class="card-header fw-bold bg-light">📋 Clasificación para Ronda de 32 (Fase de Grupos)</div>
+      <div class="card-body small">
+        <p class="mb-2">Los <strong>24 primeros clasificados</strong> (1° de cada grupo) y los <strong>24 segundos</strong> avanzan. Los <strong>8 mejores terceros</strong> de los 12 grupos también pasan.</p>
+        <div class="table-responsive">
+          <table class="table table-sm table-bordered mb-0" id="r32-table">
+            <thead class="table-secondary">
+              <tr><th>Partido</th><th>Local</th><th>Visitante</th></tr>
+            </thead>
+            <tbody id="r32-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    const ROUND_CONFIG = [
+      { key: "round_of_32", label_key: "bracket.r32",  cls: "round-r32"   },
+      { key: "round_of_16", label_key: "bracket.r16",  cls: "round-r16"   },
+      { key: "qf",          label_key: "bracket.qf",   cls: "round-qf"    },
+      { key: "sf",          label_key: "bracket.sf",   cls: "round-sf"    },
+      { key: "final",       label_key: "bracket.final",cls: "round-final" },
+    ];
+
+    // Official 2026 R32 bracket (Wikipedia/FIFA)
+    const R32_PATHS = [
+      { num: 73,  home: "2° Grupo A",  away: "2° Grupo B" },
+      { num: 74,  home: "1° Grupo E",  away: "Mejor 3° (A/B/C/D/F)" },
+      { num: 75,  home: "1° Grupo F",  away: "2° Grupo C" },
+      { num: 76,  home: "1° Grupo C",  away: "2° Grupo F" },
+      { num: 77,  home: "1° Grupo I",  away: "Mejor 3° (C/D/F/G/H)" },
+      { num: 78,  home: "2° Grupo E",  away: "2° Grupo I" },
+      { num: 79,  home: "1° Grupo A",  away: "Mejor 3° (C/E/F/H/I)" },
+      { num: 80,  home: "1° Grupo L",  away: "Mejor 3° (E/H/I/J/K)" },
+      { num: 81,  home: "1° Grupo D",  away: "Mejor 3° (B/E/F/I/J)" },
+      { num: 82,  home: "1° Grupo G",  away: "Mejor 3° (A/E/H/I/J)" },
+      { num: 83,  home: "2° Grupo K",  away: "2° Grupo L" },
+      { num: 84,  home: "1° Grupo H",  away: "2° Grupo J" },
+      { num: 85,  home: "1° Grupo B",  away: "Mejor 3° (E/F/G/I/J)" },
+      { num: 86,  home: "1° Grupo J",  away: "2° Grupo H" },
+      { num: 87,  home: "1° Grupo K",  away: "Mejor 3° (D/E/I/J/L)" },
+      { num: 88,  home: "2° Grupo D",  away: "2° Grupo G" },
+    ];
+
+    // R16 feeds from R32 pairs
+    const R16_PATHS = [
+      { num: 89, home: "G(73)", away: "G(74)" },
+      { num: 90, home: "G(75)", away: "G(76)" },
+      { num: 91, home: "G(77)", away: "G(78)" },
+      { num: 92, home: "G(79)", away: "G(80)" },
+      { num: 93, home: "G(81)", away: "G(82)" },
+      { num: 94, home: "G(83)", away: "G(84)" },
+      { num: 95, home: "G(85)", away: "G(86)" },
+      { num: 96, home: "G(87)", away: "G(88)" },
+    ];
+
+    function toLocalShort(utcStr) {
+      if (!utcStr) return "";
+      const d = new Date(utcStr);
+      return d.toLocaleString([], { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit", timeZoneName: "short" });
+    }
+
+    function teamName(m, side) {
+      const name = side === "home" ? m.home_team : m.away_team;
+      const flag = side === "home" ? m.home_flag : m.away_flag;
+      if (!name || name === "TBD" || name === "Por definir") return null;
+      return { flag, name };
+    }
+
+    function buildTeamRow(team, score, isWinner) {
+      const tbd = !team;
+      const cls = isWinner ? "winner" : tbd ? "tbd" : "";
+      const display = tbd ? t("bracket.tbd") : `${team.flag} ${team.name}`;
+      const scoreHtml = score != null ? `<span class="fw-bold">${score}</span>` : "";
+      return `<div class="b-team ${cls}"><span>${display}</span>${scoreHtml}</div>`;
+    }
+
+    function renderBracket(allMatches) {
+      const container = document.getElementById("bracket-container");
+      const grid = document.createElement("div");
+      grid.className = "bracket-wrap mb-4";
+
+      const inner = document.createElement("div");
+      inner.className = "bracket-grid";
+
+      ROUND_CONFIG.forEach(rc => {
+        const roundMatches = allMatches.filter(m => m.round === rc.key);
+        if (!roundMatches.length) return;
+
+        const col = document.createElement("div");
+        col.className = `bracket-col ${rc.cls}`;
+        col.innerHTML = `<div class="bracket-col-header">${t(rc.label_key)}</div>`;
+
+        const matchDiv = document.createElement("div");
+        matchDiv.className = "bracket-matches";
+
+        roundMatches.forEach(m => {
+          const home = teamName(m, "home");
+          const away = teamName(m, "away");
+          const homeWin = m.is_finished && m.home_score > m.away_score;
+          const awayWin = m.is_finished && m.away_score > m.home_score;
+
+          const card = document.createElement("div");
+          card.className = "b-match";
+          card.innerHTML =
+            buildTeamRow(home, m.is_finished ? m.home_score : null, homeWin) +
+            buildTeamRow(away, m.is_finished ? m.away_score : null, awayWin) +
+            (m.venue ? `<div class="b-match-meta">📍 ${m.venue}</div>` : "") +
+            (m.kickoff_utc ? `<div class="b-match-meta">🕐 ${toLocalShort(m.kickoff_utc)}</div>` : "");
+          matchDiv.appendChild(card);
+        });
+
+        col.appendChild(matchDiv);
+        inner.appendChild(col);
+      });
+
+      grid.appendChild(inner);
+      container.appendChild(grid);
+
+      // R32 path table
+      const tbody = document.getElementById("r32-body");
+      R32_PATHS.forEach(p => {
+        // Find real match if it exists
+        const real = allMatches.find(m => m.match_number === p.num && m.round === "round_of_32");
+        const home = real ? `${real.home_flag} ${real.home_team}` : p.home;
+        const away = real ? `${real.away_flag} ${real.away_team}` : p.away;
+        tbody.innerHTML += `<tr><td class="text-muted small">#${p.num}</td><td>${home}</td><td>${away}</td></tr>`;
+      });
+    }
+
+    async function load() {
+      const matches = await api.get("/matches/");
+      document.getElementById("loading").classList.add("d-none");
+      const knockout = matches.filter(m => m.round !== "group_stage");
+
+      document.getElementById("bracket-container").classList.remove("d-none");
+      renderBracket(knockout);
+    }
+
+    document.addEventListener("langchange", () => {
+      document.getElementById("bracket-container").innerHTML = "";
+      document.getElementById("r32-body").innerHTML = "";
+      load();
+    });
+
+    load();
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

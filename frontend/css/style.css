@@ -1,0 +1,33 @@
+body { background-color: #f8f9fa; }
+
+.navbar-brand { font-size: 1.1rem; }
+
+/* ── World Cup 2026 Banner ── */
+.wc-banner-img { position: relative; overflow: hidden; max-height: 260px; background: #001a4e; }
+.wc-hero-img { width: 100%; max-height: 260px; object-fit: cover; object-position: center 30%; display: block; }
+.wc-hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,.1) 0%, rgba(0,0,0,.65) 100%);
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+  padding-bottom: 1.5rem;
+}
+.wc-title {
+  font-size: clamp(1.2rem, 4vw, 2.2rem);
+  font-weight: 900; letter-spacing: 2px;
+  text-shadow: 0 2px 10px rgba(0,0,0,.7);
+}
+.wc-subtitle { font-size: clamp(.75rem, 2vw, .95rem); opacity: .9; text-shadow: 0 1px 4px rgba(0,0,0,.6); }
+
+/* ── Prediction inputs ── */
+.pred-input::-webkit-outer-spin-button,
+.pred-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.pred-input[type=number] { -moz-appearance: textfield; }
+
+/* ── General ── */
+.card { box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+
+@media (max-width: 576px) {
+  .match-box .team { font-size: .85rem; }
+  .bracket-round { min-width: 160px; }
+  .wc-trophy { font-size: 2rem; }
+}

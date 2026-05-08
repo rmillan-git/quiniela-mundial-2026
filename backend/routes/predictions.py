@@ -1,0 +1,64 @@
+from datetime import datetime, timezone
+from fastapi import APIRouter, Depends, HTTPException
+from pydantic import BaseModel
+from sqlalchemy.orm import Session
+from database import get_db
+from models import Match, Prediction
+from routes.auth import get_current_participant
+
+router = APIRouter(prefix="/predictions", tags=["predictions"])
+
+
+class PredictionRequest(BaseModel):
+    home_score: int
+    away_score: int
+
+
+def _calc_points(ph: int, pa: int, rh: int, ra: int) -> int:
+    def outcome(h, a): return "home" if h > a else ("away" if a > h else "draw")
+    if outcome(ph, pa) != outcome(rh, ra):
+        return 0
+    return 5 + (2 if ph == rh else 0) + (2 if pa == ra else 0)
+
+
+@router.get("/my")
+def my_predictions(current=Depends(get_current_participant), db: Session = Depends(get_db)):
+    preds = db.query(Prediction).filter_by(participant_id=current.id).all()
+    return [
+        {"match_id": p.match_id, "home_score": p.home_score, "away_score": p.away_score, "points": p.points}
+        for p in preds
+    ]
+
+
+@router.put("/{match_id}")
+def upsert_prediction(
+    match_id: int,
+    req: PredictionRequest,
+    current=Depends(get_current_participant),
+    db: Session = Depends(get_db),
+):
+    match = db.query(Match).get(match_id)
+    if not match:
+        raise HTTPException(404, "Match not found")
+    if datetime.now(timezone.utc) >= match.kickoff_utc.replace(tzinfo=timezone.utc):
+        raise HTTPException(400, "Predictions locked — match has started")
+
+    pred = db.query(Prediction).filter_by(participant_id=current.id, match_id=match_id).first()
+    if pred:
+        pred.home_score = req.home_score
+        pred.away_score = req.away_score
+    else:
+        pred = Prediction(
+            participant_id=current.id,
+            match_id=match_id,
+            home_score=req.home_score,
+            away_score=req.away_score,
+        )
+        db.add(pred)
+
+    # Score immediately if match already has a result (e.g. after admin simulation)
+    if match.is_finished and match.home_score is not None:
+        pred.points = _calc_points(pred.home_score, pred.away_score, match.home_score, match.away_score)
+
+    db.commit()
+    return {"ok": True}

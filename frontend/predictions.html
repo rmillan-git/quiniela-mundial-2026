@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My Predictions – Quiniela 2026</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+  <nav class="navbar navbar-dark bg-success">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold" href="index.html">⚽ Quiniela Mundial 2026</a>
+      <div class="d-flex gap-2 flex-wrap align-items-center">
+        <span class="text-white-50 small wc-countdown"></span>
+        <a href="groups.html" class="btn btn-outline-light btn-sm" data-i18n="nav.groups">Grupos</a>
+        <a href="index.html" class="btn btn-outline-light btn-sm" data-i18n="nav.leaderboard">Posiciones</a>
+        <button class="btn btn-outline-light btn-sm d-none" id="btn-logout" data-i18n="nav.logout">Salir</button>
+        <button class="btn btn-outline-light btn-sm lang-btn">🇺🇸 EN</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container py-4">
+    <h2 class="mb-1">My Predictions</h2>
+    <p class="text-muted small">
+      Predictions lock when each match kicks off &nbsp;|&nbsp;
+      <span class="badge bg-success">9 pts</span> exact score &nbsp;
+      <span class="badge bg-primary">7 pts</span> correct outcome &nbsp;
+      <span class="badge bg-secondary">0 pts</span> wrong
+    </p>
+
+    <div id="auth-required" class="alert alert-warning d-none">
+      Please <a href="register.html">login</a> to submit predictions.
+    </div>
+
+    <div id="predictions-loading" class="text-center py-5">
+      <div class="spinner-border text-success" role="status"></div>
+    </div>
+
+    <div id="predictions-content" class="d-none">
+      <ul class="nav nav-tabs mb-3" id="round-tabs"></ul>
+      <div id="matches-container"></div>
+      <div class="d-flex align-items-center gap-3 mt-3 flex-wrap">
+        <button class="btn btn-success btn-lg" id="btn-save">💾 Save All Predictions</button>
+        <span id="save-status" class="text-muted small"></span>
+      </div>
+      <div id="save-alert" class="mt-2 d-none"></div>
+    </div>
+  </div>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    function toLocalTime(utcStr) {
+      const d = new Date(utcStr);
+      // Show user's local time with timezone abbreviation
+      const local = d.toLocaleString([], {
+        month: "short", day: "numeric",
+        hour: "2-digit", minute: "2-digit",
+        timeZoneName: "short"
+      });
+      // Also show CST for reference
+      const cst = d.toLocaleString("en-US", {
+        timeZone: "America/Chicago",
+        month: "short", day: "numeric",
+        hour: "2-digit", minute: "2-digit",
+        hour12: true
+      });
+      return `${local} <span class="text-muted">(${cst} CST)</span>`;
+    }
+
+    function isLocked(kickoffUtc) {
+      return new Date() >= new Date(kickoffUtc);
+    }
+
+    function validateScore(val) {
+      const n = parseInt(val, 10);
+      return !isNaN(n) && n >= 0 && n <= 20 && String(n) === String(val).trim();
+    }
+
+    async function load() {
+      const user = await auth.getUser();
+      if (!user) {
+        document.getElementById("predictions-loading").classList.add("d-none");
+        document.getElementById("auth-required").classList.remove("d-none");
+        return;
+      }
+
+      const [matches, myPreds] = await Promise.all([
+        api.get("/matches/"),
+        api.get("/predictions/my"),
+      ]);
+
+      const predMap = {};
+      myPreds.forEach(p => predMap[p.match_id] = p);
+
+      document.getElementById("predictions-loading").classList.add("d-none");
+      document.getElementById("predictions-content").classList.remove("d-none");
+
+      const rounds = ["group_stage", "round_of_32", "round_of_16", "qf", "sf", "final"];
+      const roundLabels = { group_stage: "Group Stage", round_of_32: "R32", round_of_16: "R16", qf: "QF", sf: "SF", final: "Final" };
+
+      const tabsEl = document.getElementById("round-tabs");
+      const containerEl = document.getElementById("matches-container");
+      let firstActive = true;
+
+      rounds.forEach(round => {
+        const roundMatches = matches.filter(m => m.round === round);
+        if (!roundMatches.length) return;
+
+        const active = firstActive ? "active" : "";
+        firstActive = false;
+        tabsEl.innerHTML += `<li class="nav-item"><a class="nav-link ${active}" data-bs-toggle="tab" href="#tab-${round}">${roundLabels[round]}</a></li>`;
+
+        let html = `<div class="tab-pane fade ${active ? "show active" : ""}" id="tab-${round}">`;
+
+        if (round === "group_stage") {
+          const groups = [...new Set(roundMatches.map(m => m.group))].sort();
+          // Two groups per row
+          for (let i = 0; i < groups.length; i += 2) {
+            html += '<div class="row g-3 mb-2">';
+            for (let j = i; j < Math.min(i + 2, groups.length); j++) {
+              const g = groups[j];
+              html += '<div class="col-md-6">';
+              html += `<h5 class="mt-2 mb-2 text-success">Group ${g}</h5>`;
+              roundMatches.filter(m => m.group === g).forEach(m => html += matchCard(m, predMap));
+              html += '</div>';
+            }
+            html += '</div>';
+          }
+        } else {
+          roundMatches.forEach(m => html += matchCard(m, predMap));
+        }
+        html += "</div>";
+        containerEl.innerHTML += html;
+      });
+    }
+
+    function matchCard(m, predMap) {
+      const locked = isLocked(m.kickoff_utc);
+      const pred = predMap[m.id] || {};
+      const ph = pred.home_score ?? "";
+      const pa = pred.away_score ?? "";
+      const scoreDisplay = m.is_finished
+        ? `<span class="badge bg-secondary ms-1">${m.home_score}–${m.away_score}</span>` : "";
+      const pts = pred.points != null
+        ? `<span class="badge ${pred.points===9?"bg-success":pred.points===7?"bg-primary":"bg-secondary"} ms-1">${pred.points}pts</span>` : "";
+
+      return `
+        <div class="card mb-2 ${locked ? "border-secondary opacity-75" : "border-success border-opacity-25"}">
+          <div class="card-body py-2 px-3">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+              <span class="text-muted small">#${m.match_number}</span>
+              <span class="fw-semibold">${m.home_flag} ${m.home_team}</span>
+              <input type="number" min="0" max="20" step="1"
+                class="form-control form-control-sm pred-input text-center ${locked?"":"border-success"}"
+                data-match="${m.id}" data-side="home"
+                value="${ph}" ${locked ? "disabled" : "required"} style="width:62px"
+                oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+              <span class="fw-bold">–</span>
+              <input type="number" min="0" max="20" step="1"
+                class="form-control form-control-sm pred-input text-center ${locked?"":"border-success"}"
+                data-match="${m.id}" data-side="away"
+                value="${pa}" ${locked ? "disabled" : "required"} style="width:62px"
+                oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+              <span class="fw-semibold">${m.away_flag} ${m.away_team}</span>
+              ${scoreDisplay}${pts}
+            </div>
+            <div class="d-flex justify-content-between align-items-center mt-1 flex-wrap gap-1">
+              <span class="text-muted small">📍 ${m.venue || ""}</span>
+              <span class="small">${toLocalTime(m.kickoff_utc)}</span>
+              ${locked ? '<span class="badge bg-secondary">🔒 Locked</span>' : ""}
+            </div>
+          </div>
+        </div>`;
+    }
+
+    document.getElementById("btn-save").addEventListener("click", async () => {
+      const inputs = document.querySelectorAll(".pred-input:not([disabled])");
+      const matchPreds = {};
+      let hasInvalid = false;
+
+      inputs.forEach(inp => {
+        const mid = inp.dataset.match;
+        matchPreds[mid] = matchPreds[mid] || {};
+        const val = inp.value.trim();
+        if (!validateScore(val)) {
+          inp.classList.add("is-invalid");
+          hasInvalid = true;
+        } else {
+          inp.classList.remove("is-invalid");
+          matchPreds[mid][inp.dataset.side] = parseInt(val, 10);
+        }
+      });
+
+      if (hasInvalid) {
+        const alertEl = document.getElementById("save-alert");
+        alertEl.className = "alert alert-danger";
+        alertEl.textContent = "Please enter valid scores (whole numbers 0–20) for all fields.";
+        alertEl.classList.remove("d-none");
+        return;
+      }
+
+      const status = document.getElementById("save-status");
+      status.textContent = "Saving…";
+      let saved = 0, errors = 0;
+
+      for (const [mid, scores] of Object.entries(matchPreds)) {
+        if (scores.home == null || scores.away == null) continue;
+        const res = await api.put(`/predictions/${mid}`, { home_score: scores.home, away_score: scores.away });
+        res.ok ? saved++ : errors++;
+      }
+
+      const alertEl = document.getElementById("save-alert");
+      alertEl.className = `alert ${errors ? "alert-warning" : "alert-success"}`;
+      alertEl.textContent = errors
+        ? `Saved ${saved}, failed ${errors}. Some matches may have locked.`
+        : `✅ ${saved} prediction(s) saved!`;
+      alertEl.classList.remove("d-none");
+      status.textContent = "";
+    });
+
+    load();
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

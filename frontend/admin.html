@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin – Quiniela 2026</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+  <nav class="navbar navbar-dark bg-warning">
+    <div class="container-fluid">
+      <span class="navbar-brand fw-bold text-dark">⚽ Quiniela Admin</span>
+      <div class="d-flex gap-2">
+        <a href="index.html" class="btn btn-dark btn-sm">Sitio Público</a>
+        <button class="btn btn-outline-dark btn-sm" id="btn-logout">Salir</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container py-4">
+    <div id="admin-guard" class="alert alert-danger d-none">Solo acceso de administrador.</div>
+
+    <ul class="nav nav-tabs mb-4" id="admin-tabs">
+      <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#tab-results">Ingresar Resultados</a></li>
+      <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab-participants">Participantes <span id="pending-badge" class="badge bg-danger d-none">0</span></a></li>
+      <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab-simulate">🎲 Simulación</a></li>
+    </ul>
+
+    <div class="tab-content">
+
+      <!-- Results tab -->
+      <div class="tab-pane fade show active" id="tab-results">
+        <h5>Partidos Pendientes de Resultado</h5>
+        <div id="results-loading" class="text-center py-3"><div class="spinner-border text-warning" role="status"></div></div>
+        <div id="results-list"></div>
+      </div>
+
+      <!-- Participants tab -->
+      <div class="tab-pane fade" id="tab-participants">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="mb-0">Gestionar Participantes</h5>
+          <button class="btn btn-outline-success btn-sm" id="btn-export-csv">📥 Exportar CSV</button>
+        </div>
+        <div id="part-loading" class="text-center py-3"><div class="spinner-border text-warning" role="status"></div></div>
+        <table class="table table-sm" id="part-table">
+          <thead><tr><th>Nombre</th><th>Email</th><th>Registro</th><th>Estado</th><th></th></tr></thead>
+          <tbody id="part-body"></tbody>
+        </table>
+      </div>
+
+      <!-- Simulate tab -->
+      <div class="tab-pane fade" id="tab-simulate">
+        <div class="card border-warning">
+          <div class="card-header bg-warning fw-bold">🎲 Simulador de Resultados</div>
+          <div class="card-body">
+            <p class="text-muted small mb-3">
+              Genera marcadores aleatorios para probar la implementación. Útil para verificar
+              el marcador, tabla de grupos y puntuación de predicciones sin esperar partidos reales.
+            </p>
+
+            <div class="row g-3 mb-3">
+              <div class="col-sm-4">
+                <label class="form-label small fw-bold">Fase</label>
+                <select class="form-select form-select-sm" id="sim-round">
+                  <option value="group_stage">Fase de Grupos</option>
+                  <option value="all">Todos los partidos</option>
+                </select>
+              </div>
+              <div class="col-sm-4">
+                <label class="form-label small fw-bold">Goles máx. por equipo</label>
+                <input type="number" class="form-control form-control-sm" id="sim-max-goals" value="3" min="1" max="8">
+              </div>
+              <div class="col-sm-4 d-flex align-items-end">
+                <button class="btn btn-warning w-100" id="btn-simulate">🎲 Simular Resultados</button>
+              </div>
+            </div>
+
+            <div id="sim-progress" class="d-none">
+              <div class="progress mb-2" style="height:8px">
+                <div class="progress-bar bg-warning progress-bar-striped progress-bar-animated" id="sim-bar" style="width:0%"></div>
+              </div>
+              <p class="small text-muted" id="sim-status">Simulando…</p>
+            </div>
+
+            <div id="sim-result" class="alert d-none"></div>
+
+            <hr>
+            <p class="small text-muted mb-2"><strong>🔄 Recalcular:</strong> Si ingresaste predicciones después de correr una simulación, usa esto para puntuar todas las predicciones existentes contra los resultados actuales.</p>
+            <button class="btn btn-primary btn-sm me-2" id="btn-recalc">🔄 Recalcular Todos los Puntos</button>
+            <div id="recalc-result" class="alert mt-2 d-none"></div>
+
+            <hr>
+            <p class="small text-muted mb-2"><strong>⚠️ Reset:</strong> Borra todos los resultados de partidos y puntos (para empezar de cero).</p>
+            <button class="btn btn-outline-danger btn-sm" id="btn-reset-results">🗑️ Borrar todos los resultados</button>
+            <div id="reset-result" class="alert mt-2 d-none"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Modal: Participant Predictions -->
+  <div class="modal fade" id="modal-quiniela" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header bg-success text-white">
+          <h5 class="modal-title" id="modal-quiniela-title">Quiniela</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body" id="modal-quiniela-body">
+          <div class="text-center py-4"><div class="spinner-border text-success" role="status"></div></div>
+        </div>
+        <div class="modal-footer">
+          <span id="modal-quiniela-total" class="me-auto fw-bold"></span>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const CST_OFFSET = -6 * 60;
+    function toCST(utcStr) {
+      const d = new Date(utcStr);
+      return d.toLocaleString("en-US", {
+        timeZone: "America/Chicago",
+        month: "short", day: "numeric",
+        hour: "2-digit", minute: "2-digit", hour12: true
+      }) + " CST";
+    }
+
+    // ── Results ──────────────────────────────────────────────────────────────
+    async function loadResults() {
+      const matches = await api.get("/matches/");
+      document.getElementById("results-loading").classList.add("d-none");
+      const container = document.getElementById("results-list");
+      const pending = matches.filter(m => !m.is_finished && new Date() >= new Date(m.kickoff_utc));
+      const finished = matches.filter(m => m.is_finished);
+
+      if (!pending.length) {
+        container.innerHTML = '<p class="text-muted">No hay partidos pendientes de resultado ahora mismo.</p>';
+      } else {
+        pending.forEach(m => {
+          const div = document.createElement("div");
+          div.className = "card mb-2";
+          div.innerHTML = `
+            <div class="card-body py-2 px-3">
+              <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="text-muted small">#${m.match_number} · ${toCST(m.kickoff_utc)} · ${m.venue||""}</span>
+              </div>
+              <div class="d-flex align-items-center gap-2 flex-wrap mt-1">
+                <strong>${m.home_flag} ${m.home_team}</strong>
+                <input type="number" min="0" max="20" step="1" class="form-control form-control-sm text-center" id="h-${m.id}" style="width:60px" placeholder="0">
+                <span>–</span>
+                <input type="number" min="0" max="20" step="1" class="form-control form-control-sm text-center" id="a-${m.id}" style="width:60px" placeholder="0">
+                <strong>${m.away_flag} ${m.away_team}</strong>
+                <button class="btn btn-warning btn-sm ms-auto" onclick="saveResult(${m.id})">Guardar</button>
+              </div>
+            </div>`;
+          container.appendChild(div);
+        });
+      }
+
+      if (finished.length) {
+        container.innerHTML += `<h6 class="mt-4 text-muted">Partidos con resultado (${finished.length})</h6>`;
+        finished.slice(0, 20).forEach(m => {
+          container.innerHTML += `
+            <div class="d-flex gap-2 align-items-center mb-1 small">
+              <span class="text-muted">#${m.match_number}</span>
+              <span>${m.home_flag} ${m.home_team} <strong>${m.home_score}–${m.away_score}</strong> ${m.away_team} ${m.away_flag}</span>
+            </div>`;
+        });
+        if (finished.length > 20) {
+          container.innerHTML += `<p class="small text-muted">… y ${finished.length - 20} más.</p>`;
+        }
+      }
+    }
+
+    async function saveResult(matchId) {
+      const h = parseInt(document.getElementById(`h-${matchId}`).value);
+      const a = parseInt(document.getElementById(`a-${matchId}`).value);
+      if (isNaN(h) || isNaN(a) || h < 0 || a < 0) return alert("Ingresa marcadores válidos (0 o más).");
+      const res = await api.patch(`/matches/${matchId}/result`, { home_score: h, away_score: a });
+      if (res.id) location.reload();
+      else alert("Error: " + JSON.stringify(res));
+    }
+
+    // ── Participants ──────────────────────────────────────────────────────────
+    async function loadParticipants() {
+      const data = await api.get("/participants/");
+      document.getElementById("part-loading").classList.add("d-none");
+
+      const pending = data.filter(p => !p.is_approved).length;
+      const badge = document.getElementById("pending-badge");
+      if (pending > 0) {
+        badge.textContent = pending;
+        badge.classList.remove("d-none");
+      } else {
+        badge.classList.add("d-none");
+      }
+
+      const tbody = document.getElementById("part-body");
+      data.forEach(p => {
+        tbody.innerHTML += `
+          <tr id="row-${p.id}">
+            <td>${p.name}</td>
+            <td class="small text-muted">${p.email || ""}</td>
+            <td class="small text-muted">${new Date(p.registered_at).toLocaleDateString()}</td>
+            <td>${p.is_approved ? '<span class="badge bg-success">Aprobado</span>' : '<span class="badge bg-warning text-dark">Pendiente</span>'}</td>
+            <td class="text-nowrap">
+              <button class="btn btn-info btn-sm me-1" onclick="viewQuiniela(${p.id}, '${p.name.replace(/'/g, "\\'")}')">
+                📋 Ver Quiniela
+              </button>
+              ${!p.is_approved ? `<button class="btn btn-success btn-sm me-1" onclick="approve(${p.id})">Aprobar</button>` : ""}
+              <button class="btn btn-danger btn-sm" onclick="removeParticipant(${p.id})">Eliminar</button>
+            </td>
+          </tr>`;
+      });
+    }
+
+    async function approve(id) {
+      await api.patch(`/participants/${id}/approve`, {});
+      document.getElementById(`row-${id}`).querySelector("td:nth-child(4)").innerHTML = '<span class="badge bg-success">Aprobado</span>';
+      const btn = document.getElementById(`row-${id}`).querySelector("button.btn-success");
+      if (btn) btn.remove();
+      const badge = document.getElementById("pending-badge");
+      const current = parseInt(badge.textContent) - 1;
+      if (current <= 0) {
+        badge.classList.add("d-none");
+      } else {
+        badge.textContent = current;
+      }
+    }
+
+    async function removeParticipant(id) {
+      if (!confirm("¿Eliminar este participante?")) return;
+      await api.delete(`/participants/${id}`);
+      document.getElementById(`row-${id}`).remove();
+    }
+
+    // ── View Participant Quiniela ─────────────────────────────────────────────
+    const ROUND_LABELS = {
+      group_stage: "Fase de Grupos", round_of_32: "Ronda de 32",
+      round_of_16: "Octavos", qf: "Cuartos", sf: "Semifinales", final: "Final"
+    };
+
+    async function viewQuiniela(pid, name) {
+      const bodyEl = document.getElementById("modal-quiniela-body");
+      const totalEl = document.getElementById("modal-quiniela-total");
+      document.getElementById("modal-quiniela-title").textContent = `📋 Quiniela de ${name}`;
+      bodyEl.innerHTML = '<div class="text-center py-4"><div class="spinner-border text-success" role="status"></div></div>';
+      totalEl.textContent = "";
+
+      const modal = new bootstrap.Modal(document.getElementById("modal-quiniela"));
+      modal.show();
+
+      const data = await api.get(`/participants/${pid}/predictions`);
+      if (!data.by_round) {
+        bodyEl.innerHTML = '<p class="text-muted">No hay predicciones registradas.</p>';
+        return;
+      }
+
+      totalEl.textContent = `Total: ${data.total} pts · ${data.predicted} predicción(es)`;
+
+      let html = "";
+      for (const [round, matches] of Object.entries(data.by_round)) {
+        html += `<h6 class="fw-bold mt-3 mb-2 border-bottom pb-1">${ROUND_LABELS[round] || round}</h6>`;
+        html += `<div class="table-responsive"><table class="table table-sm table-hover mb-2">
+          <thead class="table-light"><tr>
+            <th>#</th><th>Partido</th><th class="text-center">Predicción</th>
+            <th class="text-center">Resultado</th><th class="text-center">Pts</th>
+          </tr></thead><tbody>`;
+        matches.forEach(m => {
+          const resultCell = m.is_finished
+            ? `${m.actual_home}–${m.actual_away}`
+            : '<span class="text-muted">—</span>';
+          const ptsBadge = m.points != null
+            ? `<span class="badge ${m.points===9?"bg-success":m.points===7?"bg-primary":m.points===5?"bg-info":m.is_finished?"bg-secondary":"bg-light text-dark"}">${m.points}</span>`
+            : '<span class="text-muted">—</span>';
+          html += `<tr>
+            <td class="text-muted small">${m.match_number}</td>
+            <td class="small">${m.home_flag} ${m.home_team} vs ${m.away_flag} ${m.away_team}</td>
+            <td class="text-center fw-semibold">${m.pred_home}–${m.pred_away}</td>
+            <td class="text-center">${resultCell}</td>
+            <td class="text-center">${ptsBadge}</td>
+          </tr>`;
+        });
+        html += "</tbody></table></div>";
+      }
+      bodyEl.innerHTML = html || '<p class="text-muted">No hay predicciones registradas.</p>';
+    }
+
+    // ── Export CSV ───────────────────────────────────────────────────────────
+    document.getElementById("btn-export-csv").addEventListener("click", async () => {
+      const btn = document.getElementById("btn-export-csv");
+      btn.disabled = true;
+      btn.textContent = "Exportando…";
+
+      const [participants, leaderboard] = await Promise.all([
+        api.get("/participants/"),
+        api.get("/leaderboard/"),
+      ]);
+
+      const rankMap = {};
+      leaderboard.forEach(r => { rankMap[r.name] = r; });
+
+      const rows = [
+        ["Pos", "Nombre", "Email", "Registro", "Estado", "Grupos", "R32", "R16", "CF", "SF", "Final", "Total"]
+      ];
+
+      participants.filter(p => p.is_approved).forEach(p => {
+        const r = rankMap[p.name] || {};
+        const br = r.by_round || {};
+        rows.push([
+          r.rank || "",
+          p.name,
+          p.email || "",
+          new Date(p.registered_at).toLocaleDateString("es-MX"),
+          "Aprobado",
+          br.group_stage || 0,
+          br.round_of_32 || 0,
+          br.round_of_16 || 0,
+          br.qf || 0,
+          br.sf || 0,
+          br.final || 0,
+          r.total || 0,
+        ]);
+      });
+
+      participants.filter(p => !p.is_approved).forEach(p => {
+        rows.push(["—", p.name, p.email || "", new Date(p.registered_at).toLocaleDateString("es-MX"), "Pendiente", 0,0,0,0,0,0,0]);
+      });
+
+      const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(",")).join("\n");
+      const blob = new Blob(["﻿" + csv], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `quiniela-2026-${new Date().toISOString().slice(0,10)}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+
+      btn.disabled = false;
+      btn.textContent = "📥 Exportar CSV";
+    });
+
+    // ── Simulate ─────────────────────────────────────────────────────────────
+    document.getElementById("btn-simulate").addEventListener("click", async () => {
+      const round = document.getElementById("sim-round").value;
+      const maxGoals = parseInt(document.getElementById("sim-max-goals").value) || 3;
+
+      const btn = document.getElementById("btn-simulate");
+      btn.disabled = true;
+
+      document.getElementById("sim-progress").classList.remove("d-none");
+      document.getElementById("sim-result").className = "alert d-none";
+
+      let allMatches = await api.get("/matches/");
+      const targets = allMatches.filter(m =>
+        !m.is_finished && (round === "all" || m.round === round)
+      );
+
+      if (!targets.length) {
+        showSimResult("warning", "No hay partidos sin resultado en la fase seleccionada. ¿Ya los simulaste?");
+        btn.disabled = false;
+        return;
+      }
+
+      let done = 0;
+      for (const m of targets) {
+        const h = Math.floor(Math.random() * (maxGoals + 1));
+        const a = Math.floor(Math.random() * (maxGoals + 1));
+        await api.patch(`/matches/${m.id}/result`, { home_score: h, away_score: a });
+        done++;
+        const pct = Math.round((done / targets.length) * 100);
+        document.getElementById("sim-bar").style.width = pct + "%";
+        document.getElementById("sim-status").textContent = `Simulando… ${done}/${targets.length} partidos`;
+      }
+
+      showSimResult("success", `✅ ${done} partidos simulados. Ve a la <a href="index.html">tabla de posiciones</a> o a <a href="groups.html">grupos</a> para ver los resultados.`);
+      btn.disabled = false;
+    });
+
+    document.getElementById("btn-recalc").addEventListener("click", async () => {
+      const btn = document.getElementById("btn-recalc");
+      btn.disabled = true;
+      const res = await api.post("/matches/recalculate", {});
+      const el = document.getElementById("recalc-result");
+      el.className = `alert ${res.rescored != null ? "alert-success" : "alert-danger"}`;
+      el.textContent = res.rescored != null
+        ? `✅ ${res.rescored} predicción(es) recalculada(s).`
+        : "Error: " + JSON.stringify(res);
+      el.classList.remove("d-none");
+      btn.disabled = false;
+    });
+
+    document.getElementById("btn-reset-results").addEventListener("click", async () => {
+      if (!confirm("⚠️ ¿Borrar TODOS los resultados y puntos? Esto no se puede deshacer.")) return;
+      const matches = await api.get("/matches/");
+      let count = 0;
+      for (const m of matches.filter(m => m.is_finished)) {
+        await api.patch(`/matches/${m.id}/reset`, {});
+        count++;
+      }
+      document.getElementById("reset-result").className = "alert alert-info";
+      document.getElementById("reset-result").innerHTML = `Para un reset completo ejecuta: <code>podman-compose exec backend python seed_data.py --reset</code> desde la terminal.`;
+      document.getElementById("reset-result").classList.remove("d-none");
+    });
+
+    function showSimResult(type, html) {
+      const el = document.getElementById("sim-result");
+      el.className = `alert alert-${type}`;
+      el.innerHTML = html;
+      el.classList.remove("d-none");
+      document.getElementById("sim-progress").classList.add("d-none");
+    }
+
+    // ── Init ─────────────────────────────────────────────────────────────────
+    async function init() {
+      const user = await auth.getUser();
+      if (!user || !user.is_admin) {
+        document.getElementById("admin-guard").classList.remove("d-none");
+        return;
+      }
+      loadResults();
+      loadParticipants();
+    }
+    init();
+  </script>
+</body>
+</html>

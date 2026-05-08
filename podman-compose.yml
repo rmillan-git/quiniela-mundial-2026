@@ -1,0 +1,54 @@
+version: "3.9"
+
+networks:
+  quiniela-net:
+    driver: bridge
+
+services:
+  db:
+    image: docker.io/library/postgres:15-alpine
+    environment:
+      POSTGRES_USER: quiniela
+      POSTGRES_PASSWORD: quiniela
+      POSTGRES_DB: quiniela
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - quiniela-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U quiniela"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build: ./backend
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://quiniela:quiniela@db:5432/quiniela
+      SECRET_KEY: dev-secret-key-change-in-prod
+      ADMIN_EMAIL: millan.ricardo@gmail.com
+    networks:
+      - quiniela-net
+    depends_on:
+      - db
+
+  frontend:
+    image: docker.io/library/nginx:alpine
+    volumes:
+      - ./frontend:/usr/share/nginx/html:ro
+    ports:
+      - "3000:80"
+    networks:
+      - quiniela-net
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:
