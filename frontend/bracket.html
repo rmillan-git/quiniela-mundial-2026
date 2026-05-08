@@ -66,13 +66,17 @@
     </div>
 
     <div class="mt-4 card">
-      <div class="card-header fw-bold bg-light">📋 Clasificación para Ronda de 32 (Fase de Grupos)</div>
+      <div class="card-header fw-bold bg-light">📋 <span data-i18n="bracket.r32_paths_title">Clasificación Ronda de 32</span></div>
       <div class="card-body small">
-        <p class="mb-2">Los <strong>24 primeros clasificados</strong> (1° de cada grupo) y los <strong>24 segundos</strong> avanzan. Los <strong>8 mejores terceros</strong> de los 12 grupos también pasan.</p>
+        <p class="mb-2" id="r32-info-text"></p>
         <div class="table-responsive">
           <table class="table table-sm table-bordered mb-0" id="r32-table">
             <thead class="table-secondary">
-              <tr><th>Partido</th><th>Local</th><th>Visitante</th></tr>
+              <tr>
+                <th data-i18n="bracket.r32_match">Partido</th>
+                <th data-i18n="bracket.r32_home">Local</th>
+                <th data-i18n="bracket.r32_away">Visitante</th>
+              </tr>
             </thead>
             <tbody id="r32-body"></tbody>
           </table>
@@ -93,25 +97,32 @@
       { key: "final",       label_key: "bracket.final",cls: "round-final" },
     ];
 
-    // Official 2026 R32 bracket (Wikipedia/FIFA)
-    const R32_PATHS = [
-      { num: 73,  home: "2° Grupo A",  away: "2° Grupo B" },
-      { num: 74,  home: "1° Grupo E",  away: "Mejor 3° (A/B/C/D/F)" },
-      { num: 75,  home: "1° Grupo F",  away: "2° Grupo C" },
-      { num: 76,  home: "1° Grupo C",  away: "2° Grupo F" },
-      { num: 77,  home: "1° Grupo I",  away: "Mejor 3° (C/D/F/G/H)" },
-      { num: 78,  home: "2° Grupo E",  away: "2° Grupo I" },
-      { num: 79,  home: "1° Grupo A",  away: "Mejor 3° (C/E/F/H/I)" },
-      { num: 80,  home: "1° Grupo L",  away: "Mejor 3° (E/H/I/J/K)" },
-      { num: 81,  home: "1° Grupo D",  away: "Mejor 3° (B/E/F/I/J)" },
-      { num: 82,  home: "1° Grupo G",  away: "Mejor 3° (A/E/H/I/J)" },
-      { num: 83,  home: "2° Grupo K",  away: "2° Grupo L" },
-      { num: 84,  home: "1° Grupo H",  away: "2° Grupo J" },
-      { num: 85,  home: "1° Grupo B",  away: "Mejor 3° (E/F/G/I/J)" },
-      { num: 86,  home: "1° Grupo J",  away: "2° Grupo H" },
-      { num: 87,  home: "1° Grupo K",  away: "Mejor 3° (D/E/I/J/L)" },
-      { num: 88,  home: "2° Grupo D",  away: "2° Grupo G" },
-    ];
+    // Official 2026 R32 bracket (Wikipedia/FIFA) — built at render time so labels are translated
+    function getR32Paths() {
+      const g = window.LANG === "en" ? "Group" : "Grupo";
+      const b3 = window.LANG === "en" ? "Best 3rd" : "Mejor 3°";
+      const p1 = (x) => `1° ${g} ${x}`;
+      const p2 = (x) => `2° ${g} ${x}`;
+      const b  = (x) => `${b3} (${x})`;
+      return [
+        { num: 73,  home: p2("A"),  away: p2("B") },
+        { num: 74,  home: p1("E"),  away: b("A/B/C/D/F") },
+        { num: 75,  home: p1("F"),  away: p2("C") },
+        { num: 76,  home: p1("C"),  away: p2("F") },
+        { num: 77,  home: p1("I"),  away: b("C/D/F/G/H") },
+        { num: 78,  home: p2("E"),  away: p2("I") },
+        { num: 79,  home: p1("A"),  away: b("C/E/F/H/I") },
+        { num: 80,  home: p1("L"),  away: b("E/H/I/J/K") },
+        { num: 81,  home: p1("D"),  away: b("B/E/F/I/J") },
+        { num: 82,  home: p1("G"),  away: b("A/E/H/I/J") },
+        { num: 83,  home: p2("K"),  away: p2("L") },
+        { num: 84,  home: p1("H"),  away: p2("J") },
+        { num: 85,  home: p1("B"),  away: b("E/F/G/I/J") },
+        { num: 86,  home: p1("J"),  away: p2("H") },
+        { num: 87,  home: p1("K"),  away: b("D/E/I/J/L") },
+        { num: 88,  home: p2("D"),  away: p2("G") },
+      ];
+    }
 
     // R16 feeds from R32 pairs
     const R16_PATHS = [
@@ -188,9 +199,12 @@
       grid.appendChild(inner);
       container.appendChild(grid);
 
+      // Info paragraph
+      document.getElementById("r32-info-text").innerHTML = t("bracket.r32_info");
+
       // R32 path table
       const tbody = document.getElementById("r32-body");
-      R32_PATHS.forEach(p => {
+      getR32Paths().forEach(p => {
         // Find real match if it exists
         const real = allMatches.find(m => m.match_number === p.num && m.round === "round_of_32");
         const home = real ? `${real.home_flag} ${real.home_team}` : p.home;
