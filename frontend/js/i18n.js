@@ -64,6 +64,7 @@ const TRANSLATIONS = {
     "leaderboard.col_final": "Final",
     "leaderboard.col_total": "Total",
     "leaderboard.empty": "Aún no hay resultados — los puntos se calculan cuando se ingresan los marcadores.",
+    "pred.exact": "marcador exacto", "pred.outcome": "resultado correcto", "pred.wrong": "incorrecto",
   },
   en: {
     "nav.groups": "Groups", "nav.bracket": "Bracket",
@@ -123,6 +124,7 @@ const TRANSLATIONS = {
     "leaderboard.col_final": "Final",
     "leaderboard.col_total": "Total",
     "leaderboard.empty": "No results yet — points are calculated when scores are entered.",
+    "pred.exact": "exact score", "pred.outcome": "correct outcome", "pred.wrong": "wrong",
   }
 };
 

@@ -8,33 +8,42 @@
   <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
-  <nav class="navbar navbar-dark bg-success">
-    <div class="container-fluid">
-      <a class="navbar-brand fw-bold" href="index.html">⚽ Quiniela Mundial 2026</a>
-      <div class="d-flex gap-2 flex-wrap align-items-center">
-        <span class="text-white-50 small wc-countdown"></span>
-        <a href="groups.html" class="btn btn-outline-light btn-sm" data-i18n="nav.groups">Grupos</a>
-        <a href="bracket.html" class="btn btn-outline-light btn-sm" data-i18n="nav.bracket">Bracket</a>
-        <a href="index.html" class="btn btn-outline-light btn-sm" data-i18n="nav.leaderboard">Posiciones</a>
-        <a href="register.html" class="btn btn-light btn-sm" id="nav-login" data-i18n="nav.login">Login / Registro</a>
-        <a href="admin.html" class="btn btn-warning btn-sm d-none" id="nav-admin" data-i18n="nav.admin">Admin</a>
-        <button class="btn btn-outline-light btn-sm d-none" id="btn-logout" data-i18n="nav.logout">Salir</button>
-        <button class="btn btn-outline-light btn-sm lang-btn">🇺🇸 EN</button>
+  <div class="sticky-top">
+    <nav class="navbar navbar-dark bg-success">
+      <div class="container-fluid">
+        <a class="navbar-brand fw-bold" href="index.html">⚽ Quiniela Mundial 2026</a>
+        <div class="d-flex gap-2 flex-wrap align-items-center">
+          <span class="text-white-50 small wc-countdown"></span>
+          <a href="groups.html" class="btn btn-outline-light btn-sm" data-i18n="nav.groups">Grupos</a>
+          <a href="bracket.html" class="btn btn-outline-light btn-sm" data-i18n="nav.bracket">Bracket</a>
+          <a href="index.html" class="btn btn-outline-light btn-sm" data-i18n="nav.leaderboard">Posiciones</a>
+          <a href="register.html" class="btn btn-light btn-sm" id="nav-login" data-i18n="nav.login">Login / Registro</a>
+          <a href="admin.html" class="btn btn-warning btn-sm d-none" id="nav-admin" data-i18n="nav.admin">Admin</a>
+          <button class="btn btn-outline-light btn-sm d-none" id="btn-logout" data-i18n="nav.logout">Salir</button>
+          <button class="btn btn-outline-light btn-sm lang-btn">🇺🇸 EN</button>
+        </div>
       </div>
+    </nav>
+    <!-- Save bar — only visible when logged in -->
+    <div id="save-bar" class="d-none bg-white border-bottom shadow-sm px-3 py-2 d-flex align-items-center gap-3">
+      <button class="btn btn-success btn-sm" id="btn-save" data-i18n="pred.save">💾 Guardar Predicciones</button>
+      <span id="save-status" class="text-muted small"></span>
+      <div id="save-alert" class="mb-0 d-none alert py-1 px-2 small flex-grow-1"></div>
     </div>
-  </nav>
+  </div>
 
   <div class="container py-4">
-    <h2 class="mb-1">My Predictions</h2>
+    <h2 class="mb-1" data-i18n="pred.title">Mis Predicciones</h2>
     <p class="text-muted small">
-      Predictions lock when each match kicks off &nbsp;|&nbsp;
-      <span class="badge bg-success">9 pts</span> exact score &nbsp;
-      <span class="badge bg-primary">7 pts</span> correct outcome &nbsp;
-      <span class="badge bg-secondary">0 pts</span> wrong
+      <span data-i18n="pred.sub">Se bloquean al inicio de cada partido</span> &nbsp;|&nbsp;
+      <span class="badge bg-success">9 pts</span> <span data-i18n="pred.exact">marcador exacto</span> &nbsp;
+      <span class="badge bg-primary">7 pts</span> <span data-i18n="pred.outcome">resultado correcto</span> &nbsp;
+      <span class="badge bg-secondary">0 pts</span> <span data-i18n="pred.wrong">incorrecto</span>
     </p>
 
     <div id="auth-required" class="alert alert-warning d-none">
-      Please <a href="register.html">login</a> to submit predictions.
+      <span data-i18n="pred.login_required">Inicia sesión para enviar predicciones.</span>
+      <a href="register.html" data-i18n="nav.login">Login / Registro</a>
     </div>
 
     <div id="predictions-loading" class="text-center py-5">
@@ -42,13 +51,6 @@
     </div>
 
     <div id="predictions-content" class="d-none">
-      <!-- Sticky save bar -->
-      <div class="d-flex align-items-center gap-3 mb-3 p-2 bg-white border rounded shadow-sm sticky-top" style="top:56px;z-index:100">
-        <button class="btn btn-success" id="btn-save" data-i18n="pred.save">💾 Guardar Predicciones</button>
-        <span id="save-status" class="text-muted small"></span>
-        <div id="save-alert" class="mb-0 d-none alert py-1 px-2 small"></div>
-      </div>
-
       <ul class="nav nav-tabs mb-3" id="round-tabs"></ul>
       <div id="matches-container"></div>
     </div>
@@ -103,6 +105,7 @@
 
       document.getElementById("predictions-loading").classList.add("d-none");
       document.getElementById("predictions-content").classList.remove("d-none");
+      document.getElementById("save-bar").classList.remove("d-none");
 
       const rounds = ["group_stage", "round_of_32", "round_of_16", "qf", "sf", "final"];
 
@@ -211,16 +214,17 @@
         }
       });
 
+      const alertEl = document.getElementById("save-alert");
       if (hasInvalid) {
-        const alertEl = document.getElementById("save-alert");
         alertEl.className = "alert alert-danger";
-        alertEl.textContent = "Please enter valid scores (whole numbers 0–20) for all fields.";
+        alertEl.textContent = t("pred.invalid");
         alertEl.classList.remove("d-none");
         return;
       }
 
       const status = document.getElementById("save-status");
-      status.textContent = "Saving…";
+      status.textContent = t("pred.saving");
+      alertEl.className = "alert d-none";
       let saved = 0, errors = 0;
 
       for (const [mid, scores] of Object.entries(matchPreds)) {
@@ -229,11 +233,10 @@
         res.ok ? saved++ : errors++;
       }
 
-      const alertEl = document.getElementById("save-alert");
       alertEl.className = `alert ${errors ? "alert-warning" : "alert-success"}`;
       alertEl.textContent = errors
-        ? `Saved ${saved}, failed ${errors}. Some matches may have locked.`
-        : `✅ ${saved} prediction(s) saved!`;
+        ? `${saved} ${t("pred.saved_ok")} — ${t("pred.saved_err")} ${errors}.`
+        : `✅ ${saved} ${t("pred.saved_ok")}`;
       alertEl.classList.remove("d-none");
       status.textContent = "";
     });
