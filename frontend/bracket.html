@@ -54,9 +54,7 @@
 
   <div class="container-fluid py-4">
     <h2 class="mb-1" data-i18n="bracket.title">Bracket Eliminatorio</h2>
-    <p class="text-muted small mb-3">
-      🟩 Top 2 de cada grupo · 🟨 8 mejores 3ros clasificados
-    </p>
+    <p class="text-muted small mb-3" data-i18n="bracket.subtitle">🟩 Top 2 de cada grupo · 🟨 8 mejores 3ros clasificados</p>
 
     <div id="loading" class="text-center py-5"><div class="spinner-border text-success" role="status"></div></div>
     <div id="bracket-empty" class="alert alert-info d-none" data-i18n="bracket.empty">La fase eliminatoria aún no ha comenzado.</div>
@@ -136,6 +134,14 @@
       { num: 96, home: "G(87)", away: "G(88)" },
     ];
 
+    function localizeTeamName(name) {
+      if (window.LANG !== "en") return name;
+      return name
+        .replace(/\bGrupo\b/g, "Group")
+        .replace(/\bMejor 3°\b/g, "Best 3rd")
+        .replace(/\bGanador\b/g, "Winner");
+    }
+
     function toLocalShort(utcStr) {
       if (!utcStr) return "";
       const d = new Date(utcStr);
@@ -152,7 +158,7 @@
     function buildTeamRow(team, score, isWinner) {
       const tbd = !team;
       const cls = isWinner ? "winner" : tbd ? "tbd" : "";
-      const display = tbd ? t("bracket.tbd") : `${team.flag} ${team.name}`;
+      const display = tbd ? t("bracket.tbd") : `${team.flag} ${localizeTeamName(team.name)}`;
       const scoreHtml = score != null ? `<span class="fw-bold">${score}</span>` : "";
       return `<div class="b-team ${cls}"><span>${display}</span>${scoreHtml}</div>`;
     }
