@@ -86,3 +86,19 @@ def me(current: Participant = Depends(get_current_participant)):
         "is_admin": current.is_admin,
         "is_approved": current.is_approved,
     }
+
+
+class ChangePasswordRequest(BaseModel):
+    current_password: str
+    new_password: str
+
+
+@router.patch("/change-password")
+def change_password(req: ChangePasswordRequest, current: Participant = Depends(get_current_participant), db: Session = Depends(get_db)):
+    if not pwd_context.verify(req.current_password, current.hashed_password):
+        raise HTTPException(status_code=400, detail="Contraseña actual incorrecta")
+    if len(req.new_password) < 6:
+        raise HTTPException(status_code=400, detail="Mínimo 6 caracteres")
+    current.hashed_password = pwd_context.hash(req.new_password)
+    db.commit()
+    return {"ok": True}
