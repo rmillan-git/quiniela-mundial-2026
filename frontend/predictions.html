@@ -17,6 +17,7 @@
           <a href="groups.html" class="btn btn-outline-light btn-sm" data-i18n="nav.groups">Grupos</a>
           <a href="bracket.html" class="btn btn-outline-light btn-sm" data-i18n="nav.bracket">Bracket</a>
           <a href="index.html" class="btn btn-outline-light btn-sm" data-i18n="nav.leaderboard">Posiciones</a>
+          <a href="all-predictions.html" class="btn btn-outline-light btn-sm" data-i18n="nav.allpreds">Todas las Quinielas</a>
           <a href="register.html" class="btn btn-light btn-sm" id="nav-login" data-i18n="nav.login">Login / Registro</a>
           <a href="admin.html" class="btn btn-warning btn-sm d-none" id="nav-admin" data-i18n="nav.admin">Admin</a>
           <button class="btn btn-outline-light btn-sm d-none" id="btn-logout" data-i18n="nav.logout">Salir</button>
@@ -130,6 +131,13 @@
       const containerEl = document.getElementById("matches-container");
       let firstActive = true;
 
+      // Store group matches for live standings
+      groupMatchesMap = {};
+      matches.filter(m => m.round === "group_stage").forEach(m => {
+        if (!groupMatchesMap[m.group]) groupMatchesMap[m.group] = [];
+        groupMatchesMap[m.group].push(m);
+      });
+
       rounds.forEach(round => {
         const roundMatches = matches.filter(m => m.round === round);
         if (!roundMatches.length) return;
@@ -150,6 +158,7 @@
               html += '<div class="col-md-6">';
               html += `<h5 class="mt-2 mb-2 text-success">${window.LANG === "en" ? "Group" : "Grupo"} ${g}</h5>`;
               roundMatches.filter(m => m.group === g).forEach(m => html += matchCard(m, predMap));
+              html += `<div id="grp-standing-${g}" class="mt-2 small"></div>`;
               html += '</div>';
             }
             html += '</div>';
@@ -168,7 +177,83 @@
         html += "</div>";
         containerEl.innerHTML += html;
       });
+
+      // Render initial standings (picks up saved predictions already in the inputs)
+      Object.keys(groupMatchesMap).forEach(g => renderGroupStandings(g, groupMatchesMap[g]));
+
+      // Live update as user types
+      containerEl.addEventListener("input", e => {
+        if (!e.target.classList.contains("pred-input")) return;
+        const mid = parseInt(e.target.dataset.match);
+        const m = matches.find(mx => mx.id === mid);
+        if (!m || m.round !== "group_stage") return;
+        renderGroupStandings(m.group, groupMatchesMap[m.group]);
+      });
     }
+
+    let groupMatchesMap = {};
+
+    function calcGroupStandings(groupMatches) {
+      const teams = {};
+      groupMatches.forEach(m => {
+        [["home_team","home_flag","home"],["away_team","away_flag","away"]].forEach(([tk,fk]) => {
+          if (!teams[m[tk]]) teams[m[tk]] = { name: m[tk], flag: m[fk], p:0,w:0,d:0,l:0,gf:0,ga:0 };
+        });
+        const hEl = document.querySelector(`.pred-input[data-match="${m.id}"][data-side="home"]`);
+        const aEl = document.querySelector(`.pred-input[data-match="${m.id}"][data-side="away"]`);
+        const h = hEl ? parseInt(hEl.value) : NaN;
+        const a = aEl ? parseInt(aEl.value) : NaN;
+        if (isNaN(h) || isNaN(a) || h < 0 || a < 0) return;
+        const ht = teams[m.home_team], at = teams[m.away_team];
+        ht.p++; at.p++; ht.gf += h; ht.ga += a; at.gf += a; at.ga += h;
+        if (h > a)      { ht.w++; at.l++; }
+        else if (h < a) { at.w++; ht.l++; }
+        else            { ht.d++; at.d++; }
+      });
+      return Object.values(teams)
+        .map(t => ({ ...t, gd: t.gf - t.ga, pts: t.w * 3 + t.d }))
+        .sort((a, b) => b.pts - a.pts || b.gd - a.gd || b.gf - a.gf || a.name.localeCompare(b.name));
+    }
+
+    function renderGroupStandings(g, groupMatches) {
+      const el = document.getElementById(`grp-standing-${g}`);
+      if (!el) return;
+      const sorted = calcGroupStandings(groupMatches);
+      if (!sorted.some(t => t.p > 0)) { el.innerHTML = ""; return; }
+
+      const lbl = window.LANG === "en"
+        ? "📊 Projected standing"
+        : "📊 Standing proyectado";
+      let html = `<p class="text-muted small mb-1 mt-2 fst-italic">${lbl}</p>
+        <table class="table table-sm table-bordered mb-0">
+        <thead class="table-light"><tr>
+          <th>${t("groups.col_team")}</th>
+          <th class="text-center">${t("groups.col_played")}</th>
+          <th class="text-center">${t("groups.col_won")}</th>
+          <th class="text-center">${t("groups.col_drawn")}</th>
+          <th class="text-center">${t("groups.col_gd")}</th>
+          <th class="text-center">${t("groups.col_pts")}</th>
+        </tr></thead><tbody>`;
+      sorted.forEach((tm, i) => {
+        const cls = i < 2 ? "table-success" : (i === 2 ? "table-warning" : "");
+        const flag = tm.flag && tm.flag !== "🏳️" ? tm.flag + " " : "";
+        html += `<tr class="${cls}">
+          <td>${flag}${tm.name}</td>
+          <td class="text-center">${tm.p}</td>
+          <td class="text-center">${tm.w}</td>
+          <td class="text-center">${tm.d}</td>
+          <td class="text-center">${tm.gd > 0 ? "+" : ""}${tm.gd}</td>
+          <td class="text-center fw-bold">${tm.pts}</td>
+        </tr>`;
+      });
+      html += "</tbody></table>";
+      el.innerHTML = html;
+    }
+
+    // Re-render standings on language change
+    document.addEventListener("langchange", () => {
+      Object.keys(groupMatchesMap).forEach(g => renderGroupStandings(g, groupMatchesMap[g]));
+    });
 
     let enrichTeam = name => name; // overridden after matches load
 

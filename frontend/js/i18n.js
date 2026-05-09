@@ -3,7 +3,10 @@ const TRANSLATIONS = {
     // Nav
     "nav.groups": "Grupos", "nav.bracket": "Bracket",
     "nav.predictions": "Mis Predicciones", "nav.leaderboard": "Posiciones",
+    "nav.allpreds": "Todas las Quinielas",
     "nav.login": "Login / Registro", "nav.admin": "Admin", "nav.logout": "Salir",
+    "allpreds.title": "Todas las Predicciones",
+    "allpreds.match": "Partido", "allpreds.result": "Resultado",
     // Countdown
     "countdown.days": "días para el Mundial",
     "countdown.today": "🎉 ¡Hoy empieza el Mundial!",
@@ -73,7 +76,10 @@ const TRANSLATIONS = {
   en: {
     "nav.groups": "Groups", "nav.bracket": "Bracket",
     "nav.predictions": "My Predictions", "nav.leaderboard": "Standings",
+    "nav.allpreds": "All Picks",
     "nav.login": "Login / Register", "nav.admin": "Admin", "nav.logout": "Logout",
+    "allpreds.title": "All Predictions",
+    "allpreds.match": "Match", "allpreds.result": "Result",
     "countdown.days": "days to the World Cup",
     "countdown.today": "🎉 The World Cup starts today!",
     "countdown.live": "🏆 The World Cup is live!",

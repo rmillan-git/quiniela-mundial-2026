@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>All Predictions – Quiniela 2026</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+  <style>
+    .pred-cell { font-size: .78rem; white-space: nowrap; text-align: center; padding: 3px 6px !important; }
+    .pred-exact   { background: #d1e7dd; font-weight: 700; }
+    .pred-outcome { background: #cfe2ff; }
+    .pred-wrong   { background: #f8d7da; color: #842029; }
+    .pred-none    { color: #adb5bd; }
+    .match-cell   { font-size: .78rem; min-width: 160px; }
+    .participant-header { font-size: .75rem; max-width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .group-header { background: #198754; color: white; font-weight: 700; padding: 4px 8px; }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-dark bg-success">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold" href="index.html">⚽ Quiniela Mundial 2026</a>
+      <div class="d-flex gap-2 flex-wrap align-items-center">
+        <span class="text-white-50 small wc-countdown"></span>
+        <a href="groups.html"      class="btn btn-outline-light btn-sm" data-i18n="nav.groups">Grupos</a>
+        <a href="bracket.html"     class="btn btn-outline-light btn-sm" data-i18n="nav.bracket">Bracket</a>
+        <a href="predictions.html" class="btn btn-outline-light btn-sm" data-i18n="nav.predictions">Mis Predicciones</a>
+        <a href="index.html"       class="btn btn-outline-light btn-sm" data-i18n="nav.leaderboard">Posiciones</a>
+        <a href="register.html"    class="btn btn-light btn-sm" id="nav-login" data-i18n="nav.login">Login / Registro</a>
+        <a href="admin.html"       class="btn btn-warning btn-sm d-none" id="nav-admin" data-i18n="nav.admin">Admin</a>
+        <button class="btn btn-outline-light btn-sm d-none" id="btn-logout" data-i18n="nav.logout">Salir</button>
+        <button class="btn btn-outline-light btn-sm lang-btn">🇺🇸 EN</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container-fluid py-4">
+    <h2 class="mb-1" data-i18n="allpreds.title">Todas las Predicciones</h2>
+    <p class="text-muted small mb-3">
+      <span class="badge pred-exact">9</span> <span data-i18n="pred.exact">marcador exacto</span> &nbsp;
+      <span class="badge pred-outcome">7</span> <span data-i18n="pred.outcome">resultado correcto</span> &nbsp;
+      <span class="badge pred-wrong">0</span> <span data-i18n="pred.wrong">incorrecto</span>
+    </p>
+
+    <div id="auth-required" class="alert alert-warning d-none">
+      <span data-i18n="pred.login_required">Inicia sesión para ver las predicciones.</span>
+      <a href="register.html" data-i18n="nav.login">Login / Registro</a>
+    </div>
+
+    <div id="loading" class="text-center py-5">
+      <div class="spinner-border text-success" role="status"></div>
+    </div>
+
+    <div id="content" class="d-none">
+      <ul class="nav nav-tabs mb-3" id="round-tabs"></ul>
+      <div id="rounds-content"></div>
+    </div>
+  </div>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    const ROUNDS = ["group_stage","round_of_32","round_of_16","qf","sf","final"];
+
+    function scoreClass(points) {
+      if (points === 9) return "pred-exact";
+      if (points === 7) return "pred-outcome";
+      if (points === 0) return "pred-wrong";
+      return "pred-none";
+    }
+
+    function teamShort(flag, name) {
+      if (!flag || flag === "🏳️") return `<span class="text-muted fst-italic small">${name}</span>`;
+      return `${flag} ${name}`;
+    }
+
+    async function load() {
+      const user = await auth.getUser();
+      if (!user) {
+        document.getElementById("loading").classList.add("d-none");
+        document.getElementById("auth-required").classList.remove("d-none");
+        return;
+      }
+
+      const data = await api.get("/predictions/all");
+      document.getElementById("loading").classList.add("d-none");
+      document.getElementById("content").classList.remove("d-none");
+
+      const { participants, matches, predictions } = data;
+
+      // Build prediction lookup: match_id → { participant_id → pred }
+      const predMap = {};
+      predictions.forEach(p => {
+        if (!predMap[p.match_id]) predMap[p.match_id] = {};
+        predMap[p.match_id][p.participant_id] = p;
+      });
+
+      const tabsEl    = document.getElementById("round-tabs");
+      const contentEl = document.getElementById("rounds-content");
+      let firstActive = true;
+
+      ROUNDS.forEach(round => {
+        const roundMatches = matches.filter(m => m.round === round);
+        if (!roundMatches.length) return;
+
+        const label  = t(`pred.round.${round}`);
+        const active = firstActive ? "active" : "";
+        firstActive = false;
+        tabsEl.innerHTML += `<li class="nav-item">
+          <a class="nav-link ${active}" data-bs-toggle="tab" href="#allpred-${round}">${label}</a>
+        </li>`;
+
+        let html = `<div class="tab-pane fade ${active ? "show active" : ""}" id="allpred-${round}">`;
+        html += '<div class="table-responsive">';
+        html += '<table class="table table-bordered table-sm align-middle">';
+
+        // Header row: Match | P1 | P2 | ... | Result
+        html += '<thead class="table-dark sticky-top"><tr>';
+        html += `<th class="match-cell">${t("allpreds.match")}</th>`;
+        participants.forEach(p => {
+          html += `<th class="participant-header text-center" title="${p.name}">${p.name.split(" ")[0]}</th>`;
+        });
+        html += `<th class="text-center text-warning">${t("allpreds.result")}</th>`;
+        html += '</tr></thead><tbody>';
+
+        if (round === "group_stage") {
+          const groups = [...new Set(roundMatches.map(m => m.group))].sort();
+          groups.forEach(g => {
+            html += `<tr><td colspan="${participants.length + 2}" class="group-header">
+              ${window.LANG === "en" ? "Group" : "Grupo"} ${g}
+            </td></tr>`;
+            roundMatches.filter(m => m.group === g).forEach(m => {
+              html += matchRow(m, participants, predMap);
+            });
+          });
+        } else {
+          roundMatches.forEach(m => { html += matchRow(m, participants, predMap); });
+        }
+
+        html += '</tbody></table></div></div>';
+        contentEl.innerHTML += html;
+      });
+    }
+
+    function matchRow(m, participants, predMap) {
+      const matchPreds = predMap[m.id] || {};
+      let row = `<tr>`;
+      row += `<td class="match-cell">
+        <span class="text-muted small">#${m.match_number}</span><br>
+        ${teamShort(m.home_flag, m.home_team)}<br>
+        <span class="text-muted">vs</span><br>
+        ${teamShort(m.away_flag, m.away_team)}
+      </td>`;
+
+      participants.forEach(p => {
+        const pred = matchPreds[p.id];
+        if (!pred) {
+          row += `<td class="pred-cell pred-none">—</td>`;
+        } else {
+          const cls = m.is_finished ? scoreClass(pred.points) : "";
+          row += `<td class="pred-cell ${cls}">${pred.home_score}–${pred.away_score}</td>`;
+        }
+      });
+
+      // Actual result column
+      if (m.is_finished && m.home_score != null) {
+        row += `<td class="pred-cell fw-bold text-success">${m.home_score}–${m.away_score}</td>`;
+      } else {
+        row += `<td class="pred-cell text-muted">—</td>`;
+      }
+
+      row += `</tr>`;
+      return row;
+    }
+
+    load();
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from database import get_db
-from models import Match, Prediction
+from models import Match, Participant, Prediction
 from routes.auth import get_current_participant
 
 router = APIRouter(prefix="/predictions", tags=["predictions"])
@@ -28,6 +28,37 @@ def my_predictions(current=Depends(get_current_participant), db: Session = Depen
         {"match_id": p.match_id, "home_score": p.home_score, "away_score": p.away_score, "points": p.points}
         for p in preds
     ]
+
+
+@router.get("/all")
+def all_predictions(current=Depends(get_current_participant), db: Session = Depends(get_db)):
+    """All participants' predictions — visible to any approved user."""
+    participants = db.query(Participant).filter_by(is_approved=True).order_by(Participant.name).all()
+    matches_q = db.query(Match).order_by(Match.match_number).all()
+    preds = db.query(Prediction).join(Participant).filter(Participant.is_approved == True).all()
+    pred_map = {(p.match_id, p.participant_id): p for p in preds}
+    return {
+        "participants": [{"id": p.id, "name": p.name} for p in participants],
+        "matches": [
+            {
+                "id": m.id, "match_number": m.match_number, "round": m.round,
+                "group": m.group,
+                "home_team": m.home_team, "away_team": m.away_team,
+                "home_flag": m.home_flag, "away_flag": m.away_flag,
+                "home_score": m.home_score, "away_score": m.away_score,
+                "is_finished": m.is_finished,
+                "kickoff_utc": m.kickoff_utc.isoformat() if m.kickoff_utc else None,
+            }
+            for m in matches_q
+        ],
+        "predictions": [
+            {
+                "match_id": p.match_id, "participant_id": p.participant_id,
+                "home_score": p.home_score, "away_score": p.away_score, "points": p.points,
+            }
+            for p in preds
+        ],
+    }
 
 
 @router.put("/{match_id}")
