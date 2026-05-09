@@ -52,6 +52,15 @@
       <div class="spinner-border text-success" role="status"></div>
     </div>
 
+    <div id="locked-msg" class="d-none">
+      <div class="alert alert-warning text-center py-4">
+        <h4>🔒 <span data-i18n="allpreds.locked_title">Predicciones bloqueadas</span></h4>
+        <p class="mb-1" data-i18n="allpreds.locked_sub">Las predicciones de todos los participantes se revelarán el</p>
+        <p class="fw-bold fs-5 mb-0">📅 10 de junio de 2026</p>
+        <p class="text-muted small mt-1" data-i18n="allpreds.locked_reason">Para que nadie pueda copiar las predicciones de los demás antes del cierre.</p>
+      </div>
+    </div>
+
     <div id="content" class="d-none">
       <ul class="nav nav-tabs mb-3" id="round-tabs"></ul>
       <div id="rounds-content"></div>
@@ -86,6 +95,12 @@
 
       const data = await api.get("/predictions/all");
       document.getElementById("loading").classList.add("d-none");
+
+      if (!Array.isArray(data.participants)) {
+        document.getElementById("locked-msg").classList.remove("d-none");
+        return;
+      }
+
       document.getElementById("content").classList.remove("d-none");
 
       const { participants, matches, predictions } = data;

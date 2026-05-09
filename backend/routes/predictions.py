@@ -30,9 +30,15 @@ def my_predictions(current=Depends(get_current_participant), db: Session = Depen
     ]
 
 
+PREDICTIONS_REVEAL_UTC = datetime(2026, 6, 10, 5, 0, 0, tzinfo=timezone.utc)  # Jun 10 00:00 CST
+
+
 @router.get("/all")
 def all_predictions(current=Depends(get_current_participant), db: Session = Depends(get_db)):
-    """All participants' predictions — visible to any approved user."""
+    """All participants' predictions — locked until Jun 10 (admins can always view)."""
+    if not current.is_admin and datetime.now(timezone.utc) < PREDICTIONS_REVEAL_UTC:
+        raise HTTPException(423, "Predictions are locked until June 10, 2026")
+
     participants = db.query(Participant).filter_by(is_approved=True).order_by(Participant.name).all()
     matches_q = db.query(Match).order_by(Match.match_number).all()
     preds = db.query(Prediction).join(Participant).filter(Participant.is_approved == True).all()
