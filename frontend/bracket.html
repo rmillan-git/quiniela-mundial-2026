@@ -8,14 +8,36 @@
   <link href="css/style.css" rel="stylesheet">
   <style>
     .bracket-wrap { overflow-x: auto; }
-    .bracket-grid { display: flex; gap: 0; min-width: 900px; }
-    .bracket-col { flex: 1; display: flex; flex-direction: column; border-right: 1px solid #dee2e6; }
-    .bracket-col:last-child { border-right: none; }
+    .bracket-grid { display: flex; min-width: 900px; align-items: stretch; }
+    .bracket-col { flex: 1; display: flex; flex-direction: column; min-width: 150px; }
     .bracket-col-header {
       background: #198754; color: #fff; font-weight: 700;
       text-align: center; padding: 8px 4px; font-size: .8rem; letter-spacing: .5px;
     }
-    .bracket-matches { flex: 1; display: flex; flex-direction: column; padding: 8px 6px; gap: 6px; }
+    .bracket-slots { flex: 1; display: flex; flex-direction: column; }
+    /* Each match lives in a slot; flex value set via JS to align rounds */
+    .b-slot {
+      display: flex; flex-direction: column; justify-content: center;
+      position: relative; padding: 4px 20px 4px 6px;
+    }
+    /* ┐  top half of pair connector going down-right */
+    .b-slot.connector-top::after {
+      content: ''; position: absolute;
+      right: 0; top: 50%; bottom: -1px; width: 16px;
+      border-right: 2px solid #adb5bd; border-bottom: 2px solid #adb5bd;
+    }
+    /* ┘  bottom half of pair connector going up-right */
+    .b-slot.connector-bot::after {
+      content: ''; position: absolute;
+      right: 0; top: -1px; bottom: 50%; width: 16px;
+      border-right: 2px solid #adb5bd; border-top: 2px solid #adb5bd;
+    }
+    /* →  short incoming line on the left for subsequent rounds */
+    .b-slot.has-connector::before {
+      content: ''; position: absolute;
+      left: -4px; top: calc(50% - 1px); width: 10px;
+      border-top: 2px solid #adb5bd;
+    }
     .b-match {
       border: 1px solid #dee2e6; border-radius: 6px; overflow: hidden;
       background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.06);
@@ -122,17 +144,8 @@
       ];
     }
 
-    // R16 feeds from R32 pairs
-    const R16_PATHS = [
-      { num: 89, home: "G(73)", away: "G(74)" },
-      { num: 90, home: "G(75)", away: "G(76)" },
-      { num: 91, home: "G(77)", away: "G(78)" },
-      { num: 92, home: "G(79)", away: "G(80)" },
-      { num: 93, home: "G(81)", away: "G(82)" },
-      { num: 94, home: "G(83)", away: "G(84)" },
-      { num: 95, home: "G(85)", away: "G(86)" },
-      { num: 96, home: "G(87)", away: "G(88)" },
-    ];
+    // Each round doubles the slot height: R32=1, R16=2, QF=4, SF=8, Final=16
+    const ROUND_FLEX = { round_of_32: 1, round_of_16: 2, qf: 4, sf: 8, final: 16 };
 
     function localizeTeamName(name) {
       if (window.LANG !== "en") return name;
@@ -165,24 +178,38 @@
 
     function renderBracket(allMatches) {
       const container = document.getElementById("bracket-container");
-      const grid = document.createElement("div");
-      grid.className = "bracket-wrap mb-4";
-
+      const wrap = document.createElement("div");
+      wrap.className = "bracket-wrap mb-4";
       const inner = document.createElement("div");
       inner.className = "bracket-grid";
 
+      let firstRound = true;
       ROUND_CONFIG.forEach(rc => {
-        const roundMatches = allMatches.filter(m => m.round === rc.key);
+        const roundMatches = allMatches
+          .filter(m => m.round === rc.key)
+          .sort((a, b) => a.match_number - b.match_number);
         if (!roundMatches.length) return;
+
+        const isFirst = firstRound;
+        const isLast = rc.key === "final";
+        firstRound = false;
 
         const col = document.createElement("div");
         col.className = `bracket-col ${rc.cls}`;
         col.innerHTML = `<div class="bracket-col-header">${t(rc.label_key)}</div>`;
 
-        const matchDiv = document.createElement("div");
-        matchDiv.className = "bracket-matches";
+        const slots = document.createElement("div");
+        slots.className = "bracket-slots";
+        const flexVal = ROUND_FLEX[rc.key] || 1;
 
-        roundMatches.forEach(m => {
+        roundMatches.forEach((m, i) => {
+          const slot = document.createElement("div");
+          // even index = top of pair (draws ┐), odd = bottom of pair (draws ┘)
+          const connCls = isLast ? "" : (i % 2 === 0 ? "connector-top" : "connector-bot");
+          const inCls   = isFirst ? "" : "has-connector";
+          slot.className = `b-slot ${connCls} ${inCls}`.trim();
+          slot.style.flex = flexVal;
+
           const home = teamName(m, "home");
           const away = teamName(m, "away");
           const homeWin = m.is_finished && m.home_score > m.away_score;
@@ -195,23 +222,21 @@
             buildTeamRow(away, m.is_finished ? m.away_score : null, awayWin) +
             (m.venue ? `<div class="b-match-meta">📍 ${m.venue}</div>` : "") +
             (m.kickoff_utc ? `<div class="b-match-meta">🕐 ${toLocalShort(m.kickoff_utc)}</div>` : "");
-          matchDiv.appendChild(card);
+          slot.appendChild(card);
+          slots.appendChild(slot);
         });
 
-        col.appendChild(matchDiv);
+        col.appendChild(slots);
         inner.appendChild(col);
       });
 
-      grid.appendChild(inner);
-      container.appendChild(grid);
+      wrap.appendChild(inner);
+      container.appendChild(wrap);
 
-      // Info paragraph
+      // Info paragraph + R32 path table
       document.getElementById("r32-info-text").innerHTML = t("bracket.r32_info");
-
-      // R32 path table
       const tbody = document.getElementById("r32-body");
       getR32Paths().forEach(p => {
-        // Find real match if it exists
         const real = allMatches.find(m => m.match_number === p.num && m.round === "round_of_32");
         const home = real ? `${real.home_flag} ${real.home_team}` : p.home;
         const away = real ? `${real.away_flag} ${real.away_team}` : p.away;
