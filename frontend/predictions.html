@@ -157,8 +157,12 @@
               const g = groups[j];
               html += '<div class="col-md-6">';
               html += `<h5 class="mt-2 mb-2 text-success">${window.LANG === "en" ? "Group" : "Grupo"} ${g}</h5>`;
+              html += '<div class="d-flex gap-2 align-items-start">';
+              html += '<div style="min-width:0;flex:1">';
               roundMatches.filter(m => m.group === g).forEach(m => html += matchCard(m, predMap));
-              html += `<div id="grp-standing-${g}" class="mt-2 small"></div>`;
+              html += '</div>';
+              html += `<div id="grp-standing-${g}" class="flex-shrink-0" style="width:175px"></div>`;
+              html += '</div>';
               html += '</div>';
             }
             html += '</div>';
@@ -221,29 +225,26 @@
       const sorted = calcGroupStandings(groupMatches);
       if (!sorted.some(t => t.p > 0)) { el.innerHTML = ""; return; }
 
-      const lbl = window.LANG === "en"
-        ? "📊 Projected standing"
-        : "📊 Standing proyectado";
-      let html = `<p class="text-muted small mb-1 mt-2 fst-italic">${lbl}</p>
-        <table class="table table-sm table-bordered mb-0">
+      const lbl = window.LANG === "en" ? "📊 Projected" : "📊 Proyectado";
+      let html = `<p class="text-muted mb-1 fst-italic" style="font-size:.7rem">${lbl}</p>
+        <table class="table table-bordered mb-0" style="font-size:.72rem">
         <thead class="table-light"><tr>
           <th>${t("groups.col_team")}</th>
-          <th class="text-center">${t("groups.col_played")}</th>
-          <th class="text-center">${t("groups.col_won")}</th>
-          <th class="text-center">${t("groups.col_drawn")}</th>
-          <th class="text-center">${t("groups.col_gd")}</th>
-          <th class="text-center">${t("groups.col_pts")}</th>
+          <th class="text-center px-1">${t("groups.col_won")}</th>
+          <th class="text-center px-1">${t("groups.col_drawn")}</th>
+          <th class="text-center px-1">${t("groups.col_lost")}</th>
+          <th class="text-center px-1">${t("groups.col_pts")}</th>
         </tr></thead><tbody>`;
       sorted.forEach((tm, i) => {
         const cls = i < 2 ? "table-success" : (i === 2 ? "table-warning" : "");
-        const flag = tm.flag && tm.flag !== "🏳️" ? tm.flag + " " : "";
-        html += `<tr class="${cls}">
-          <td>${flag}${tm.name}</td>
-          <td class="text-center">${tm.p}</td>
-          <td class="text-center">${tm.w}</td>
-          <td class="text-center">${tm.d}</td>
-          <td class="text-center">${tm.gd > 0 ? "+" : ""}${tm.gd}</td>
-          <td class="text-center fw-bold">${tm.pts}</td>
+        const flag = tm.flag && tm.flag !== "🏳️" ? tm.flag : "";
+        const name = tm.name.length > 9 ? tm.name.slice(0, 9) + "…" : tm.name;
+        html += `<tr class="${cls}" title="${tm.name} — ${tm.gf}:${tm.ga} (DG ${tm.gd > 0 ? "+" : ""}${tm.gd})">
+          <td class="px-1">${flag} ${name}</td>
+          <td class="text-center px-1">${tm.w}</td>
+          <td class="text-center px-1">${tm.d}</td>
+          <td class="text-center px-1">${tm.l}</td>
+          <td class="text-center px-1 fw-bold">${tm.pts}</td>
         </tr>`;
       });
       html += "</tbody></table>";
