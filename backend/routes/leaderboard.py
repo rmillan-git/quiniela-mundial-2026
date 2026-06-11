@@ -11,7 +11,7 @@ ROUNDS = ["group_stage", "round_of_32", "round_of_16", "qf", "sf", "final"]
 
 @router.get("/")
 def leaderboard(db: Session = Depends(get_db)):
-    participants = db.query(Participant).filter_by(is_approved=True).all()
+    participants = db.query(Participant).filter_by(is_approved=True, is_admin=False).all()
     results = []
     for p in participants:
         total = db.query(func.sum(Prediction.points)).filter_by(participant_id=p.id).scalar() or 0

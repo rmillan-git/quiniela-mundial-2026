@@ -62,7 +62,7 @@ async def _daily_report():
             db = SessionLocal()
             excel_data = build_excel(db)
             recipients = [
-                p.email for p in db.query(Participant).filter_by(is_approved=True).all() if p.email
+                p.email for p in db.query(Participant).filter_by(is_approved=True, is_admin=False).all() if p.email
             ]
             today_str = datetime.now(timezone.utc).strftime("%B %d, %Y")
             fname = f"quiniela-mundial-2026-{datetime.now(timezone.utc).strftime('%Y-%m-%d')}.xlsx"
