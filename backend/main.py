@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.exc import OperationalError
 from database import engine, SessionLocal
 from models import Base
-from routes import auth, participants, matches, predictions, leaderboard
+from routes import auth, participants, matches, predictions, leaderboard, export
 from routes.matches import sync_results_from_api
 
 
@@ -59,6 +59,7 @@ app.include_router(participants.router)
 app.include_router(matches.router)
 app.include_router(predictions.router)
 app.include_router(leaderboard.router)
+app.include_router(export.router)
 
 
 @app.get("/")

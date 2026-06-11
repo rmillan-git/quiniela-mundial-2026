@@ -40,6 +40,7 @@
       <div class="tab-pane fade" id="tab-participants">
         <div class="d-flex justify-content-between align-items-center mb-3">
           <h5 class="mb-0">Gestionar Participantes</h5>
+          <button class="btn btn-success btn-sm me-1" id="btn-export-excel">📊 Exportar Excel</button>
           <button class="btn btn-outline-success btn-sm" id="btn-export-csv">📥 Exportar CSV</button>
         </div>
         <div id="part-loading" class="text-center py-3"><div class="spinner-border text-warning" role="status"></div></div>
@@ -353,6 +354,34 @@
       }
       bodyEl.innerHTML = html || '<p class="text-muted">No hay predicciones registradas.</p>';
     }
+
+    // ── Export Excel ─────────────────────────────────────────────────────────
+    document.getElementById("btn-export-excel").addEventListener("click", async () => {
+      const btn = document.getElementById("btn-export-excel");
+      btn.disabled = true;
+      btn.textContent = "Generando…";
+      try {
+        const token = localStorage.getItem("token");
+        const res = await fetch(
+          (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+            ? "http://localhost:8000" : "https://quiniela-backend-8oak.onrender.com")
+          + "/admin/export/excel",
+          { headers: { "Authorization": `Bearer ${token}` } }
+        );
+        if (!res.ok) throw new Error("Export failed");
+        const blob = await res.blob();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `quiniela-mundial-2026-${new Date().toISOString().slice(0,10)}.xlsx`;
+        a.click();
+        URL.revokeObjectURL(url);
+      } catch (e) {
+        alert("Error generando Excel: " + e.message);
+      }
+      btn.disabled = false;
+      btn.textContent = "📊 Exportar Excel";
+    });
 
     // ── Export CSV ───────────────────────────────────────────────────────────
     document.getElementById("btn-export-csv").addEventListener("click", async () => {
