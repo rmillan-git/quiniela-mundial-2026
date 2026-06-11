@@ -1,5 +1,6 @@
 import io
-from fastapi import APIRouter, Depends
+import traceback
+from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import Response
 from sqlalchemy.orm import Session
 from openpyxl import Workbook
@@ -20,7 +21,6 @@ ROUND_LABELS = {
     "final": "Final",
 }
 
-# Fills
 F_DARK_BLUE  = PatternFill("solid", fgColor="1F4E79")
 F_MED_BLUE   = PatternFill("solid", fgColor="2E75B6")
 F_LIGHT_BLUE = PatternFill("solid", fgColor="BDD7EE")
@@ -46,6 +46,10 @@ def _c(ws, row, col, value="", fill=None, font=None, align="center"):
     return c
 
 
+def _merge(ws, r1, c1, r2, c2):
+    ws.merge_cells(start_row=r1, start_column=c1, end_row=r2, end_column=c2)
+
+
 def build_excel(db: Session) -> bytes:
     wb = Workbook()
 
@@ -55,34 +59,32 @@ def build_excel(db: Session) -> bytes:
         .order_by(Participant.name)
         .all()
     )
-    matches = db.query(Match).order_by(Match.match_number).all()
-    preds   = db.query(Prediction).all()
+    matches  = db.query(Match).order_by(Match.match_number).all()
+    preds    = db.query(Prediction).all()
     pred_map = {(p.match_id, p.participant_id): p for p in preds}
 
-    # ── Sheet 1: Predictions ─────────────────────────────────────────────────
-    ws = wb.active
-    ws.title = "Predictions"
-
-    FIXED = 5  # #, Round, Home, Away, Result
-    # Each participant gets 2 cols: Pick | Pts
+    FIXED = 5
     p_pred_col = {p.id: FIXED + 1 + i * 2 for i, p in enumerate(participants)}
     p_pts_col  = {p.id: FIXED + 2 + i * 2 for i, p in enumerate(participants)}
     total_cols = FIXED + max(len(participants) * 2, 1)
 
+    ws = wb.active
+    ws.title = "Predictions"
+
     # Row 1 — title
-    ws.merge_cells(1, 1, 1, total_cols)
-    c = ws.cell(1, 1, "⚽ Quiniela Mundial 2026 — Full Predictions")
-    c.fill = F_DARK_BLUE; c.font = Font(color="FFFFFF", bold=True, size=13)
+    _merge(ws, 1, 1, 1, total_cols)
+    c = ws.cell(row=1, column=1, value="⚽ Quiniela Mundial 2026 — Full Predictions")
+    c.fill = F_DARK_BLUE
+    c.font = Font(color="FFFFFF", bold=True, size=13)
     c.alignment = Alignment(horizontal="center", vertical="center")
     ws.row_dimensions[1].height = 28
 
-    # Row 2 — participant headers (one merged cell per participant spanning 2 cols)
+    # Row 2 — column headers
     for col, lbl in [(1,"#"),(2,"Round"),(3,"Home Team"),(4,"Away Team"),(5,"Result")]:
         _c(ws, 2, col, lbl, fill=F_MED_BLUE, font=WHITE_BOLD)
     for p in participants:
-        pc = p_pred_col[p.id]
-        ptsc = p_pts_col[p.id]
-        ws.merge_cells(2, pc, 2, ptsc)
+        pc, ptsc = p_pred_col[p.id], p_pts_col[p.id]
+        _merge(ws, 2, pc, 2, ptsc)
         _c(ws, 2, pc, p.name, fill=F_MED_BLUE, font=WHITE_BOLD)
     ws.row_dimensions[2].height = 32
 
@@ -100,8 +102,8 @@ def build_excel(db: Session) -> bytes:
     for m in matches:
         if m.round != current_round:
             current_round = m.round
-            ws.merge_cells(row, 1, row, total_cols)
-            c = ws.cell(row, 1, ROUND_LABELS.get(m.round, m.round))
+            _merge(ws, row, 1, row, total_cols)
+            c = ws.cell(row=row, column=1, value=ROUND_LABELS.get(m.round, m.round))
             c.fill = F_DARK_BLUE; c.font = WHITE_BOLD
             c.alignment = Alignment(horizontal="left", vertical="center")
             c.border = BORDER
@@ -110,7 +112,7 @@ def build_excel(db: Session) -> bytes:
 
         home   = m.home_team.name if m.home_team else (m.home_team_placeholder or "TBD")
         away   = m.away_team.name if m.away_team else (m.away_team_placeholder or "TBD")
-        result = f"{m.home_score}–{m.away_score}" if m.is_finished else "—"
+        result = f"{m.home_score}-{m.away_score}" if m.is_finished else "-"
 
         _c(ws, row, 1, m.match_number, fill=F_ROW, font=BOLD)
         _c(ws, row, 2, ROUND_LABELS.get(m.round, m.round), fill=F_ROW)
@@ -123,7 +125,7 @@ def build_excel(db: Session) -> bytes:
             pc   = p_pred_col[p.id]
             ptsc = p_pts_col[p.id]
             if pred:
-                pick = f"{pred.home_score}–{pred.away_score}"
+                pick = f"{pred.home_score}-{pred.away_score}"
                 pts  = pred.points
                 if m.is_finished and pts is not None:
                     pf = F_EXACT if pts >= 9 else (F_WINNER if pts >= 5 else F_WRONG)
@@ -132,27 +134,27 @@ def build_excel(db: Session) -> bytes:
                 _c(ws, row, pc,   pick, fill=pf)
                 _c(ws, row, ptsc, pts if pts is not None else "", fill=pf, font=BOLD if pts else None)
             else:
-                _c(ws, row, pc,   "—")
+                _c(ws, row, pc,   "-")
                 _c(ws, row, ptsc, "")
         row += 1
 
     # Totals row
     row += 1
-    ws.merge_cells(row, 1, row, FIXED)
-    c = ws.cell(row, 1, "TOTAL POINTS")
+    _merge(ws, row, 1, row, FIXED)
+    c = ws.cell(row=row, column=1, value="TOTAL POINTS")
     c.fill = F_DARK_BLUE; c.font = WHITE_BOLD
     c.alignment = Alignment(horizontal="right", vertical="center")
     c.border = BORDER
+
     for p in participants:
         total = sum(
             pred_map[(m.id, p.id)].points or 0
             for m in matches
             if (m.id, p.id) in pred_map and pred_map[(m.id, p.id)].points is not None
         )
-        pc   = p_pred_col[p.id]
-        ptsc = p_pts_col[p.id]
-        ws.merge_cells(row, pc, row, ptsc)
-        c = ws.cell(row, pc, total)
+        pc, ptsc = p_pred_col[p.id], p_pts_col[p.id]
+        _merge(ws, row, pc, row, ptsc)
+        c = ws.cell(row=row, column=pc, value=total)
         c.fill = F_GOLD; c.font = Font(bold=True, size=12)
         c.alignment = Alignment(horizontal="center", vertical="center")
         c.border = BORDER
@@ -171,19 +173,21 @@ def build_excel(db: Session) -> bytes:
 
     # ── Sheet 2: Leaderboard ─────────────────────────────────────────────────
     ws2 = wb.create_sheet("Leaderboard")
-    hdrs = ["Rank","Name","Email","Group Stage","Round of 32","Round of 16","Quarterfinals","Semifinals","Final","TOTAL"]
+    hdrs = ["Rank","Name","Email","Group Stage","Round of 32","Round of 16",
+            "Quarterfinals","Semifinals","Final","TOTAL"]
     for col, h in enumerate(hdrs, 1):
         _c(ws2, 1, col, h, fill=F_DARK_BLUE, font=WHITE_BOLD)
     ws2.row_dimensions[1].height = 22
 
     scores = []
     for p in participants:
-        by_round: dict[str, int] = {}
+        by_round = {}
         for m in matches:
             pred = pred_map.get((m.id, p.id))
             if pred and pred.points is not None:
                 by_round[m.round] = by_round.get(m.round, 0) + pred.points
-        scores.append({"name": p.name, "email": p.email, "by_round": by_round, "total": sum(by_round.values())})
+        scores.append({"name": p.name, "email": p.email, "by_round": by_round,
+                       "total": sum(by_round.values())})
     scores.sort(key=lambda x: x["total"], reverse=True)
 
     for i, s in enumerate(scores, 1):
@@ -196,7 +200,7 @@ def build_excel(db: Session) -> bytes:
             font = Font(bold=True) if col in (1, 10) else None
             _c(ws2, i + 1, col, v, fill=fill, font=font)
 
-    for col, w in zip(range(1,11), [6,24,28,13,13,13,14,12,8,10]):
+    for col, w in zip(range(1, 11), [6, 24, 28, 13, 13, 13, 14, 12, 8, 10]):
         ws2.column_dimensions[get_column_letter(col)].width = w
 
     buf = io.BytesIO()
@@ -209,8 +213,6 @@ def export_excel(db: Session = Depends(get_db), _: Participant = Depends(get_cur
     try:
         data = build_excel(db)
     except Exception as e:
-        import traceback
-        from fastapi import HTTPException
         raise HTTPException(500, detail=f"{type(e).__name__}: {e}\n{traceback.format_exc()}")
     return Response(
         content=data,
