@@ -1,7 +1,8 @@
+import httpx
 from fastapi import APIRouter, Depends
 from sqlalchemy import func
 from sqlalchemy.orm import Session
-from database import get_db
+from database import get_db, settings
 from models import Participant, Prediction, Match
 
 router = APIRouter(prefix="/leaderboard", tags=["leaderboard"])
@@ -78,3 +79,33 @@ def group_standings(db: Session = Depends(get_db)):
         by_group[g].sort(key=lambda x: (-x["pts"], -(x["gf"] - x["ga"]), -x["gf"]))
 
     return by_group
+
+
+@router.get("/wc-stats")
+def wc_stats():
+    """Top scorers from football-data.org."""
+    if not settings.football_data_api_key:
+        return {"scorers": []}
+    try:
+        resp = httpx.get(
+            "https://api.football-data.org/v4/competitions/WC/scorers",
+            headers={"X-Auth-Token": settings.football_data_api_key},
+            params={"limit": 10},
+            timeout=10,
+        )
+        resp.raise_for_status()
+        raw = resp.json().get("scorers", [])
+        scorers = [
+            {
+                "player": s["player"]["name"],
+                "team": s["team"]["name"],
+                "team_crest": s["team"].get("crest", ""),
+                "goals": s.get("goals") or 0,
+                "penalties": s.get("penalties") or 0,
+                "played": s.get("playedMatches") or 0,
+            }
+            for s in raw
+        ]
+        return {"scorers": scorers}
+    except Exception:
+        return {"scorers": []}

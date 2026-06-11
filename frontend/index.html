@@ -67,6 +67,28 @@
 
     <hr class="my-5">
 
+    <!-- Top Scorers -->
+    <h2 class="mb-3">⚽ Goleadores del Torneo</h2>
+    <div id="scorers-loading" class="text-center py-3"><div class="spinner-border text-success" role="status"></div></div>
+    <div id="scorers-wrap" class="d-none table-responsive mb-2" style="max-width:500px">
+      <table class="table table-sm table-hover align-middle">
+        <thead class="table-success">
+          <tr>
+            <th>#</th>
+            <th>Jugador</th>
+            <th>Equipo</th>
+            <th class="text-center">Goles</th>
+            <th class="text-center">Penales</th>
+            <th class="text-center">PJ</th>
+          </tr>
+        </thead>
+        <tbody id="scorers-body"></tbody>
+      </table>
+    </div>
+    <p id="scorers-empty" class="text-muted small d-none">Sin datos de goleadores aún.</p>
+
+    <hr class="my-5">
+
     <!-- Rules / Prizes — rendered by JS for language switching -->
     <div id="rules-section"></div>
 
@@ -88,19 +110,15 @@
                 <h6 class="fw-bold">Puntuación por partido</h6>
                 <table class="table table-sm mb-3">
                   <tbody>
-                    <tr><td>🎯 Resultado correcto (victoria o empate)</td><td class="text-end fw-bold">5 pts</td></tr>
-                    <tr><td>⚽ Goles del local correctos <em>(requiere resultado correcto)</em></td><td class="text-end fw-bold">+2 pts</td></tr>
-                    <tr><td>⚽ Goles del visitante correctos <em>(requiere resultado correcto)</em></td><td class="text-end fw-bold">+2 pts</td></tr>
-                    <tr class="table-success"><td><strong>Marcador exacto (máximo)</strong></td><td class="text-end fw-bold">9 pts</td></tr>
+                    <tr class="table-success"><td>🎯 Marcador exacto</td><td class="text-end fw-bold">9 pts</td></tr>
+                    <tr><td>✅ Resultado correcto (marcador diferente)</td><td class="text-end fw-bold">7 pts</td></tr>
                     <tr><td>❌ Resultado incorrecto</td><td class="text-end fw-bold">0 pts</td></tr>
                   </tbody>
                 </table>
                 <h6 class="fw-bold">Ejemplos</h6>
                 <ul class="list-unstyled small">
                   <li>✅ Predijiste 2-1, resultado 2-1 → <strong>9 pts</strong></li>
-                  <li>🟡 Predijiste 1-0, resultado 2-0 → <strong>7 pts</strong> (resultado + goles visitante)</li>
-                  <li>🟡 Predijiste 2-0, resultado 2-1 → <strong>7 pts</strong> (resultado + goles local)</li>
-                  <li>🟠 Predijiste 1-0, resultado 3-2 → <strong>5 pts</strong> (solo resultado correcto)</li>
+                  <li>🟡 Predijiste 1-0, resultado 3-2 → <strong>7 pts</strong> (resultado correcto)</li>
                   <li>❌ Predijiste 1-0, resultado 0-1 → <strong>0 pts</strong></li>
                 </ul>
               </div>
@@ -146,19 +164,15 @@
                 <h6 class="fw-bold">Points per match</h6>
                 <table class="table table-sm mb-3">
                   <tbody>
-                    <tr><td>🎯 Correct result (win or draw)</td><td class="text-end fw-bold">5 pts</td></tr>
-                    <tr><td>⚽ Correct home goals <em>(requires correct result)</em></td><td class="text-end fw-bold">+2 pts</td></tr>
-                    <tr><td>⚽ Correct away goals <em>(requires correct result)</em></td><td class="text-end fw-bold">+2 pts</td></tr>
-                    <tr class="table-success"><td><strong>Exact score (maximum)</strong></td><td class="text-end fw-bold">9 pts</td></tr>
+                    <tr class="table-success"><td>🎯 Exact score</td><td class="text-end fw-bold">9 pts</td></tr>
+                    <tr><td>✅ Correct result (wrong score)</td><td class="text-end fw-bold">7 pts</td></tr>
                     <tr><td>❌ Wrong result</td><td class="text-end fw-bold">0 pts</td></tr>
                   </tbody>
                 </table>
                 <h6 class="fw-bold">Examples</h6>
                 <ul class="list-unstyled small">
                   <li>✅ You picked 2-1, result 2-1 → <strong>9 pts</strong></li>
-                  <li>🟡 You picked 1-0, result 2-0 → <strong>7 pts</strong> (result + away goals)</li>
-                  <li>🟡 You picked 2-0, result 2-1 → <strong>7 pts</strong> (result + home goals)</li>
-                  <li>🟠 You picked 1-0, result 3-2 → <strong>5 pts</strong> (result only)</li>
+                  <li>🟡 You picked 1-0, result 3-2 → <strong>7 pts</strong> (correct result)</li>
                   <li>❌ You picked 1-0, result 0-1 → <strong>0 pts</strong></li>
                 </ul>
               </div>
@@ -228,6 +242,31 @@
       });
     }
     load();
+  </script>
+  <script>
+    async function loadScorers() {
+      const data = await api.get("/leaderboard/wc-stats");
+      document.getElementById("scorers-loading").classList.add("d-none");
+      const scorers = data.scorers || [];
+      if (!scorers.length) {
+        document.getElementById("scorers-empty").classList.remove("d-none");
+        return;
+      }
+      document.getElementById("scorers-wrap").classList.remove("d-none");
+      const tbody = document.getElementById("scorers-body");
+      scorers.forEach((s, i) => {
+        const medal = i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : i + 1;
+        tbody.innerHTML += `<tr>
+          <td>${medal}</td>
+          <td class="fw-semibold">${s.player}</td>
+          <td><img src="${s.team_crest}" height="20" class="me-1" onerror="this.style.display='none'">${s.team}</td>
+          <td class="text-center fw-bold">${s.goals}</td>
+          <td class="text-center text-muted small">${s.penalties > 0 ? "("+s.penalties+"p)" : "—"}</td>
+          <td class="text-center text-muted small">${s.played}</td>
+        </tr>`;
+      });
+    }
+    loadScorers();
   </script>
 </body>
 </html>
