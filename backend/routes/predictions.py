@@ -30,7 +30,7 @@ def my_predictions(current=Depends(get_current_participant), db: Session = Depen
     ]
 
 
-PREDICTIONS_CLOSE_UTC  = datetime(2026, 6, 11, 17, 0, 0, tzinfo=timezone.utc)  # Jun 11 12:00 PM CDT
+PREDICTIONS_CLOSE_UTC  = datetime(2026, 6, 11, 18, 0, 0, tzinfo=timezone.utc)  # Jun 11 1:00 PM CDT
 
 
 @router.get("/all")
@@ -78,7 +78,7 @@ def upsert_prediction(
     if not match:
         raise HTTPException(404, "Match not found")
     if datetime.now(timezone.utc) >= PREDICTIONS_CLOSE_UTC:
-        raise HTTPException(400, "Predictions locked — deadline has passed (June 11 12:00 PM CT)")
+        raise HTTPException(400, "Predictions locked — deadline has passed (June 11 1:00 PM CT)")
 
     pred = db.query(Prediction).filter_by(participant_id=current.id, match_id=match_id).first()
     if pred:
