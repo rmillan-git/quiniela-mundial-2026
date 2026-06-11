@@ -306,21 +306,25 @@
     document.getElementById("btn-save").addEventListener("click", async () => {
       const inputs = document.querySelectorAll(".pred-input:not([disabled])");
       const matchPreds = {};
-      let hasInvalid = false;
 
       inputs.forEach(inp => {
         const mid = inp.dataset.match;
         matchPreds[mid] = matchPreds[mid] || {};
         const val = inp.value.trim();
-        if (!validateScore(val)) {
+        if (val === "") {
+          inp.classList.remove("is-invalid");
+          // skip empty fields — user can fill them in later
+        } else if (!validateScore(val)) {
           inp.classList.add("is-invalid");
-          hasInvalid = true;
+          matchPreds[mid]._invalid = true;
         } else {
           inp.classList.remove("is-invalid");
           matchPreds[mid][inp.dataset.side] = parseInt(val, 10);
         }
       });
 
+      // Block only if there are invalid (out of range) values — not empty ones
+      const hasInvalid = Object.values(matchPreds).some(m => m._invalid);
       const alertEl = document.getElementById("save-alert");
       if (hasInvalid) {
         alertEl.className = "alert alert-danger";
