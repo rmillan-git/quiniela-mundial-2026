@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     admin_email: str = "millan.ricardo@gmail.com"
     algorithm: str = "HS256"
     access_token_expire_minutes: int = 60 * 24 * 7  # 1 week
+    football_data_api_key: str = ""
 
     class Config:
         env_file = ".env"

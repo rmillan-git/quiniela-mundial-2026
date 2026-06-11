@@ -1,8 +1,9 @@
-from datetime import timezone
+from datetime import datetime, timezone
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
-from database import get_db
+import httpx
+from database import get_db, settings
 from models import Match, Team, Participant
 from routes.auth import get_current_admin
 
@@ -124,3 +125,57 @@ def _calc_points(ph: int, pa: int, rh: int, ra: int) -> int:
     if _outcome(ph, pa) != _outcome(rh, ra):
         return 0
     return 5 + (2 if ph == rh else 0) + (2 if pa == ra else 0)
+
+
+def sync_results_from_api(db: Session) -> dict:
+    """Fetch finished World Cup 2026 matches from football-data.org and update DB."""
+    api_key = settings.football_data_api_key
+    if not api_key:
+        return {"error": "FOOTBALL_DATA_API_KEY not set", "updated": 0}
+
+    resp = httpx.get(
+        "https://api.football-data.org/v4/competitions/WC/matches",
+        headers={"X-Auth-Token": api_key},
+        params={"status": "FINISHED"},
+        timeout=15,
+    )
+    resp.raise_for_status()
+    matches_data = resp.json().get("matches", [])
+
+    updated = 0
+    for m_api in matches_data:
+        score = m_api.get("score", {}).get("fullTime", {})
+        home_score = score.get("home")
+        away_score = score.get("away")
+        if home_score is None or away_score is None:
+            continue
+
+        # Match by kickoff UTC time (strip timezone for comparison with naive DB datetimes)
+        utc_date = datetime.fromisoformat(m_api["utcDate"].replace("Z", "+00:00"))
+        naive_utc = utc_date.replace(tzinfo=None)
+
+        db_match = db.query(Match).filter(Match.kickoff_utc == naive_utc).first()
+        if not db_match:
+            continue
+
+        if db_match.is_finished and db_match.home_score == home_score and db_match.away_score == away_score:
+            continue  # already up to date
+
+        db_match.home_score = home_score
+        db_match.away_score = away_score
+        db_match.is_finished = True
+        for pred in db_match.predictions:
+            pred.points = _calc_points(pred.home_score, pred.away_score, home_score, away_score)
+        updated += 1
+
+    db.commit()
+    return {"updated": updated, "total_finished": len(matches_data)}
+
+
+@router.post("/sync")
+def sync_results(db: Session = Depends(get_db), _: Participant = Depends(get_current_admin)):
+    """Manually trigger a sync of World Cup results from football-data.org."""
+    result = sync_results_from_api(db)
+    if "error" in result:
+        raise HTTPException(500, result["error"])
+    return result
