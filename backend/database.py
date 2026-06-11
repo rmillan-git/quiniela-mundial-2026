@@ -10,6 +10,8 @@ class Settings(BaseSettings):
     algorithm: str = "HS256"
     access_token_expire_minutes: int = 60 * 24 * 7  # 1 week
     football_data_api_key: str = ""
+    gmail_user: str = ""
+    gmail_app_password: str = ""
 
     class Config:
         env_file = ".env"

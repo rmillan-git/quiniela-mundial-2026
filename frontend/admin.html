@@ -41,6 +41,7 @@
         <div class="d-flex justify-content-between align-items-center mb-3">
           <h5 class="mb-0">Gestionar Participantes</h5>
           <button class="btn btn-success btn-sm me-1" id="btn-export-excel">📊 Exportar Excel</button>
+          <button class="btn btn-primary btn-sm me-1" id="btn-send-report">📧 Enviar Reporte</button>
           <button class="btn btn-outline-success btn-sm" id="btn-export-csv">📥 Exportar CSV</button>
         </div>
         <div id="part-loading" class="text-center py-3"><div class="spinner-border text-warning" role="status"></div></div>
@@ -383,6 +384,26 @@
       }
       btn.disabled = false;
       btn.textContent = "📊 Exportar Excel";
+    });
+
+    // ── Send Report ──────────────────────────────────────────────────────────
+    document.getElementById("btn-send-report").addEventListener("click", async () => {
+      if (!confirm("¿Enviar reporte diario con Excel adjunto a todos los participantes?")) return;
+      const btn = document.getElementById("btn-send-report");
+      btn.disabled = true;
+      btn.textContent = "Enviando…";
+      try {
+        const res = await api.post("/admin/send-report", {});
+        if (res.sent != null) {
+          alert(`✅ Reporte enviado a ${res.sent} participante(s).${res.failed?.length ? "\n⚠️ Fallidos: " + res.failed.join(", ") : ""}`);
+        } else {
+          alert("❌ Error: " + (res.detail || JSON.stringify(res)));
+        }
+      } catch(e) {
+        alert("❌ Error enviando reporte: " + e.message);
+      }
+      btn.disabled = false;
+      btn.textContent = "📧 Enviar Reporte";
     });
 
     // ── Export CSV ───────────────────────────────────────────────────────────

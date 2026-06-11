@@ -16,6 +16,10 @@ services:
         value: millan.ricardo@gmail.com
       - key: FOOTBALL_DATA_API_KEY
         value: 3cddaa716d0c469f9a6fab31f39cfdfb
+      - key: GMAIL_USER
+        value: millan.ricardo@gmail.com
+      - key: GMAIL_APP_PASSWORD
+        value: qhkqwkwcdhagbbto
 
   - type: web
     name: quiniela-frontend

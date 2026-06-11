@@ -1,12 +1,18 @@
 import io
+import smtplib
 import traceback
+from datetime import datetime
+from email.mime.multipart import MIMEMultipart
+from email.mime.base import MIMEBase
+from email.mime.text import MIMEText
+from email import encoders
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import Response
 from sqlalchemy.orm import Session
 from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 from openpyxl.utils import get_column_letter
-from database import get_db
+from database import get_db, settings
 from models import Match, Participant, Prediction
 from routes.auth import get_current_admin
 
@@ -219,3 +225,89 @@ def export_excel(db: Session = Depends(get_db), _: Participant = Depends(get_cur
         media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         headers={"Content-Disposition": "attachment; filename=quiniela-mundial-2026.xlsx"},
     )
+
+
+@router.post("/send-report")
+def send_report(db: Session = Depends(get_db), _: Participant = Depends(get_current_admin)):
+    if not settings.gmail_user or not settings.gmail_app_password:
+        raise HTTPException(500, "Gmail credentials not configured")
+
+    try:
+        excel_data = build_excel(db)
+    except Exception as e:
+        raise HTTPException(500, detail=f"Excel build failed: {e}")
+
+    participants = (
+        db.query(Participant)
+        .filter_by(is_approved=True)
+        .all()
+    )
+    recipients = [p.email for p in participants if p.email]
+    today = datetime.now().strftime("%B %d, %Y")
+    filename = f"quiniela-mundial-2026-{datetime.now().strftime('%Y-%m-%d')}.xlsx"
+
+    # Build leaderboard summary for email body
+    preds = db.query(Prediction).all()
+    pred_map = {(p.match_id, p.participant_id): p for p in preds}
+    matches = db.query(Match).all()
+    scores = []
+    for p in participants:
+        if p.is_admin: continue
+        total = sum(
+            pred_map[(m.id, p.id)].points or 0
+            for m in matches
+            if (m.id, p.id) in pred_map and pred_map[(m.id, p.id)].points is not None
+        )
+        scores.append((p.name, total))
+    scores.sort(key=lambda x: x[1], reverse=True)
+
+    standings_html = "".join(
+        f"<tr><td>{i}</td><td>{name}</td><td><b>{pts}</b></td></tr>"
+        for i, (name, pts) in enumerate(scores, 1)
+    )
+
+    html_body = f"""
+    <html><body>
+    <h2>⚽ Quiniela Mundial 2026 — Daily Report</h2>
+    <p>{today}</p>
+    <h3>📊 Current Standings</h3>
+    <table border="1" cellpadding="6" cellspacing="0" style="border-collapse:collapse">
+      <tr style="background:#1F4E79;color:white"><th>#</th><th>Name</th><th>Points</th></tr>
+      {standings_html}
+    </table>
+    <p>See the full predictions and results in the attached Excel file.</p>
+    <p>🌍 <a href="https://quiniela-frontend-l8j1.onrender.com">View Leaderboard</a></p>
+    </body></html>
+    """
+
+    sent = 0
+    failed = []
+    try:
+        server = smtplib.SMTP("smtp.gmail.com", 587)
+        server.starttls()
+        server.login(settings.gmail_user, settings.gmail_app_password)
+
+        for recipient in recipients:
+            try:
+                msg = MIMEMultipart()
+                msg["From"] = settings.gmail_user
+                msg["To"] = recipient
+                msg["Subject"] = f"⚽ Quiniela Mundial 2026 — Daily Report {today}"
+                msg.attach(MIMEText(html_body, "html"))
+
+                part = MIMEBase("application", "vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                part.set_payload(excel_data)
+                encoders.encode_base64(part)
+                part.add_header("Content-Disposition", f"attachment; filename={filename}")
+                msg.attach(part)
+
+                server.sendmail(settings.gmail_user, recipient, msg.as_string())
+                sent += 1
+            except Exception as e:
+                failed.append(f"{recipient}: {e}")
+
+        server.quit()
+    except Exception as e:
+        raise HTTPException(500, detail=f"SMTP error: {e}")
+
+    return {"sent": sent, "failed": failed, "recipients": recipients}
