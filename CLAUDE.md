@@ -3,12 +3,20 @@
 ## Owner
 - Ricardo Millan (admin)
 - GitHub: rmillan-git
+- Admin email: millan.ricardo@gmail.com (Gmail, also used for daily reports)
+- Personal email: millan.ricardo@yahoo.com (Yahoo — Ricardo's login account)
+
+## Deployment (Render.com)
+- Frontend: https://quiniela-frontend-l8j1.onrender.com
+- Backend API: https://quiniela-backend-XXXX.onrender.com (check Render dashboard)
+- Deploy is automatic: every `git push` to main triggers a redeploy on Render
+- Free tier — backend may sleep after inactivity
 
 ## Tech Stack
 - Backend: FastAPI (Python)
-- Database: PostgreSQL
-- Frontend: HTML + Bootstrap 5
-- Deploy: Render.com (free tier)
+- Database: PostgreSQL (Render managed)
+- Frontend: HTML + Bootstrap 5 (static site on Render)
+- Deploy: Render.com
 - Local Dev: Podman + podman-compose
 
 ## World Cup 2026 Format
@@ -29,7 +37,6 @@
 - Exact score: 9 points
 - Correct winner/draw (wrong score): 7 points
 - Wrong prediction: 0 points
-- Knockout stage bonus: TBD
 
 ## Groups
 | Group | Teams |
@@ -48,55 +55,95 @@
 | L | Japan, Saudi Arabia, Iran, Iraq |
 
 ## Timezones
-- All times displayed in CST (Houston, TX)
+- All times displayed in CST/CDT (Houston, TX)
 
-## Participants
-- Open registration - participants register themselves via web
-- Admin (Ricardo) can approve/manage participants
-- Each participant gets their own prediction profile
-
-## Participant Data per User
-- Name
-- Email
-- Registration date
-- Predictions per match (home goals - away goals)
-- Total points
-- Points per round breakdown
-
-## Project Structure (target)
+## Project Structure
+```
 quiniela-mundial-2026/
 ├── backend/
-│   ├── main.py
-│   ├── models.py
-│   ├── database.py
+│   ├── main.py               # FastAPI app, lifespan, background tasks
+│   ├── models.py             # SQLAlchemy models: Participant, Team, Match, Prediction
+│   ├── database.py           # DB engine, Settings (pydantic), get_db
 │   ├── routes/
-│   │   ├── auth.py
-│   │   ├── participants.py
-│   │   ├── matches.py
-│   │   ├── predictions.py
-│   │   └── leaderboard.py
+│   │   ├── auth.py           # register, login, get_current_participant/admin
+│   │   ├── participants.py   # list, approve, delete participants
+│   │   ├── matches.py        # CRUD matches, sync from football-data.org
+│   │   ├── predictions.py    # upsert predictions, view all predictions
+│   │   ├── leaderboard.py    # public leaderboard
+│   │   └── export.py         # Excel export, send email report
 │   └── requirements.txt
 ├── frontend/
-│   ├── index.html        # leaderboard public
-│   ├── register.html     # participant registration
-│   ├── predictions.html  # enter/view predictions
-│   ├── groups.html       # group stage tables
-│   ├── bracket.html      # knockout bracket
-│   └── admin.html        # admin panel (Ricardo only)
+│   ├── index.html            # leaderboard (public)
+│   ├── register.html         # login / registration
+│   ├── predictions.html      # enter/view my predictions
+│   ├── groups.html           # group stage standings tables
+│   ├── bracket.html          # knockout bracket visualization
+│   ├── all-predictions.html  # all participants' predictions grid
+│   ├── admin.html            # admin panel (Ricardo only)
+│   ├── _headers              # Cache-Control: no-cache for HTML/JS
+│   ├── css/style.css
+│   └── js/
+│       ├── api.js
+│       ├── auth.js
+│       └── i18n.js
 ├── podman-compose.yml
 ├── render.yaml
 └── CLAUDE.md
+```
 
-## Key Features
-1. Open registration - anyone with the link can join
-2. Predictions locked once match starts
-3. Admin panel (Ricardo only) - enter real match results
+## Key Features Implemented
+1. Open registration — auto-approved (no manual approval needed)
+2. Global prediction deadline: June 11, 2026 8:00 PM CDT (2026-06-12T01:00:00Z)
+   - Individual match also locks once its kickoff time passes
+   - This means Mexico-South Africa (first match) locks at kickoff, all others at 8 PM CDT
+3. Admin panel (Ricardo only) — enter real match results, manage participants
 4. Auto-calculate points after each result entered
 5. Live leaderboard updated in real time
-6. Group tables (G, W, D, L, GF, GA, GAvg, PTS)
-7. Knockout bracket visualization
-8. All times in CST (Houston, TX)
-9. Mobile friendly (Bootstrap 5)
+6. Group standings tables (G, W, D, L, GF, GA, PTS)
+7. Knockout bracket visualization with CSS connectors
+8. All predictions view — revealed after global deadline, locked before
+9. Excel export with full predictions grid + leaderboard sheet (openpyxl)
+10. Daily email report at 8 AM CDT (13:00 UTC) — Excel attached, sent to all participants via Gmail
+11. Auto-sync results from football-data.org every 5 minutes (background task)
+12. Mobile friendly (Bootstrap 5), cache-busting headers
+
+## Background Tasks (main.py lifespan)
+- `_auto_sync()` — every 300s, fetches WC results from football-data.org API, updates scores + points
+- `_daily_report()` — fires at 13:00 UTC (8 AM CDT) daily, sends Excel report to all approved participants
+
+## External APIs
+- football-data.org: competition code "WC", API key in env var FOOTBALL_DATA_API_KEY
+  - Matches fetched by kickoff_utc, matched to DB by time
+
+## Environment Variables (set in Render dashboard + render.yaml)
+- DATABASE_URL — PostgreSQL connection string (auto-set by Render from DB)
+- SECRET_KEY — JWT signing key (auto-generated by Render)
+- ADMIN_EMAIL — millan.ricardo@gmail.com
+- FOOTBALL_DATA_API_KEY — for auto-sync
+- GMAIL_USER — millan.ricardo@gmail.com
+- GMAIL_APP_PASSWORD — Gmail app password for SMTP
+
+## Admin Credentials
+- Ricardo admin account email: millan.ricardo@yahoo.com (Yahoo)
+- Admin is identified by is_admin=True in DB
+
+## Critical Rules — READ BEFORE DOING ANYTHING
+1. **NEVER delete or wipe any data (participants, predictions) via API calls without explicit instruction from Ricardo.** This has caused real data loss before. If a delete is needed, let Ricardo do it himself.
+2. **NEVER call destructive API endpoints to "test" them.** Testing destructive actions is Ricardo's responsibility.
+3. **Do not make unrequested changes.** Only implement what was explicitly asked. Do not refactor, reorganize, or add features beyond the specific request.
+4. **seed_data.py must NOT be run on deploy.** It was previously wired into the startCommand and wiped all participants on every deploy. The startCommand in render.yaml is now just `uvicorn main:app --host 0.0.0.0 --port $PORT` — do not add seed_data.py back.
+
+## Known Issues / History
+- Carlievy Millán (carlievymp@gmail.com) had her account accidentally deleted during a testing incident. Account was recreated with temporary password carlievy123. She re-entered her predictions.
+- Mobile browsers were caching old JS — fixed with _headers file (Cache-Control: no-cache) and meta tags in predictions.html.
+- Empty prediction fields were blocking the entire save — fixed to skip empty fields and only block truly invalid values (out of range).
+- Excel merge_cells requires keyword args in openpyxl (not positional) — the `_merge()` helper in export.py handles this.
+
+## Participants
+- Open registration — anyone with the link can join
+- Auto-approved on registration (is_approved=True by default)
+- Each participant gets their own prediction profile
+- All approved participants receive the daily email report
 
 ## Previous Pools Reference
 - 2018 Russia: 15 participants
