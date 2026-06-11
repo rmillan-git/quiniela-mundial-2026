@@ -59,7 +59,7 @@ def register(req: RegisterRequest, db: Session = Depends(get_db)):
         email=req.email,
         hashed_password=pwd_context.hash(req.password),
         is_admin=False,
-        is_approved=False,
+        is_approved=True,
     )
     db.add(p)
     db.commit()
