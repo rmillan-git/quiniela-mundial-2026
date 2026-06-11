@@ -20,7 +20,7 @@ def match_to_dict(m: Match) -> dict:
         "away_team": m.away_team.name if m.away_team else m.away_team_placeholder,
         "home_flag": m.home_team.flag_emoji if m.home_team else "🏳️",
         "away_flag": m.away_team.flag_emoji if m.away_team else "🏳️",
-        "kickoff_utc": m.kickoff_utc.isoformat() if m.kickoff_utc else None,
+        "kickoff_utc": m.kickoff_utc.isoformat() + "Z" if m.kickoff_utc else None,
         "venue": m.venue,
         "home_score": m.home_score,
         "away_score": m.away_score,
