@@ -17,7 +17,7 @@ class Participant(Base):
     is_approved = Column(Boolean, default=False)
     registered_at = Column(DateTime, default=datetime.utcnow)
 
-    predictions = relationship("Prediction", back_populates="participant")
+    predictions = relationship("Prediction", back_populates="participant", cascade="all, delete-orphan")
 
 
 class Team(Base):

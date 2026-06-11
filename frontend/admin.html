@@ -264,8 +264,12 @@
 
     async function removeParticipant(id) {
       if (!confirm("¿Eliminar este participante?")) return;
-      await api.delete(`/participants/${id}`);
-      document.getElementById(`row-${id}`).remove();
+      try {
+        await api.delete(`/participants/${id}`);
+        document.getElementById(`row-${id}`).remove();
+      } catch (e) {
+        alert("Error al eliminar participante: " + (e.message || e));
+      }
     }
 
     // ── Reset Password ───────────────────────────────────────────────────────
