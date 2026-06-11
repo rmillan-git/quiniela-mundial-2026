@@ -31,6 +31,7 @@ def my_predictions(current=Depends(get_current_participant), db: Session = Depen
 
 
 PREDICTIONS_REVEAL_UTC = datetime(2026, 6, 10, 5, 0, 0, tzinfo=timezone.utc)  # Jun 10 00:00 CST
+PREDICTIONS_CLOSE_UTC  = datetime(2026, 6, 11, 17, 0, 0, tzinfo=timezone.utc)  # Jun 11 12:00 PM CDT
 
 
 @router.get("/all")
@@ -77,8 +78,8 @@ def upsert_prediction(
     match = db.query(Match).get(match_id)
     if not match:
         raise HTTPException(404, "Match not found")
-    if datetime.now(timezone.utc) >= match.kickoff_utc.replace(tzinfo=timezone.utc):
-        raise HTTPException(400, "Predictions locked — match has started")
+    if datetime.now(timezone.utc) >= PREDICTIONS_CLOSE_UTC:
+        raise HTTPException(400, "Predictions locked — deadline has passed (June 11 12:00 PM CT)")
 
     pred = db.query(Prediction).filter_by(participant_id=current.id, match_id=match_id).first()
     if pred:
