@@ -87,6 +87,20 @@ def assign_teams(mid: int, req: TeamAssignRequest, db: Session = Depends(get_db)
     return match_to_dict(m)
 
 
+@router.patch("/{mid}/reset")
+def reset_result(mid: int, db: Session = Depends(get_db), _: Participant = Depends(get_current_admin)):
+    m = db.query(Match).get(mid)
+    if not m:
+        raise HTTPException(404, "Match not found")
+    m.home_score = None
+    m.away_score = None
+    m.is_finished = False
+    for pred in m.predictions:
+        pred.points = None
+    db.commit()
+    return match_to_dict(m)
+
+
 @router.post("/recalculate")
 def recalculate_all(db: Session = Depends(get_db), _: Participant = Depends(get_current_admin)):
     """Re-score all predictions for every finished match."""
