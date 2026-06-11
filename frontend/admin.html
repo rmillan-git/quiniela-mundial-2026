@@ -374,8 +374,10 @@
         const a = document.createElement("a");
         a.href = url;
         a.download = `quiniela-mundial-2026-${new Date().toISOString().slice(0,10)}.xlsx`;
+        a.style.display = "none";
+        document.body.appendChild(a);
         a.click();
-        URL.revokeObjectURL(url);
+        setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 1000);
       } catch (e) {
         alert("Error generando Excel: " + e.message);
       }
