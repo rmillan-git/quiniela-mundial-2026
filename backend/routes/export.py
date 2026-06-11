@@ -206,7 +206,12 @@ def build_excel(db: Session) -> bytes:
 
 @router.get("/export/excel")
 def export_excel(db: Session = Depends(get_db), _: Participant = Depends(get_current_admin)):
-    data = build_excel(db)
+    try:
+        data = build_excel(db)
+    except Exception as e:
+        import traceback
+        from fastapi import HTTPException
+        raise HTTPException(500, detail=f"{type(e).__name__}: {e}\n{traceback.format_exc()}")
     return Response(
         content=data,
         media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
