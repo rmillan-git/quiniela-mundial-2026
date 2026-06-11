@@ -18,7 +18,9 @@ def _calc_points(ph: int, pa: int, rh: int, ra: int) -> int:
     def outcome(h, a): return "home" if h > a else ("away" if a > h else "draw")
     if outcome(ph, pa) != outcome(rh, ra):
         return 0
-    return 5 + (2 if ph == rh else 0) + (2 if pa == ra else 0)
+    if ph == rh and pa == ra:
+        return 9
+    return 7
 
 
 @router.get("/my")
@@ -53,7 +55,7 @@ def all_predictions(current=Depends(get_current_participant), db: Session = Depe
                 "home_flag": m.home_flag, "away_flag": m.away_flag,
                 "home_score": m.home_score, "away_score": m.away_score,
                 "is_finished": m.is_finished,
-                "kickoff_utc": m.kickoff_utc.isoformat() if m.kickoff_utc else None,
+                "kickoff_utc": m.kickoff_utc.isoformat() + "Z" if m.kickoff_utc else None,
             }
             for m in matches_q
         ],
