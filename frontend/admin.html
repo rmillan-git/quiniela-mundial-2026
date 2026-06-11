@@ -504,8 +504,9 @@
       const el = document.getElementById("sync-result");
       try {
         const res = await api.post("/matches/sync", {});
+        if (res.error || res.detail) throw new Error(res.error || res.detail);
         el.className = "alert alert-success mt-2";
-        el.textContent = `✅ Sincronización completa — ${res.updated} partido(s) actualizado(s) de ${res.total_finished} terminado(s).`;
+        el.textContent = `✅ Sincronización completa — ${res.updated ?? 0} partido(s) actualizado(s) de ${res.total_finished ?? 0} terminado(s).`;
       } catch (e) {
         el.className = "alert alert-danger mt-2";
         el.textContent = "❌ Error al sincronizar. Revisa que FOOTBALL_DATA_API_KEY esté configurado en Render.";
