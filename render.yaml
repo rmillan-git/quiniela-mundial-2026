@@ -20,6 +20,8 @@ services:
         value: millan.ricardo@gmail.com
       - key: GMAIL_APP_PASSWORD
         value: qhkqwkwcdhagbbto
+      - key: CRON_SECRET
+        value: quiniela2026cron
 
   - type: web
     name: quiniela-frontend
