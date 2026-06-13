@@ -36,9 +36,6 @@ PREDICTIONS_CLOSE_UTC  = datetime(2026, 6, 12, 1, 0, 0, tzinfo=timezone.utc)  # 
 @router.get("/all")
 def all_predictions(current=Depends(get_current_participant), db: Session = Depends(get_db)):
     """All participants' predictions — revealed after close time (admins can always view)."""
-    if not current.is_admin and datetime.now(timezone.utc) < PREDICTIONS_CLOSE_UTC:
-        raise HTTPException(423, "Predictions are locked until June 10, 2026")
-
     participants = db.query(Participant).filter_by(is_approved=True).order_by(Participant.name).all()
     matches_q = db.query(Match).order_by(Match.match_number).all()
     preds = db.query(Prediction).join(Participant).filter(Participant.is_approved == True).all()
@@ -78,8 +75,6 @@ def upsert_prediction(
     if not match:
         raise HTTPException(404, "Match not found")
     now = datetime.now(timezone.utc)
-    if now >= PREDICTIONS_CLOSE_UTC:
-        raise HTTPException(400, "Predictions locked — deadline has passed (June 11 8:00 PM CT)")
     kickoff = match.kickoff_utc if match.kickoff_utc.tzinfo else match.kickoff_utc.replace(tzinfo=timezone.utc)
     if now >= kickoff:
         raise HTTPException(400, "Predictions locked — this match has already started")

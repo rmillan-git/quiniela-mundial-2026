@@ -82,10 +82,8 @@
       return `${local} <span class="text-muted">(${cst} CST)</span>`;
     }
 
-    const PREDICTIONS_CLOSE = new Date("2026-06-12T01:00:00Z"); // Jun 11 8:00 PM CDT
     function isLocked(kickoffUtc) {
-      const now = new Date();
-      return now >= PREDICTIONS_CLOSE || (kickoffUtc && now >= new Date(kickoffUtc));
+      return kickoffUtc && new Date() >= new Date(kickoffUtc);
     }
 
     function validateScore(val) {

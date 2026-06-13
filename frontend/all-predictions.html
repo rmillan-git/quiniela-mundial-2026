@@ -55,9 +55,7 @@
     <div id="locked-msg" class="d-none">
       <div class="alert alert-warning text-center py-4">
         <h4>🔒 <span data-i18n="allpreds.locked_title">Predicciones bloqueadas</span></h4>
-        <p class="mb-1" data-i18n="allpreds.locked_sub">Las predicciones de todos los participantes se revelarán el</p>
-        <p class="fw-bold fs-5 mb-0">📅 11 de junio de 2026 — 8:00 PM CT</p>
-        <p class="text-muted small mt-1" data-i18n="allpreds.locked_reason">Para que nadie pueda copiar las predicciones de los demás antes del cierre.</p>
+        <p class="mb-1" data-i18n="allpreds.locked_sub">Las predicciones se revelan una vez que inicia el torneo.</p>
       </div>
     </div>
 
@@ -75,7 +73,7 @@
 
     function scoreClass(points) {
       if (points === 9) return "pred-exact";
-      if (points === 7) return "pred-outcome";
+      if (points >= 5) return "pred-outcome";
       if (points === 0) return "pred-wrong";
       return "pred-none";
     }
