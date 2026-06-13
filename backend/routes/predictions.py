@@ -46,8 +46,10 @@ def all_predictions(current=Depends(get_current_participant), db: Session = Depe
             {
                 "id": m.id, "match_number": m.match_number, "round": m.round,
                 "group": m.group,
-                "home_team": m.home_team, "away_team": m.away_team,
-                "home_flag": m.home_flag, "away_flag": m.away_flag,
+                "home_team": m.home_team.name if m.home_team else m.home_team_placeholder,
+                "away_team": m.away_team.name if m.away_team else m.away_team_placeholder,
+                "home_flag": m.home_team.flag_emoji if m.home_team else "🏳️",
+                "away_flag": m.away_team.flag_emoji if m.away_team else "🏳️",
                 "home_score": m.home_score, "away_score": m.away_score,
                 "is_finished": m.is_finished,
                 "kickoff_utc": m.kickoff_utc.isoformat() + "Z" if m.kickoff_utc else None,
