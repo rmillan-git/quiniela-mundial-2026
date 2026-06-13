@@ -124,9 +124,7 @@ def _outcome(h: int, a: int) -> str:
 def _calc_points(ph: int, pa: int, rh: int, ra: int) -> int:
     if _outcome(ph, pa) != _outcome(rh, ra):
         return 0
-    if ph == rh and pa == ra:
-        return 9
-    return 7
+    return 5 + (2 if ph == rh else 0) + (2 if pa == ra else 0)
 
 
 def sync_results_from_api(db: Session) -> dict:
