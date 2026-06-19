@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
@@ -160,7 +160,26 @@ def sync_results_from_api(db: Session) -> dict:
         utc_date = datetime.fromisoformat(m_api["utcDate"].replace("Z", "+00:00"))
         naive_utc = utc_date.replace(tzinfo=None)
 
+        api_home = m_api.get("homeTeam", {}).get("name", "")
+        api_away = m_api.get("awayTeam", {}).get("name", "")
+
         candidates = db.query(Match).filter(Match.kickoff_utc == naive_utc).all()
+
+        # Fallback: if no exact time match, try ±15 min window with team name verification
+        # (handles cases where API returns actual kickoff time instead of scheduled time)
+        if not candidates and api_home and api_away:
+            window_start = naive_utc - timedelta(minutes=15)
+            window_end = naive_utc + timedelta(minutes=15)
+            nearby = db.query(Match).filter(
+                Match.kickoff_utc >= window_start,
+                Match.kickoff_utc <= window_end,
+            ).all()
+            for c in nearby:
+                if c.home_team and c.away_team:
+                    if _name_matches(api_home, c.home_team.name) and _name_matches(api_away, c.away_team.name):
+                        candidates = [c]
+                        break
+
         if not candidates:
             continue
 
@@ -169,8 +188,6 @@ def sync_results_from_api(db: Session) -> dict:
             db_match = candidates[0]
         else:
             # Multiple matches at same kickoff time — disambiguate by team name
-            api_home = m_api.get("homeTeam", {}).get("name", "")
-            api_away = m_api.get("awayTeam", {}).get("name", "")
             for c in candidates:
                 if c.home_team and c.away_team:
                     if _name_matches(api_home, c.home_team.name) and _name_matches(api_away, c.away_team.name):
