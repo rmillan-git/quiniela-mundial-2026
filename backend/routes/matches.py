@@ -127,6 +127,12 @@ def _calc_points(ph: int, pa: int, rh: int, ra: int) -> int:
     return 5 + (2 if ph == rh else 0) + (2 if pa == ra else 0)
 
 
+def _name_matches(api_name: str, db_name: str) -> bool:
+    """Loose team name comparison to handle minor differences between sources."""
+    a, b = api_name.lower().strip(), db_name.lower().strip()
+    return a == b or a in b or b in a
+
+
 def sync_results_from_api(db: Session) -> dict:
     """Fetch finished World Cup 2026 matches from football-data.org and update DB."""
     api_key = settings.football_data_api_key
@@ -154,9 +160,24 @@ def sync_results_from_api(db: Session) -> dict:
         utc_date = datetime.fromisoformat(m_api["utcDate"].replace("Z", "+00:00"))
         naive_utc = utc_date.replace(tzinfo=None)
 
-        db_match = db.query(Match).filter(Match.kickoff_utc == naive_utc).first()
-        if not db_match:
+        candidates = db.query(Match).filter(Match.kickoff_utc == naive_utc).all()
+        if not candidates:
             continue
+
+        db_match = None
+        if len(candidates) == 1:
+            db_match = candidates[0]
+        else:
+            # Multiple matches at same kickoff time — disambiguate by team name
+            api_home = m_api.get("homeTeam", {}).get("name", "")
+            api_away = m_api.get("awayTeam", {}).get("name", "")
+            for c in candidates:
+                if c.home_team and c.away_team:
+                    if _name_matches(api_home, c.home_team.name) and _name_matches(api_away, c.away_team.name):
+                        db_match = c
+                        break
+            if not db_match:
+                db_match = candidates[0]  # fallback
 
         if db_match.is_finished and db_match.home_score == home_score and db_match.away_score == away_score:
             continue  # already up to date
