@@ -20,11 +20,16 @@ def match_to_dict(m: Match) -> dict:
         "away_team": m.away_team.name if m.away_team else m.away_team_placeholder,
         "home_flag": m.home_team.flag_emoji if m.home_team else "🏳️",
         "away_flag": m.away_team.flag_emoji if m.away_team else "🏳️",
+        "home_team_id": m.home_team_id,
+        "away_team_id": m.away_team_id,
         "kickoff_utc": m.kickoff_utc.isoformat() + "Z" if m.kickoff_utc else None,
         "venue": m.venue,
         "home_score": m.home_score,
         "away_score": m.away_score,
         "is_finished": m.is_finished,
+        "winner_id": m.winner_id,
+        "winner_name": m.winner.name if m.winner else None,
+        "winner_flag": m.winner.flag_emoji if m.winner else None,
     }
 
 
@@ -49,6 +54,7 @@ def get_match(mid: int, db: Session = Depends(get_db)):
 class ResultRequest(BaseModel):
     home_score: int
     away_score: int
+    winner_id: int | None = None  # team ID that advances — only for knockout draws (penalties)
 
 
 @router.patch("/{mid}/result")
@@ -59,8 +65,17 @@ def set_result(mid: int, req: ResultRequest, db: Session = Depends(get_db), _: P
     m.home_score = req.home_score
     m.away_score = req.away_score
     m.is_finished = True
+    if req.winner_id is not None:
+        m.winner_id = req.winner_id
     for pred in m.predictions:
-        pred.points = _calc_points(pred.home_score, pred.away_score, req.home_score, req.away_score)
+        pred.points = _calc_points(
+            pred.home_score, pred.away_score, req.home_score, req.away_score,
+            round_=m.round,
+            pred_winner_side=getattr(pred, "predicted_winner_side", None),
+            winner_id=req.winner_id or m.winner_id,
+            home_team_id=m.home_team_id,
+            away_team_id=m.away_team_id,
+        )
     db.commit()
     return match_to_dict(m)
 
@@ -109,10 +124,20 @@ def recalculate_all(db: Session = Depends(get_db), _: Participant = Depends(get_
     total = 0
     for m in matches:
         for pred in m.predictions:
-            pred.points = _calc_points(pred.home_score, pred.away_score, m.home_score, m.away_score)
+            pred.points = _calc_points(
+                pred.home_score, pred.away_score, m.home_score, m.away_score,
+                round_=m.round,
+                pred_winner_side=getattr(pred, "predicted_winner_side", None),
+                winner_id=m.winner_id,
+                home_team_id=m.home_team_id,
+                away_team_id=m.away_team_id,
+            )
             total += 1
     db.commit()
     return {"rescored": total}
+
+
+KNOCKOUT_ROUNDS = {"round_of_32", "round_of_16", "qf", "sf", "final"}
 
 
 def _outcome(h: int, a: int) -> str:
@@ -121,10 +146,38 @@ def _outcome(h: int, a: int) -> str:
     return "draw"
 
 
-def _calc_points(ph: int, pa: int, rh: int, ra: int) -> int:
-    if _outcome(ph, pa) != _outcome(rh, ra):
-        return 0
-    return 5 + (2 if ph == rh else 0) + (2 if pa == ra else 0)
+def _calc_points(
+    ph: int, pa: int, rh: int, ra: int,
+    round_: str = "group_stage",
+    pred_winner_side: str | None = None,
+    winner_id: int | None = None,
+    home_team_id: int | None = None,
+    away_team_id: int | None = None,
+) -> int:
+    if round_ in KNOCKOUT_ROUNDS:
+        # Determine actual winner side
+        if rh > ra:
+            actual_side = "home"
+        elif ra > rh:
+            actual_side = "away"
+        else:
+            if winner_id is None:
+                return 0  # penalty winner not set yet
+            actual_side = "home" if winner_id == home_team_id else "away"
+        # Determine predicted winner side
+        if ph > pa:
+            pred_side = "home"
+        elif pa > ph:
+            pred_side = "away"
+        else:
+            pred_side = pred_winner_side  # None if participant didn't pick penalty winner
+        if not pred_side or pred_side != actual_side:
+            return 0
+        return 5 + (2 if ph == rh else 0) + (2 if pa == ra else 0)
+    else:
+        if _outcome(ph, pa) != _outcome(rh, ra):
+            return 0
+        return 5 + (2 if ph == rh else 0) + (2 if pa == ra else 0)
 
 
 def _name_matches(api_name: str, db_name: str) -> bool:
@@ -203,7 +256,14 @@ def sync_results_from_api(db: Session) -> dict:
         db_match.away_score = away_score
         db_match.is_finished = True
         for pred in db_match.predictions:
-            pred.points = _calc_points(pred.home_score, pred.away_score, home_score, away_score)
+            pred.points = _calc_points(
+                pred.home_score, pred.away_score, home_score, away_score,
+                round_=db_match.round,
+                pred_winner_side=getattr(pred, "predicted_winner_side", None),
+                winner_id=db_match.winner_id,
+                home_team_id=db_match.home_team_id,
+                away_team_id=db_match.away_team_id,
+            )
         updated += 1
 
     db.commit()

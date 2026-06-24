@@ -12,20 +12,23 @@ router = APIRouter(prefix="/predictions", tags=["predictions"])
 class PredictionRequest(BaseModel):
     home_score: int
     away_score: int
+    predicted_winner_side: str | None = None  # "home" or "away" — knockout only, when predicting a draw
 
 
-def _calc_points(ph: int, pa: int, rh: int, ra: int) -> int:
-    def outcome(h, a): return "home" if h > a else ("away" if a > h else "draw")
-    if outcome(ph, pa) != outcome(rh, ra):
-        return 0
-    return 5 + (2 if ph == rh else 0) + (2 if pa == ra else 0)
+from routes.matches import _calc_points, KNOCKOUT_ROUNDS
 
 
 @router.get("/my")
 def my_predictions(current=Depends(get_current_participant), db: Session = Depends(get_db)):
     preds = db.query(Prediction).filter_by(participant_id=current.id).all()
     return [
-        {"match_id": p.match_id, "home_score": p.home_score, "away_score": p.away_score, "points": p.points}
+        {
+            "match_id": p.match_id,
+            "home_score": p.home_score,
+            "away_score": p.away_score,
+            "points": p.points,
+            "predicted_winner_side": p.predicted_winner_side,
+        }
         for p in preds
     ]
 
@@ -85,18 +88,26 @@ def upsert_prediction(
     if pred:
         pred.home_score = req.home_score
         pred.away_score = req.away_score
+        pred.predicted_winner_side = req.predicted_winner_side
     else:
         pred = Prediction(
             participant_id=current.id,
             match_id=match_id,
             home_score=req.home_score,
             away_score=req.away_score,
+            predicted_winner_side=req.predicted_winner_side,
         )
         db.add(pred)
 
-    # Score immediately if match already has a result (e.g. after admin simulation)
     if match.is_finished and match.home_score is not None:
-        pred.points = _calc_points(pred.home_score, pred.away_score, match.home_score, match.away_score)
+        pred.points = _calc_points(
+            pred.home_score, pred.away_score, match.home_score, match.away_score,
+            round_=match.round,
+            pred_winner_side=pred.predicted_winner_side,
+            winner_id=match.winner_id,
+            home_team_id=match.home_team_id,
+            away_team_id=match.away_team_id,
+        )
 
     db.commit()
     return {"ok": True}

@@ -95,10 +95,20 @@ async def _daily_report():
             db.close()
 
 
+def _migrate():
+    """Add new columns without dropping existing data."""
+    from sqlalchemy import text
+    with engine.connect() as conn:
+        conn.execute(text("ALTER TABLE matches ADD COLUMN IF NOT EXISTS winner_id INTEGER REFERENCES teams(id)"))
+        conn.execute(text("ALTER TABLE predictions ADD COLUMN IF NOT EXISTS predicted_winner_side VARCHAR(4)"))
+        conn.commit()
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     wait_for_db()
     Base.metadata.create_all(bind=engine)
+    _migrate()
     asyncio.create_task(_auto_sync())
     asyncio.create_task(_daily_report())
     yield

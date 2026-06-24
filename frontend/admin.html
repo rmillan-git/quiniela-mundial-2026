@@ -174,12 +174,14 @@
         container.innerHTML = '<p class="text-muted">No hay partidos pendientes de resultado ahora mismo.</p>';
       } else {
         pending.forEach(m => {
+          const isKO = !['group_stage'].includes(m.round);
           const div = document.createElement("div");
           div.className = "card mb-2";
           div.innerHTML = `
             <div class="card-body py-2 px-3">
               <div class="d-flex align-items-center gap-2 flex-wrap">
                 <span class="text-muted small">#${m.match_number} · ${toCST(m.kickoff_utc)} · ${m.venue||""}</span>
+                ${isKO ? '<span class="badge bg-info text-dark">Eliminatoria</span>' : ''}
               </div>
               <div class="d-flex align-items-center gap-2 flex-wrap mt-1">
                 <strong>${m.home_flag} ${m.home_team}</strong>
@@ -187,8 +189,20 @@
                 <span>–</span>
                 <input type="number" min="0" max="20" step="1" class="form-control form-control-sm text-center" id="a-${m.id}" style="width:60px" placeholder="0">
                 <strong>${m.away_flag} ${m.away_team}</strong>
-                <button class="btn btn-warning btn-sm ms-auto" onclick="saveResult(${m.id})">Guardar</button>
+                <button class="btn btn-warning btn-sm ms-auto" onclick="saveResult(${m.id},${isKO},${m.home_team_id||'null'},${m.away_team_id||'null'})">Guardar</button>
               </div>
+              ${isKO ? `
+              <div id="pen-section-${m.id}" class="mt-2 d-none">
+                <span class="small text-danger fw-semibold">🏆 Empate — ¿quién avanzó en penales?</span>
+                <div class="btn-group btn-group-sm ms-2">
+                  <button type="button" class="btn btn-outline-danger admin-pen-btn" data-match="${m.id}" data-team="${m.home_team_id}" onclick="selectPenWinner(${m.id},${m.home_team_id})">
+                    ${m.home_flag} ${m.home_team}
+                  </button>
+                  <button type="button" class="btn btn-outline-danger admin-pen-btn" data-match="${m.id}" data-team="${m.away_team_id}" onclick="selectPenWinner(${m.id},${m.away_team_id})">
+                    ${m.away_team} ${m.away_flag}
+                  </button>
+                </div>
+              </div>` : ''}
             </div>`;
           container.appendChild(div);
         });
@@ -209,11 +223,36 @@
       }
     }
 
-    async function saveResult(matchId) {
+    const adminPenWinners = {}; // matchId → teamId
+
+    function selectPenWinner(matchId, teamId) {
+      adminPenWinners[matchId] = teamId;
+      document.querySelectorAll(`.admin-pen-btn[data-match="${matchId}"]`).forEach(btn => {
+        const isSelected = +btn.dataset.team === teamId;
+        btn.classList.toggle('btn-danger', isSelected);
+        btn.classList.toggle('btn-outline-danger', !isSelected);
+      });
+    }
+
+    async function saveResult(matchId, isKO = false, homeTeamId = null, awayTeamId = null) {
       const h = parseInt(document.getElementById(`h-${matchId}`).value);
       const a = parseInt(document.getElementById(`a-${matchId}`).value);
       if (isNaN(h) || isNaN(a) || h < 0 || a < 0) return alert("Ingresa marcadores válidos (0 o más).");
-      const res = await api.patch(`/matches/${matchId}/result`, { home_score: h, away_score: a });
+
+      // Show penalty section if KO match ends in draw
+      if (isKO) {
+        const penSec = document.getElementById(`pen-section-${matchId}`);
+        if (penSec) penSec.classList.toggle('d-none', h !== a);
+        if (h === a && !adminPenWinners[matchId]) {
+          return alert("Es eliminatoria y hay empate — selecciona quién avanzó en penales.");
+        }
+      }
+
+      const body = { home_score: h, away_score: a };
+      if (isKO && h === a && adminPenWinners[matchId]) {
+        body.winner_id = adminPenWinners[matchId];
+      }
+      const res = await api.patch(`/matches/${matchId}/result`, body);
       if (res.id) location.reload();
       else alert("Error: " + JSON.stringify(res));
     }

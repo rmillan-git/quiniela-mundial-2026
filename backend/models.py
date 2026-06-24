@@ -49,8 +49,11 @@ class Match(Base):
     away_score = Column(Integer, nullable=True)
     is_finished = Column(Boolean, default=False)
 
+    winner_id = Column(Integer, ForeignKey("teams.id"), nullable=True)
+
     home_team = relationship("Team", foreign_keys=[home_team_id], back_populates="home_matches")
     away_team = relationship("Team", foreign_keys=[away_team_id], back_populates="away_matches")
+    winner = relationship("Team", foreign_keys=[winner_id])
     predictions = relationship("Prediction", back_populates="match")
 
 
@@ -63,6 +66,7 @@ class Prediction(Base):
     home_score = Column(Integer, nullable=False)
     away_score = Column(Integer, nullable=False)
     points = Column(Integer, nullable=True)
+    predicted_winner_side = Column(String(4), nullable=True)  # "home" or "away" — knockout only
     submitted_at = Column(DateTime, default=datetime.utcnow)
 
     participant = relationship("Participant", back_populates="predictions")

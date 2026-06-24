@@ -104,8 +104,13 @@
         api.get("/predictions/my"),
       ]);
 
+      allMatches = matches;
       const predMap = {};
-      myPreds.forEach(p => predMap[p.match_id] = p);
+      myPreds.forEach(p => {
+        predMap[p.match_id] = p;
+        // Restore saved pen selections
+        if (p.predicted_winner_side) penSelections[p.match_id] = p.predicted_winner_side;
+      });
 
       // Build lookup: match_number → short team label for bracket context
       const numToLabel = {};
@@ -185,16 +190,50 @@
         containerEl.innerHTML += html;
       });
 
-      // Render initial standings (picks up saved predictions already in the inputs)
+      // Render initial standings
       Object.keys(groupMatchesMap).forEach(g => renderGroupStandings(g, groupMatchesMap[g]));
+
+      // Apply initial cascade for KO rounds
+      applyKOCascade(allMatches, predMap);
+
+      // Penalty winner button handler
+      containerEl.addEventListener("click", e => {
+        const btn = e.target.closest(".pen-btn");
+        if (!btn) return;
+        const mid = +btn.dataset.match;
+        const side = btn.dataset.side;
+        penSelections[mid] = side;
+        // Toggle active style on both buttons
+        const other = side === 'home' ? 'away' : 'home';
+        const thisBtn = document.getElementById(`pen-${side}-${mid}`);
+        const otherBtn = document.getElementById(`pen-${other}-${mid}`);
+        if (thisBtn) { thisBtn.classList.replace('btn-outline-warning', 'btn-warning'); }
+        if (otherBtn) { otherBtn.classList.replace('btn-warning', 'btn-outline-warning'); }
+        // Update cascade
+        applyKOCascade(allMatches, predMap);
+      });
 
       // Live update as user types
       containerEl.addEventListener("input", e => {
         if (!e.target.classList.contains("pred-input")) return;
         const mid = parseInt(e.target.dataset.match);
         const m = matches.find(mx => mx.id === mid);
-        if (!m || m.round !== "group_stage") return;
-        renderGroupStandings(m.group, groupMatchesMap[m.group]);
+        if (!m) return;
+        if (m.round === "group_stage") {
+          renderGroupStandings(m.group, groupMatchesMap[m.group]);
+        } else {
+          // KO match: show/hide penalty section + update cascade
+          const hEl = document.querySelector(`.pred-input[data-match="${m.id}"][data-side="home"]`);
+          const aEl = document.querySelector(`.pred-input[data-match="${m.id}"][data-side="away"]`);
+          const ph = hEl ? hEl.value : '';
+          const pa = aEl ? aEl.value : '';
+          const penSec = document.getElementById(`pen-section-${m.id}`);
+          if (penSec) {
+            const tied = ph !== '' && pa !== '' && +ph === +pa;
+            penSec.classList.toggle('d-none', !tied);
+          }
+          applyKOCascade(allMatches, predMap);
+        }
       });
     }
 
@@ -259,6 +298,116 @@
       Object.keys(groupMatchesMap).forEach(g => renderGroupStandings(g, groupMatchesMap[g]));
     });
 
+    // ── Knockout bracket cascade map (match_number → which match/side it feeds) ─
+    const BRACKET_FEEDS = {
+      73:{to:89,side:'home'},  74:{to:89,side:'away'},
+      75:{to:90,side:'home'},  76:{to:90,side:'away'},
+      77:{to:91,side:'home'},  78:{to:91,side:'away'},
+      79:{to:92,side:'home'},  80:{to:92,side:'away'},
+      81:{to:93,side:'home'},  82:{to:93,side:'away'},
+      83:{to:94,side:'home'},  84:{to:94,side:'away'},
+      85:{to:95,side:'home'},  86:{to:95,side:'away'},
+      87:{to:96,side:'home'},  88:{to:96,side:'away'},
+      89:{to:97,side:'home'},  90:{to:97,side:'away'},
+      91:{to:98,side:'home'},  92:{to:98,side:'away'},
+      93:{to:99,side:'home'},  94:{to:99,side:'away'},
+      95:{to:100,side:'home'}, 96:{to:100,side:'away'},
+      97:{to:101,side:'home'}, 98:{to:101,side:'away'},
+      99:{to:102,side:'home'}, 100:{to:102,side:'away'},
+      101:{to:104,side:'home'},102:{to:104,side:'away'},
+    };
+
+    // penSelections: {matchId: "home"|"away"|null} — penalty winner picks
+    let penSelections = {};
+    let allMatches = [];
+
+    // Build cascade context: which team is playing home/away in each KO match
+    function buildCascadeCtx(matches, predMap) {
+      const matchByNum = {};
+      matches.forEach(m => matchByNum[m.match_number] = m);
+      const winnerOf = {};  // matchNum → {name, flag}
+      const ctx = {};       // "matchNum_home" / "matchNum_away" → {name, flag}
+
+      const KO_ROUNDS = ['round_of_32','round_of_16','qf','sf','final'];
+      const koMatches = matches.filter(m => KO_ROUNDS.includes(m.round))
+        .sort((a, b) => a.match_number - b.match_number);
+
+      for (const m of koMatches) {
+        // Resolve home team
+        let homeTeam = null, awayTeam = null;
+        if (m.home_flag && m.home_flag !== '🏳️') {
+          homeTeam = {name: m.home_team, flag: m.home_flag};
+        } else {
+          for (const [num, feed] of Object.entries(BRACKET_FEEDS)) {
+            if (feed.to === m.match_number && feed.side === 'home') {
+              homeTeam = winnerOf[+num] || null; break;
+            }
+          }
+        }
+        if (m.away_flag && m.away_flag !== '🏳️') {
+          awayTeam = {name: m.away_team, flag: m.away_flag};
+        } else {
+          for (const [num, feed] of Object.entries(BRACKET_FEEDS)) {
+            if (feed.to === m.match_number && feed.side === 'away') {
+              awayTeam = winnerOf[+num] || null; break;
+            }
+          }
+        }
+        if (homeTeam) ctx[`${m.match_number}_home`] = homeTeam;
+        if (awayTeam) ctx[`${m.match_number}_away`] = awayTeam;
+
+        // Determine winner (actual or predicted)
+        let winner = null;
+        if (m.is_finished && m.home_score != null) {
+          if (m.home_score > m.away_score) winner = homeTeam;
+          else if (m.away_score > m.home_score) winner = awayTeam;
+          // penalty winner: use winner_id from API if available
+          else if (m.winner_id) {
+            winner = m.winner_id === m.home_team_id ? homeTeam : awayTeam;
+          }
+        } else {
+          const pred = predMap[m.id];
+          const hEl = document.querySelector(`.pred-input[data-match="${m.id}"][data-side="home"]`);
+          const aEl = document.querySelector(`.pred-input[data-match="${m.id}"][data-side="away"]`);
+          const ph = hEl && hEl.value !== '' ? +hEl.value : (pred ? pred.home_score : null);
+          const pa = aEl && aEl.value !== '' ? +aEl.value : (pred ? pred.away_score : null);
+          if (ph != null && pa != null && !isNaN(ph) && !isNaN(pa)) {
+            if (ph > pa) winner = homeTeam;
+            else if (pa > ph) winner = awayTeam;
+            else {
+              const pws = penSelections[m.id] ?? (pred ? pred.predicted_winner_side : null);
+              if (pws === 'home') winner = homeTeam;
+              else if (pws === 'away') winner = awayTeam;
+            }
+          }
+        }
+        winnerOf[m.match_number] = winner;
+      }
+      return ctx;
+    }
+
+    // Update all team labels + penalty buttons in knockout cards from cascade context
+    function applyKOCascade(matches, predMap) {
+      const ctx = buildCascadeCtx(matches, predMap);
+      const KO_ROUNDS = ['round_of_32','round_of_16','qf','sf','final'];
+      matches.filter(m => KO_ROUNDS.includes(m.round)).forEach(m => {
+        const hCtx = ctx[`${m.match_number}_home`];
+        const aCtx = ctx[`${m.match_number}_away`];
+        const hEl = document.getElementById(`ko-home-${m.id}`);
+        const aEl = document.getElementById(`ko-away-${m.id}`);
+        if (hEl && hCtx) hEl.innerHTML = `${hCtx.flag} ${hCtx.name}`;
+        if (aEl && aCtx) aEl.innerHTML = `${aCtx.name} ${aCtx.flag}`;
+        // Update pen buttons
+        const phBtn = document.getElementById(`pen-home-${m.id}`);
+        const paBtn = document.getElementById(`pen-away-${m.id}`);
+        if (phBtn && hCtx) phBtn.dataset.label = `${hCtx.flag} ${hCtx.name}`;
+        if (paBtn && aCtx) paBtn.dataset.label = `${aCtx.name} ${aCtx.flag}`;
+        // Update pen button visible text
+        if (phBtn) phBtn.innerHTML = hCtx ? `${hCtx.flag} ${hCtx.name.split(' ')[0]}` : phBtn.innerHTML;
+        if (paBtn) paBtn.innerHTML = aCtx ? `${aCtx.name.split(' ')[0]} ${aCtx.flag}` : paBtn.innerHTML;
+      });
+    }
+
     let enrichTeam = name => name; // overridden after matches load
 
     function teamLabel(flag, name) {
@@ -267,35 +416,66 @@
     }
 
     function matchCard(m, predMap) {
+      const isKO = m.round !== 'group_stage';
       const locked = isLocked(m.kickoff_utc);
       const pred = predMap[m.id] || {};
       const ph = pred.home_score ?? "";
       const pa = pred.away_score ?? "";
+      const pws = pred.predicted_winner_side || null;
+
       const scoreDisplay = m.is_finished
-        ? `<span class="badge bg-secondary ms-1">${m.home_score}–${m.away_score}</span>` : "";
+        ? `<span class="badge bg-secondary ms-1">${m.home_score}–${m.away_score}${m.winner_name ? ` (pen: ${m.winner_flag}${m.winner_name})` : ""}</span>` : "";
       const pts = pred.points != null
         ? `<span class="badge ${pred.points===9?"bg-success":pred.points===7?"bg-primary":"bg-secondary"} ms-1">${pred.points}pts</span>` : "";
+
+      // For KO matches: team labels have IDs so cascade can update them
+      const homeSpan = isKO
+        ? `<span id="ko-home-${m.id}" class="fw-semibold">${teamLabel(m.home_flag, m.home_team)}</span>`
+        : `<span class="fw-semibold">${teamLabel(m.home_flag, m.home_team)}</span>`;
+      const awaySpan = isKO
+        ? `<span id="ko-away-${m.id}" class="fw-semibold">${teamLabel(m.away_flag, m.away_team)}</span>`
+        : `<span class="fw-semibold">${teamLabel(m.away_flag, m.away_team)}</span>`;
+
+      // Penalty winner picker (KO only, shown when predicted scores are tied)
+      const isTie = ph !== "" && pa !== "" && +ph === +pa;
+      const penSection = (isKO && !locked) ? `
+        <div id="pen-section-${m.id}" class="mt-2 d-flex align-items-center gap-2 flex-wrap${isTie ? '' : ' d-none'}">
+          <span class="small fw-semibold text-warning">🏆 ¿Quién avanza en penales?</span>
+          <div class="btn-group btn-group-sm">
+            <button type="button" id="pen-home-${m.id}"
+              class="btn ${pws==='home'?'btn-warning':'btn-outline-warning'} pen-btn"
+              data-match="${m.id}" data-side="home">
+              ${m.home_flag && m.home_flag!=='🏳️' ? m.home_flag+' '+m.home_team.split(' ')[0] : m.home_team.split(' ')[0]}
+            </button>
+            <button type="button" id="pen-away-${m.id}"
+              class="btn ${pws==='away'?'btn-warning':'btn-outline-warning'} pen-btn"
+              data-match="${m.id}" data-side="away">
+              ${m.away_flag && m.away_flag!=='🏳️' ? m.away_team.split(' ')[0]+' '+m.away_flag : m.away_team.split(' ')[0]}
+            </button>
+          </div>
+        </div>` : '';
 
       return `
         <div class="card mb-2 ${locked ? "border-secondary opacity-75" : "border-success border-opacity-25"}">
           <div class="card-body py-2 px-3">
             <div class="d-flex align-items-center gap-2 flex-wrap">
               <span class="text-muted small">#${m.match_number}</span>
-              <span class="fw-semibold">${teamLabel(m.home_flag, m.home_team)}</span>
+              ${homeSpan}
               <input type="number" min="0" max="20" step="1"
                 class="form-control form-control-sm pred-input text-center ${locked?"":"border-success"}"
-                data-match="${m.id}" data-side="home"
+                data-match="${m.id}" data-side="home" data-ko="${isKO?1:0}"
                 value="${ph}" ${locked ? "disabled" : "required"} style="width:62px"
                 oninput="this.value=this.value.replace(/[^0-9]/g,'')">
               <span class="fw-bold">–</span>
               <input type="number" min="0" max="20" step="1"
                 class="form-control form-control-sm pred-input text-center ${locked?"":"border-success"}"
-                data-match="${m.id}" data-side="away"
+                data-match="${m.id}" data-side="away" data-ko="${isKO?1:0}"
                 value="${pa}" ${locked ? "disabled" : "required"} style="width:62px"
                 oninput="this.value=this.value.replace(/[^0-9]/g,'')">
-              <span class="fw-semibold">${teamLabel(m.away_flag, m.away_team)}</span>
+              ${awaySpan}
               ${scoreDisplay}${pts}
             </div>
+            ${penSection}
             <div class="d-flex justify-content-between align-items-center mt-1 flex-wrap gap-1">
               <span class="text-muted small">📍 ${m.venue || ""}</span>
               <span class="small">${toLocalTime(m.kickoff_utc)}</span>
@@ -315,17 +495,16 @@
         const val = inp.value.trim();
         if (val === "") {
           inp.classList.remove("is-invalid");
-          // skip empty fields — user can fill them in later
         } else if (!validateScore(val)) {
           inp.classList.add("is-invalid");
           matchPreds[mid]._invalid = true;
         } else {
           inp.classList.remove("is-invalid");
           matchPreds[mid][inp.dataset.side] = parseInt(val, 10);
+          if (inp.dataset.ko === "1") matchPreds[mid]._ko = true;
         }
       });
 
-      // Block only if there are invalid (out of range) values — not empty ones
       const hasInvalid = Object.values(matchPreds).some(m => m._invalid);
       const alertEl = document.getElementById("save-alert");
       if (hasInvalid) {
@@ -342,7 +521,12 @@
 
       for (const [mid, scores] of Object.entries(matchPreds)) {
         if (scores.home == null || scores.away == null) continue;
-        const res = await api.put(`/predictions/${mid}`, { home_score: scores.home, away_score: scores.away });
+        const body = { home_score: scores.home, away_score: scores.away };
+        // Include penalty winner for knockout draws
+        if (scores._ko && scores.home === scores.away) {
+          body.predicted_winner_side = penSelections[mid] || null;
+        }
+        const res = await api.put(`/predictions/${mid}`, body);
         res.ok ? saved++ : errors++;
       }
 
