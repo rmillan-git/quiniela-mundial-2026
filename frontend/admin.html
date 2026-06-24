@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Admin – Quiniela 2026</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="css/style.css?v=20260612" rel="stylesheet">
+  <link href="css/style.css?v=20260623" rel="stylesheet">
 </head>
 <body>
   <nav class="navbar navbar-dark bg-warning">
@@ -24,6 +24,7 @@
     <ul class="nav nav-tabs mb-4" id="admin-tabs">
       <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#tab-results">Ingresar Resultados</a></li>
       <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab-participants">Participantes <span id="pending-badge" class="badge bg-danger d-none">0</span></a></li>
+      <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab-bracket">🏆 Ronda de 32</a></li>
       <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab-simulate">🎲 Simulación</a></li>
     </ul>
 
@@ -49,6 +50,19 @@
           <thead><tr><th>Nombre</th><th>Email</th><th>Registro</th><th>Estado</th><th></th></tr></thead>
           <tbody id="part-body"></tbody>
         </table>
+      </div>
+
+      <!-- Ronda de 32 bracket assignment tab -->
+      <div class="tab-pane fade" id="tab-bracket">
+        <div class="d-flex align-items-center gap-3 mb-3 flex-wrap">
+          <div>
+            <h5 class="mb-0">Asignación Tentativa — Ronda de 32</h5>
+            <p class="text-muted small mb-0">Calcula desde los standings actuales y asigna los equipos a los 16 partidos. Puedes ejecutarlo varias veces conforme avanza el grupo.</p>
+          </div>
+          <button class="btn btn-success" id="btn-assign-ko">📊 Asignar desde Standings Actuales</button>
+        </div>
+        <div id="assign-ko-result" class="alert d-none mb-3"></div>
+        <div id="bracket-r32-list" class="text-center py-3"><div class="spinner-border text-success" role="status"></div></div>
       </div>
 
       <!-- Simulate tab -->
@@ -148,8 +162,8 @@
     </div>
   </div>
 
-  <script src="js/api.js?v=20260612"></script>
-  <script src="js/auth.js?v=20260612"></script>
+  <script src="js/api.js?v=20260623"></script>
+  <script src="js/auth.js?v=20260623"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     const CST_OFFSET = -6 * 60;
@@ -588,6 +602,63 @@
       el.classList.remove("d-none");
       document.getElementById("sim-progress").classList.add("d-none");
     }
+
+    // ── Ronda de 32 bracket assignment ───────────────────────────────────────
+    async function loadBracketR32() {
+      const matches = await api.get("/matches/?round=round_of_32");
+      const el = document.getElementById("bracket-r32-list");
+      if (!matches.length) {
+        el.innerHTML = '<p class="text-muted">No hay partidos de Ronda de 32.</p>';
+        return;
+      }
+      let html = '<div class="table-responsive"><table class="table table-sm table-bordered align-middle">';
+      html += '<thead class="table-light"><tr><th>#</th><th>Slot Casa</th><th class="text-center">vs</th><th>Slot Visita</th><th>Fecha (CST)</th></tr></thead><tbody>';
+      matches.forEach(m => {
+        const hasHome = m.home_team && m.home_flag && m.home_flag !== '🏳️';
+        const hasAway = m.away_team && m.away_flag && m.away_flag !== '🏳️';
+        const homeCell = hasHome
+          ? `<span class="fw-semibold">${m.home_flag} ${m.home_team}</span> <span class="text-muted small d-block">${m.home_team_placeholder||''}</span>`
+          : `<span class="text-muted fst-italic">${m.home_team || m.home_team_placeholder || 'TBD'}</span>`;
+        const awayCell = hasAway
+          ? `<span class="fw-semibold">${m.away_flag} ${m.away_team}</span> <span class="text-muted small d-block">${m.away_team_placeholder||''}</span>`
+          : `<span class="text-muted fst-italic">${m.away_team || m.away_team_placeholder || 'TBD'}</span>`;
+        const bgClass = (hasHome || hasAway) ? 'table-success' : '';
+        html += `<tr class="${bgClass}">
+          <td class="text-muted small fw-bold">#${m.match_number}</td>
+          <td>${homeCell}</td>
+          <td class="text-center fw-bold text-muted">vs</td>
+          <td>${awayCell}</td>
+          <td class="small text-muted text-nowrap">${m.kickoff_utc ? toCST(m.kickoff_utc) : '—'}</td>
+        </tr>`;
+      });
+      html += '</tbody></table></div>';
+      el.innerHTML = html;
+    }
+
+    document.getElementById("btn-assign-ko").addEventListener("click", async () => {
+      const btn = document.getElementById("btn-assign-ko");
+      const alertEl = document.getElementById("assign-ko-result");
+      btn.disabled = true;
+      btn.textContent = "Asignando…";
+      alertEl.className = "alert d-none";
+      try {
+        const res = await api.post("/matches/assign-ko-from-standings", {});
+        alertEl.className = "alert alert-success";
+        alertEl.textContent = `✅ ${res.assigned} partido(s) actualizado(s) con equipos tentantivos de los standings actuales.`;
+        alertEl.classList.remove("d-none");
+        loadBracketR32();
+      } catch(e) {
+        alertEl.className = "alert alert-danger";
+        alertEl.textContent = "❌ Error: " + (e.message || JSON.stringify(e));
+        alertEl.classList.remove("d-none");
+      }
+      btn.disabled = false;
+      btn.textContent = "📊 Asignar desde Standings Actuales";
+    });
+
+    document.querySelector('a[href="#tab-bracket"]').addEventListener("click", () => {
+      loadBracketR32();
+    });
 
     // ── Init ─────────────────────────────────────────────────────────────────
     async function init() {

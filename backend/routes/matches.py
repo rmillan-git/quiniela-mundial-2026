@@ -1,3 +1,4 @@
+import re as _re
 from datetime import datetime, timezone, timedelta
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
@@ -30,6 +31,8 @@ def match_to_dict(m: Match) -> dict:
         "winner_id": m.winner_id,
         "winner_name": m.winner.name if m.winner else None,
         "winner_flag": m.winner.flag_emoji if m.winner else None,
+        "home_team_placeholder": m.home_team_placeholder,
+        "away_team_placeholder": m.away_team_placeholder,
     }
 
 
@@ -277,3 +280,124 @@ def sync_results(db: Session = Depends(get_db), _: Participant = Depends(get_cur
     if "error" in result:
         raise HTTPException(500, result["error"])
     return result
+
+
+def _build_group_standings(db: Session) -> dict:
+    """Returns {group: [(team_id, pts, gd, gf), ...]} sorted by standings."""
+    group_matches = db.query(Match).filter(Match.round == "group_stage").all()
+
+    team_stats: dict[str, dict[int, dict]] = {}
+    for m in group_matches:
+        g = m.group
+        if not g:
+            continue
+        if g not in team_stats:
+            team_stats[g] = {}
+        for tid in filter(None, [m.home_team_id, m.away_team_id]):
+            if tid not in team_stats[g]:
+                team_stats[g][tid] = {"pts": 0, "gd": 0, "gf": 0}
+        if not m.is_finished or m.home_score is None or not m.home_team_id or not m.away_team_id:
+            continue
+        h, a = m.home_score, m.away_score
+        team_stats[g][m.home_team_id]["gf"] += h
+        team_stats[g][m.home_team_id]["gd"] += h - a
+        team_stats[g][m.away_team_id]["gf"] += a
+        team_stats[g][m.away_team_id]["gd"] += a - h
+        if h > a:
+            team_stats[g][m.home_team_id]["pts"] += 3
+        elif h == a:
+            team_stats[g][m.home_team_id]["pts"] += 1
+            team_stats[g][m.away_team_id]["pts"] += 1
+        else:
+            team_stats[g][m.away_team_id]["pts"] += 3
+
+    result = {}
+    for g, stats in team_stats.items():
+        result[g] = sorted(
+            ((tid, s["pts"], s["gd"], s["gf"]) for tid, s in stats.items()),
+            key=lambda x: (-x[1], -x[2], -x[3]),
+        )
+    return result
+
+
+@router.post("/assign-ko-from-standings")
+def assign_ko_from_standings(db: Session = Depends(get_db), _: Participant = Depends(get_current_admin)):
+    """Tentatively assign group-stage leaders to Round of 32 slots from current standings."""
+    standings = _build_group_standings(db)
+
+    # Rank all 3rd-place teams globally for "Mejor 3°" slots
+    all_thirds: list[tuple] = []
+    for g, ranked in standings.items():
+        if len(ranked) >= 3:
+            tid, pts, gd, gf = ranked[2]
+            all_thirds.append((pts, gd, gf, g, tid))
+    all_thirds.sort(key=lambda x: (-x[0], -x[1], -x[2]))
+    # Top 8 qualify; map group → (team_id, global_rank)
+    third_by_group: dict[str, tuple] = {
+        g: (tid, i) for i, (_, _, _, g, tid) in enumerate(all_thirds[:8])
+    }
+
+    used_third_groups: set[str] = set()
+
+    def resolve(placeholder: str) -> int | None:
+        if not placeholder:
+            return None
+        ph = placeholder.strip()
+
+        # "1° Grupo A" / "2° Grupo B"
+        m1 = _re.match(r"^(\d+)\D+Grupo\s+([A-L])$", ph)
+        if m1:
+            pos = int(m1.group(1)) - 1
+            g = m1.group(2)
+            ranked = standings.get(g, [])
+            return ranked[pos][0] if len(ranked) > pos else None
+
+        # "Mejor 3° (A/B/C/D/F)"
+        m2 = _re.match(r"Mejor\s+3\D*\(([A-L/]+)\)", ph)
+        if m2:
+            candidate_groups = [x.strip() for x in m2.group(1).split("/")]
+            best_rank, best_tid = 999, None
+            best_g = None
+            for cg in candidate_groups:
+                if cg in third_by_group and cg not in used_third_groups:
+                    _, rank = third_by_group[cg]
+                    if rank < best_rank:
+                        best_rank, best_tid, best_g = rank, third_by_group[cg][0], cg
+            if best_g:
+                used_third_groups.add(best_g)
+                return best_tid
+
+        return None
+
+    ko_matches = db.query(Match).filter(Match.round == "round_of_32").order_by(Match.match_number).all()
+
+    assigned = 0
+    details = []
+    for m in ko_matches:
+        if m.is_finished:
+            continue
+        new_home = resolve(m.home_team_placeholder)
+        new_away = resolve(m.away_team_placeholder)
+        changed = False
+        if new_home is not None and m.home_team_id != new_home:
+            m.home_team_id = new_home
+            changed = True
+        if new_away is not None and m.away_team_id != new_away:
+            m.away_team_id = new_away
+            changed = True
+        if changed:
+            assigned += 1
+        home_team = db.query(Team).get(m.home_team_id) if m.home_team_id else None
+        away_team = db.query(Team).get(m.away_team_id) if m.away_team_id else None
+        details.append({
+            "match_number": m.match_number,
+            "home_placeholder": m.home_team_placeholder,
+            "away_placeholder": m.away_team_placeholder,
+            "home_team": home_team.name if home_team else None,
+            "home_flag": home_team.flag_emoji if home_team else None,
+            "away_team": away_team.name if away_team else None,
+            "away_flag": away_team.flag_emoji if away_team else None,
+        })
+
+    db.commit()
+    return {"assigned": assigned, "matches": details}
