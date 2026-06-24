@@ -402,8 +402,14 @@
         const aCtx = ctx[`${m.match_number}_away`];
         const hEl = document.getElementById(`ko-home-${m.id}`);
         const aEl = document.getElementById(`ko-away-${m.id}`);
-        if (hEl && hCtx) hEl.innerHTML = `${hCtx.flag} ${hCtx.name}`;
-        if (aEl && aCtx) aEl.innerHTML = `${aCtx.name} ${aCtx.flag}`;
+        if (hEl && hCtx) {
+          const hph = m.home_team_placeholder ? ` <span class="text-muted small fw-normal">(${m.home_team_placeholder})</span>` : '';
+          hEl.innerHTML = `${hCtx.flag} ${hCtx.name}${hph}`;
+        }
+        if (aEl && aCtx) {
+          const aph = m.away_team_placeholder ? ` <span class="text-muted small fw-normal">(${m.away_team_placeholder})</span>` : '';
+          aEl.innerHTML = `${aCtx.name} ${aCtx.flag}${aph}`;
+        }
         // Update pen buttons
         const phBtn = document.getElementById(`pen-home-${m.id}`);
         const paBtn = document.getElementById(`pen-away-${m.id}`);
@@ -417,9 +423,12 @@
 
     let enrichTeam = name => name; // overridden after matches load
 
-    function teamLabel(flag, name) {
+    function teamLabel(flag, name, placeholder) {
       const safeName = name || "TBD";
-      if (flag && flag !== "🏳️") return `${flag} ${safeName}`;
+      if (flag && flag !== "🏳️") {
+        const ph = placeholder ? ` <span class="text-muted small fw-normal">(${placeholder})</span>` : '';
+        return `${flag} ${safeName}${ph}`;
+      }
       return `<span class="text-muted fst-italic">${enrichTeam(safeName)}</span>`;
     }
 
@@ -438,10 +447,10 @@
 
       // For KO matches: team labels have IDs so cascade can update them
       const homeSpan = isKO
-        ? `<span id="ko-home-${m.id}" class="fw-semibold">${teamLabel(m.home_flag, m.home_team)}</span>`
+        ? `<span id="ko-home-${m.id}" class="fw-semibold">${teamLabel(m.home_flag, m.home_team, m.home_team_placeholder)}</span>`
         : `<span class="fw-semibold">${teamLabel(m.home_flag, m.home_team)}</span>`;
       const awaySpan = isKO
-        ? `<span id="ko-away-${m.id}" class="fw-semibold">${teamLabel(m.away_flag, m.away_team)}</span>`
+        ? `<span id="ko-away-${m.id}" class="fw-semibold">${teamLabel(m.away_flag, m.away_team, m.away_team_placeholder)}</span>`
         : `<span class="fw-semibold">${teamLabel(m.away_flag, m.away_team)}</span>`;
 
       // Penalty winner picker (KO only, shown when predicted scores are tied)
