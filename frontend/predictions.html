@@ -8,7 +8,7 @@
   <meta http-equiv="Expires" content="0">
   <title>My Predictions – Quiniela 2026</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="css/style.css?v=20260612" rel="stylesheet">
+  <link href="css/style.css?v=20260623" rel="stylesheet">
 </head>
 <body>
   <div class="sticky-top">
@@ -60,9 +60,9 @@
     </div>
   </div>
 
-  <script src="js/i18n.js?v=20260612"></script>
-  <script src="js/api.js?v=20260612"></script>
-  <script src="js/auth.js?v=20260612"></script>
+  <script src="js/i18n.js?v=20260623"></script>
+  <script src="js/api.js?v=20260623"></script>
+  <script src="js/auth.js?v=20260623"></script>
   <script>
     function toLocalTime(utcStr) {
       const d = new Date(utcStr);
@@ -123,6 +123,7 @@
       });
 
       enrichTeam = function(name) {
+        if (!name) return name || "TBD";
         const m = name.match(/P(\d{2,3})/);
         if (!m) return name;
         const ref = parseInt(m[1]);
@@ -184,7 +185,13 @@
                 : "⏳ Los equipos se confirmarán cuando terminen los resultados de la ronda anterior. ¡Ya puedes ingresar tus predicciones!"}
             </div>`;
           }
-          roundMatches.forEach(m => html += matchCard(m, predMap));
+          roundMatches.forEach(m => {
+            try {
+              html += matchCard(m, predMap);
+            } catch(err) {
+              console.error("matchCard error match #" + m.match_number, err);
+            }
+          });
         }
         html += "</div>";
         containerEl.innerHTML += html;
@@ -411,8 +418,9 @@
     let enrichTeam = name => name; // overridden after matches load
 
     function teamLabel(flag, name) {
-      if (flag && flag !== "🏳️") return `${flag} ${name}`;
-      return `<span class="text-muted fst-italic">${enrichTeam(name)}</span>`;
+      const safeName = name || "TBD";
+      if (flag && flag !== "🏳️") return `${flag} ${safeName}`;
+      return `<span class="text-muted fst-italic">${enrichTeam(safeName)}</span>`;
     }
 
     function matchCard(m, predMap) {
@@ -445,12 +453,12 @@
             <button type="button" id="pen-home-${m.id}"
               class="btn ${pws==='home'?'btn-warning':'btn-outline-warning'} pen-btn"
               data-match="${m.id}" data-side="home">
-              ${m.home_flag && m.home_flag!=='🏳️' ? m.home_flag+' '+m.home_team.split(' ')[0] : m.home_team.split(' ')[0]}
+              ${m.home_flag && m.home_flag!=='🏳️' ? m.home_flag+' '+(m.home_team||'TBD').split(' ')[0] : (m.home_team||'TBD').split(' ')[0]}
             </button>
             <button type="button" id="pen-away-${m.id}"
               class="btn ${pws==='away'?'btn-warning':'btn-outline-warning'} pen-btn"
               data-match="${m.id}" data-side="away">
-              ${m.away_flag && m.away_flag!=='🏳️' ? m.away_team.split(' ')[0]+' '+m.away_flag : m.away_team.split(' ')[0]}
+              ${m.away_flag && m.away_flag!=='🏳️' ? (m.away_team||'TBD').split(' ')[0]+' '+m.away_flag : (m.away_team||'TBD').split(' ')[0]}
             </button>
           </div>
         </div>` : '';
