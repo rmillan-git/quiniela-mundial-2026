@@ -79,6 +79,7 @@ def set_result(mid: int, req: ResultRequest, db: Session = Depends(get_db), _: P
             home_team_id=m.home_team_id,
             away_team_id=m.away_team_id,
         )
+    _do_assign_ko_from_standings(db)
     db.commit()
     return match_to_dict(m)
 
@@ -269,6 +270,8 @@ def sync_results_from_api(db: Session) -> dict:
             )
         updated += 1
 
+    if updated > 0:
+        _do_assign_ko_from_standings(db)
     db.commit()
     return {"updated": updated, "total_finished": len(matches_data)}
 
@@ -320,19 +323,16 @@ def _build_group_standings(db: Session) -> dict:
     return result
 
 
-@router.post("/assign-ko-from-standings")
-def assign_ko_from_standings(db: Session = Depends(get_db), _: Participant = Depends(get_current_admin)):
-    """Tentatively assign group-stage leaders to Round of 32 slots from current standings."""
+def _do_assign_ko_from_standings(db: Session) -> int:
+    """Core logic: assign current group leaders to unfinished Round of 32 slots. Returns # changed."""
     standings = _build_group_standings(db)
 
-    # Rank all 3rd-place teams globally for "Mejor 3°" slots
     all_thirds: list[tuple] = []
     for g, ranked in standings.items():
         if len(ranked) >= 3:
             tid, pts, gd, gf = ranked[2]
             all_thirds.append((pts, gd, gf, g, tid))
     all_thirds.sort(key=lambda x: (-x[0], -x[1], -x[2]))
-    # Top 8 qualify; map group → (team_id, global_rank)
     third_by_group: dict[str, tuple] = {
         g: (tid, i) for i, (_, _, _, g, tid) in enumerate(all_thirds[:8])
     }
@@ -343,21 +343,16 @@ def assign_ko_from_standings(db: Session = Depends(get_db), _: Participant = Dep
         if not placeholder:
             return None
         ph = placeholder.strip()
-
-        # "1° Grupo A" / "2° Grupo B"
         m1 = _re.match(r"^(\d+)\D+Grupo\s+([A-L])$", ph)
         if m1:
             pos = int(m1.group(1)) - 1
             g = m1.group(2)
             ranked = standings.get(g, [])
             return ranked[pos][0] if len(ranked) > pos else None
-
-        # "Mejor 3° (A/B/C/D/F)"
         m2 = _re.match(r"Mejor\s+3\D*\(([A-L/]+)\)", ph)
         if m2:
             candidate_groups = [x.strip() for x in m2.group(1).split("/")]
-            best_rank, best_tid = 999, None
-            best_g = None
+            best_rank, best_tid, best_g = 999, None, None
             for cg in candidate_groups:
                 if cg in third_by_group and cg not in used_third_groups:
                     _, rank = third_by_group[cg]
@@ -366,13 +361,10 @@ def assign_ko_from_standings(db: Session = Depends(get_db), _: Participant = Dep
             if best_g:
                 used_third_groups.add(best_g)
                 return best_tid
-
         return None
 
     ko_matches = db.query(Match).filter(Match.round == "round_of_32").order_by(Match.match_number).all()
-
     assigned = 0
-    details = []
     for m in ko_matches:
         if m.is_finished:
             continue
@@ -387,17 +379,15 @@ def assign_ko_from_standings(db: Session = Depends(get_db), _: Participant = Dep
             changed = True
         if changed:
             assigned += 1
-        home_team = db.query(Team).get(m.home_team_id) if m.home_team_id else None
-        away_team = db.query(Team).get(m.away_team_id) if m.away_team_id else None
-        details.append({
-            "match_number": m.match_number,
-            "home_placeholder": m.home_team_placeholder,
-            "away_placeholder": m.away_team_placeholder,
-            "home_team": home_team.name if home_team else None,
-            "home_flag": home_team.flag_emoji if home_team else None,
-            "away_team": away_team.name if away_team else None,
-            "away_flag": away_team.flag_emoji if away_team else None,
-        })
+    return assigned
 
+
+@router.post("/assign-ko-from-standings")
+def assign_ko_from_standings(db: Session = Depends(get_db), _: Participant = Depends(get_current_admin)):
+    """Tentatively assign group-stage leaders to Round of 32 slots from current standings."""
+    assigned = _do_assign_ko_from_standings(db)
     db.commit()
+    # Return current R32 state for the admin table
+    ko_matches = db.query(Match).filter(Match.round == "round_of_32").order_by(Match.match_number).all()
+    details = [match_to_dict(m) for m in ko_matches]
     return {"assigned": assigned, "matches": details}
