@@ -8,7 +8,7 @@
   <meta http-equiv="Expires" content="0">
   <title>My Predictions – Quiniela 2026</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="css/style.css?v=20260623" rel="stylesheet">
+  <link href="css/style.css?v=20260628" rel="stylesheet">
 </head>
 <body>
   <div class="sticky-top">
@@ -60,9 +60,9 @@
     </div>
   </div>
 
-  <script src="js/i18n.js?v=20260623"></script>
-  <script src="js/api.js?v=20260623"></script>
-  <script src="js/auth.js?v=20260623"></script>
+  <script src="js/i18n.js?v=20260628"></script>
+  <script src="js/api.js?v=20260628"></script>
+  <script src="js/auth.js?v=20260628"></script>
   <script>
     function toLocalTime(utcStr) {
       const d = new Date(utcStr);
@@ -82,11 +82,7 @@
       return `${local} <span class="text-muted">(${cst} CST)</span>`;
     }
 
-    const KO_DEADLINE = new Date("2026-06-28T17:00:00Z"); // Jun 28 12:00 PM CDT
-    const KO_ROUNDS_SET = new Set(['round_of_32','round_of_16','qf','sf','final']);
-
-    function isLocked(kickoffUtc, round) {
-      if (KO_ROUNDS_SET.has(round) && new Date() >= KO_DEADLINE) return true;
+    function isLocked(kickoffUtc) {
       return kickoffUtc && new Date() >= new Date(kickoffUtc);
     }
 
@@ -182,13 +178,6 @@
           }
         } else {
           const isTBD = roundMatches.every(m => !m.home_flag || m.home_flag === "🏳️");
-          const koDeadlinePast = new Date() >= KO_DEADLINE;
-          if (!koDeadlinePast) {
-            html += `<div class="alert alert-warning py-2 small mb-3">
-              ⏰ <strong>${window.LANG === "en" ? "Deadline" : "Cierre"}:</strong>
-              Jun 28, 12:00 PM CDT (5:00 PM UTC) — ${window.LANG === "en" ? "all knockout predictions lock at that time." : "todas las predicciones eliminatorias se bloquean en ese momento."}
-            </div>`;
-          }
           if (isTBD) {
             html += `<div class="alert alert-info py-2 small mb-3">
               ${window.LANG === "en"
@@ -317,10 +306,12 @@
     });
 
     // ── Knockout bracket cascade map (match_number → which match/side it feeds) ─
+    // R32→R16: confirmed from official FIFA 2026 bracket
+    // M74+M77→M89, M73+M75→M90, M76+M78→M91, M79+M80→M92
     const BRACKET_FEEDS = {
-      73:{to:89,side:'home'},  74:{to:89,side:'away'},
-      75:{to:90,side:'home'},  76:{to:90,side:'away'},
-      77:{to:91,side:'home'},  78:{to:91,side:'away'},
+      74:{to:89,side:'home'},  77:{to:89,side:'away'},
+      73:{to:90,side:'home'},  75:{to:90,side:'away'},
+      76:{to:91,side:'home'},  78:{to:91,side:'away'},
       79:{to:92,side:'home'},  80:{to:92,side:'away'},
       81:{to:93,side:'home'},  82:{to:93,side:'away'},
       83:{to:94,side:'home'},  84:{to:94,side:'away'},
@@ -445,7 +436,7 @@
 
     function matchCard(m, predMap) {
       const isKO = m.round !== 'group_stage';
-      const locked = isLocked(m.kickoff_utc, m.round);
+      const locked = isLocked(m.kickoff_utc);
       const pred = predMap[m.id] || {};
       const ph = pred.home_score ?? "";
       const pa = pred.away_score ?? "";

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Admin – Quiniela 2026</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="css/style.css?v=20260623" rel="stylesheet">
+  <link href="css/style.css?v=20260628" rel="stylesheet">
 </head>
 <body>
   <nav class="navbar navbar-dark bg-warning">
@@ -25,6 +25,7 @@
       <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#tab-results">Ingresar Resultados</a></li>
       <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab-participants">Participantes <span id="pending-badge" class="badge bg-danger d-none">0</span></a></li>
       <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab-bracket">🏆 Ronda de 32</a></li>
+      <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab-pred-entry">✍️ Predicciones</a></li>
       <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab-simulate">🎲 Simulación</a></li>
     </ul>
 
@@ -63,6 +64,61 @@
         </div>
         <div id="assign-ko-result" class="alert d-none mb-3"></div>
         <div id="bracket-r32-list" class="text-center py-3"><div class="spinner-border text-success" role="status"></div></div>
+      </div>
+
+      <!-- Admin Prediction Entry tab -->
+      <div class="tab-pane fade" id="tab-pred-entry">
+        <div class="card border-primary mb-3">
+          <div class="card-header bg-primary text-white fw-bold">✍️ Ingresar Predicción por Participante</div>
+          <div class="card-body">
+            <p class="text-muted small">Ingresa o corrige la predicción de cualquier participante para cualquier partido (sin restricción de horario).</p>
+            <div class="row g-3 mb-3">
+              <div class="col-sm-4">
+                <label class="form-label small fw-bold">Participante</label>
+                <select class="form-select form-select-sm" id="pred-entry-participant"></select>
+              </div>
+              <div class="col-sm-4">
+                <label class="form-label small fw-bold">Partido</label>
+                <select class="form-select form-select-sm" id="pred-entry-match"></select>
+              </div>
+              <div class="col-sm-4">
+                <label class="form-label small fw-bold">Ronda (filtro)</label>
+                <select class="form-select form-select-sm" id="pred-entry-round" onchange="filterPredEntryMatches()">
+                  <option value="">Todas</option>
+                  <option value="group_stage">Fase de Grupos</option>
+                  <option value="round_of_32" selected>Ronda de 32</option>
+                  <option value="round_of_16">Octavos</option>
+                  <option value="qf">Cuartos</option>
+                  <option value="sf">Semifinales</option>
+                  <option value="final">Final</option>
+                </select>
+              </div>
+            </div>
+            <div class="row g-3 mb-3 align-items-end">
+              <div class="col-auto">
+                <label class="form-label small fw-bold">Local</label>
+                <input type="number" min="0" max="20" class="form-control form-control-sm text-center" id="pred-entry-home" style="width:70px" placeholder="0">
+              </div>
+              <div class="col-auto pt-4"><span class="fw-bold fs-5">–</span></div>
+              <div class="col-auto">
+                <label class="form-label small fw-bold">Visita</label>
+                <input type="number" min="0" max="20" class="form-control form-control-sm text-center" id="pred-entry-away" style="width:70px" placeholder="0">
+              </div>
+              <div class="col-auto" id="pred-entry-pen-wrap" style="display:none">
+                <label class="form-label small fw-bold">Avanza en penales</label>
+                <select class="form-select form-select-sm" id="pred-entry-pen">
+                  <option value="">— (no empate) —</option>
+                  <option value="home">Local</option>
+                  <option value="away">Visita</option>
+                </select>
+              </div>
+              <div class="col-auto pt-4">
+                <button class="btn btn-primary btn-sm" onclick="submitPredEntry()">💾 Guardar</button>
+              </div>
+            </div>
+            <div id="pred-entry-result" class="alert d-none"></div>
+          </div>
+        </div>
       </div>
 
       <!-- Simulate tab -->
@@ -110,6 +166,11 @@
             <p class="small text-muted mb-2"><strong>🔄 Recalcular:</strong> Si ingresaste predicciones después de correr una simulación, usa esto para puntuar todas las predicciones existentes contra los resultados actuales.</p>
             <button class="btn btn-primary btn-sm me-2" id="btn-recalc">🔄 Recalcular Todos los Puntos</button>
             <div id="recalc-result" class="alert mt-2 d-none"></div>
+
+            <hr>
+            <p class="small text-muted mb-2"><strong>🏁 Reinicio KO:</strong> Pone a cero los puntos de la fase de grupos para iniciar el conteo limpio de rondas eliminatorias. Las predicciones se conservan intactas.</p>
+            <button class="btn btn-warning btn-sm" id="btn-reset-group-pts">🏁 Resetear Puntos Fase de Grupos</button>
+            <div id="reset-group-pts-result" class="alert mt-2 d-none"></div>
 
             <hr>
             <p class="small text-muted mb-2"><strong>⚠️ Reset:</strong> Borra todos los resultados de partidos y puntos (para empezar de cero).</p>
@@ -162,8 +223,8 @@
     </div>
   </div>
 
-  <script src="js/api.js?v=20260623"></script>
-  <script src="js/auth.js?v=20260623"></script>
+  <script src="js/api.js?v=20260628"></script>
+  <script src="js/auth.js?v=20260628"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     const CST_OFFSET = -6 * 60;
@@ -721,6 +782,98 @@
 
     document.querySelector('a[href="#tab-bracket"]').addEventListener("click", () => {
       loadBracketR32();
+    });
+
+    // ── Reset Group Stage Points ─────────────────────────────────────────────
+    document.getElementById("btn-reset-group-pts").addEventListener("click", async () => {
+      if (!confirm("⚠️ ¿Poner a CERO los puntos de la fase de grupos para todos los participantes?\n\nLas predicciones se conservan. Solo se borran los puntos acumulados en fase de grupos.")) return;
+      const btn = document.getElementById("btn-reset-group-pts");
+      btn.disabled = true;
+      btn.textContent = "Reseteando…";
+      try {
+        const res = await api.post("/matches/reset-group-stage-points", {});
+        const el = document.getElementById("reset-group-pts-result");
+        el.className = "alert alert-success mt-2";
+        el.textContent = `✅ ${res.zeroed} predicciones de fase de grupos reseteadas a 0.`;
+        el.classList.remove("d-none");
+      } catch(e) {
+        const el = document.getElementById("reset-group-pts-result");
+        el.className = "alert alert-danger mt-2";
+        el.textContent = "❌ Error: " + (e.message || JSON.stringify(e));
+        el.classList.remove("d-none");
+      }
+      btn.disabled = false;
+      btn.textContent = "🏁 Resetear Puntos Fase de Grupos";
+    });
+
+    // ── Admin Prediction Entry ───────────────────────────────────────────────
+    let _allMatchesForPred = [];
+
+    async function loadPredEntryData() {
+      const [participants, matches] = await Promise.all([
+        api.get("/participants/"),
+        api.get("/matches/"),
+      ]);
+      _allMatchesForPred = matches;
+
+      const partSel = document.getElementById("pred-entry-participant");
+      partSel.innerHTML = '<option value="">-- elige participante --</option>';
+      participants.filter(p => p.is_approved).forEach(p => {
+        partSel.innerHTML += `<option value="${p.id}">${p.name}</option>`;
+      });
+
+      filterPredEntryMatches();
+    }
+
+    function filterPredEntryMatches() {
+      const round = document.getElementById("pred-entry-round").value;
+      const matchSel = document.getElementById("pred-entry-match");
+      matchSel.innerHTML = '<option value="">-- elige partido --</option>';
+      _allMatchesForPred
+        .filter(m => !round || m.round === round)
+        .forEach(m => {
+          const hName = m.home_team || m.home_team_placeholder || 'TBD';
+          const aName = m.away_team || m.away_team_placeholder || 'TBD';
+          matchSel.innerHTML += `<option value="${m.id}">#${m.match_number} ${hName} vs ${aName}</option>`;
+        });
+    }
+
+    async function submitPredEntry() {
+      const pid = document.getElementById("pred-entry-participant").value;
+      const mid = document.getElementById("pred-entry-match").value;
+      const home = parseInt(document.getElementById("pred-entry-home").value);
+      const away = parseInt(document.getElementById("pred-entry-away").value);
+      const pen = document.getElementById("pred-entry-pen").value || null;
+      const el = document.getElementById("pred-entry-result");
+
+      if (!pid || !mid) { el.className = "alert alert-warning"; el.textContent = "Selecciona participante y partido."; el.classList.remove("d-none"); return; }
+      if (isNaN(home) || isNaN(away) || home < 0 || away < 0) { el.className = "alert alert-warning"; el.textContent = "Ingresa marcadores válidos."; el.classList.remove("d-none"); return; }
+
+      const body = { home_score: home, away_score: away, predicted_winner_side: pen };
+      try {
+        const res = await api.put(`/predictions/admin/${pid}/${mid}`, body);
+        el.className = "alert alert-success";
+        el.textContent = `✅ Predicción guardada para ${res.participant} — partido #${res.match_id}`;
+      } catch(e) {
+        el.className = "alert alert-danger";
+        el.textContent = "❌ Error: " + (e.message || JSON.stringify(e));
+      }
+      el.classList.remove("d-none");
+    }
+
+    // Show/hide penalty selector when scores tie
+    ["pred-entry-home","pred-entry-away"].forEach(id => {
+      document.getElementById(id).addEventListener("input", () => {
+        const h = parseInt(document.getElementById("pred-entry-home").value);
+        const a = parseInt(document.getElementById("pred-entry-away").value);
+        const wrap = document.getElementById("pred-entry-pen-wrap");
+        wrap.style.display = (!isNaN(h) && !isNaN(a) && h === a) ? "" : "none";
+        if (!isNaN(h) && !isNaN(a) && h !== a) document.getElementById("pred-entry-pen").value = "";
+      });
+    });
+
+    document.querySelector('a[href="#tab-pred-entry"]').addEventListener("click", () => {
+      if (!_allMatchesForPred.length) loadPredEntryData();
     });
 
     // ── Init ─────────────────────────────────────────────────────────────────

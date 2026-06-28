@@ -96,11 +96,16 @@ async def _daily_report():
 
 
 def _migrate():
-    """Add new columns without dropping existing data."""
+    """Add new columns and fix data without dropping existing data."""
     from sqlalchemy import text
     with engine.connect() as conn:
         conn.execute(text("ALTER TABLE matches ADD COLUMN IF NOT EXISTS winner_id INTEGER REFERENCES teams(id)"))
         conn.execute(text("ALTER TABLE predictions ADD COLUMN IF NOT EXISTS predicted_winner_side VARCHAR(4)"))
+        # Fix R16 bracket pairings — seed_data.py had consecutive-pair assumption; real FIFA bracket is:
+        # M89=P74/P77, M90=P73/P75, M91=P76/P78, M92=P79/P80
+        conn.execute(text("UPDATE matches SET home_team_placeholder='Ganador P74', away_team_placeholder='Ganador P77' WHERE match_number=89"))
+        conn.execute(text("UPDATE matches SET home_team_placeholder='Ganador P73', away_team_placeholder='Ganador P75' WHERE match_number=90"))
+        conn.execute(text("UPDATE matches SET home_team_placeholder='Ganador P76', away_team_placeholder='Ganador P78' WHERE match_number=91"))
         conn.commit()
 
 

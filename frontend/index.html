@@ -57,6 +57,7 @@
             <th class="text-center" data-i18n="leaderboard.col_qf">CF</th>
             <th class="text-center" data-i18n="leaderboard.col_sf">SF</th>
             <th class="text-center" data-i18n="leaderboard.col_final">Final</th>
+            <th class="text-center text-info fw-semibold">Sub EL</th>
             <th class="text-center fw-bold" data-i18n="leaderboard.col_total">Total</th>
           </tr>
         </thead>
@@ -231,16 +232,19 @@
       const tbody = document.getElementById("leaderboard-body");
       data.forEach(r => {
         const medal = r.rank === 1 ? "🥇" : r.rank === 2 ? "🥈" : r.rank === 3 ? "🥉" : r.rank;
+        const br = r.by_round;
+        const subEL = (br.round_of_32||0) + (br.round_of_16||0) + (br.qf||0) + (br.sf||0) + (br.final||0);
         tbody.innerHTML += `
           <tr>
             <td>${medal}</td>
             <td class="fw-semibold">${r.name}</td>
-            <td class="text-center">${r.by_round.group_stage}</td>
-            <td class="text-center">${r.by_round.round_of_32}</td>
-            <td class="text-center">${r.by_round.round_of_16}</td>
-            <td class="text-center">${r.by_round.qf}</td>
-            <td class="text-center">${r.by_round.sf}</td>
-            <td class="text-center">${r.by_round.final}</td>
+            <td class="text-center">${br.group_stage}</td>
+            <td class="text-center">${br.round_of_32}</td>
+            <td class="text-center">${br.round_of_16}</td>
+            <td class="text-center">${br.qf}</td>
+            <td class="text-center">${br.sf}</td>
+            <td class="text-center">${br.final}</td>
+            <td class="text-center text-info fw-semibold">${subEL}</td>
             <td class="text-center fw-bold fs-5">${r.total}</td>
           </tr>`;
       });

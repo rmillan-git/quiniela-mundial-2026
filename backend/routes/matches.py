@@ -123,8 +123,12 @@ def reset_result(mid: int, db: Session = Depends(get_db), _: Participant = Depen
 
 @router.post("/recalculate")
 def recalculate_all(db: Session = Depends(get_db), _: Participant = Depends(get_current_admin)):
-    """Re-score all predictions for every finished match."""
-    matches = db.query(Match).filter(Match.is_finished == True).all()
+    """Re-score predictions for finished KO matches only (group stage points are fixed)."""
+    from sqlalchemy import or_
+    matches = db.query(Match).filter(
+        Match.is_finished == True,
+        Match.round.in_(list(KNOCKOUT_ROUNDS)),
+    ).all()
     total = 0
     for m in matches:
         for pred in m.predictions:
@@ -139,6 +143,20 @@ def recalculate_all(db: Session = Depends(get_db), _: Participant = Depends(get_
             total += 1
     db.commit()
     return {"rescored": total}
+
+
+@router.post("/reset-group-stage-points")
+def reset_group_stage_points(db: Session = Depends(get_db), _: Participant = Depends(get_current_admin)):
+    """Zero out all group stage prediction points to start fresh KO scoring."""
+    from models import Prediction as Pred
+    group_matches = db.query(Match).filter(Match.round == "group_stage").all()
+    count = 0
+    for m in group_matches:
+        for pred in m.predictions:
+            pred.points = None
+            count += 1
+    db.commit()
+    return {"zeroed": count}
 
 
 KNOCKOUT_ROUNDS = {"round_of_32", "round_of_16", "qf", "sf", "final"}
@@ -338,8 +356,10 @@ def _do_assign_ko_from_standings(db: Session) -> int:
     }
 
     used_third_groups: set[str] = set()
+    # Build a set of all 3rd-place team IDs per group for validity checks
+    third_id_to_group: dict[int, str] = {v[0]: k for k, v in third_by_group.items()}
 
-    def resolve(placeholder: str) -> int | None:
+    def resolve(placeholder: str, current_team_id: int | None = None) -> int | None:
         if not placeholder:
             return None
         ph = placeholder.strip()
@@ -352,6 +372,12 @@ def _do_assign_ko_from_standings(db: Session) -> int:
         m2 = _re.match(r"Mejor\s+3\D*\(([A-L/]+)\)", ph)
         if m2:
             candidate_groups = [x.strip() for x in m2.group(1).split("/")]
+            # If current team is already a valid 3rd-place from an eligible group, keep it
+            if current_team_id and current_team_id in third_id_to_group:
+                cg = third_id_to_group[current_team_id]
+                if cg in candidate_groups and cg not in used_third_groups:
+                    used_third_groups.add(cg)
+                    return current_team_id
             best_rank, best_tid, best_g = 999, None, None
             for cg in candidate_groups:
                 if cg in third_by_group and cg not in used_third_groups:
@@ -368,8 +394,8 @@ def _do_assign_ko_from_standings(db: Session) -> int:
     for m in ko_matches:
         if m.is_finished:
             continue
-        new_home = resolve(m.home_team_placeholder)
-        new_away = resolve(m.away_team_placeholder)
+        new_home = resolve(m.home_team_placeholder, m.home_team_id)
+        new_away = resolve(m.away_team_placeholder, m.away_team_id)
         changed = False
         if new_home is not None and m.home_team_id != new_home:
             m.home_team_id = new_home
@@ -379,6 +405,40 @@ def _do_assign_ko_from_standings(db: Session) -> int:
             changed = True
         if changed:
             assigned += 1
+
+    # R16/QF/SF/Final: resolve "Ganador PNN" placeholders from finished KO match winners
+    def resolve_ganador(placeholder: str) -> int | None:
+        if not placeholder:
+            return None
+        mg = _re.match(r"Ganador\s+P(\d+)", placeholder.strip())
+        if not mg:
+            return None
+        ref_num = int(mg.group(1))
+        ref = db.query(Match).filter(Match.match_number == ref_num).first()
+        if not ref or not ref.is_finished:
+            return None
+        if ref.home_score > ref.away_score:
+            return ref.home_team_id
+        elif ref.away_score > ref.home_score:
+            return ref.away_team_id
+        return ref.winner_id  # penalty winner (may be None)
+
+    for rnd in ["round_of_16", "qf", "sf", "final"]:
+        for m in db.query(Match).filter(Match.round == rnd).order_by(Match.match_number).all():
+            if m.is_finished:
+                continue
+            new_home = resolve_ganador(m.home_team_placeholder)
+            new_away = resolve_ganador(m.away_team_placeholder)
+            changed = False
+            if new_home is not None and m.home_team_id != new_home:
+                m.home_team_id = new_home
+                changed = True
+            if new_away is not None and m.away_team_id != new_away:
+                m.away_team_id = new_away
+                changed = True
+            if changed:
+                assigned += 1
+
     return assigned
 
 
