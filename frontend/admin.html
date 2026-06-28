@@ -604,35 +604,98 @@
     }
 
     // ── Ronda de 32 bracket assignment ───────────────────────────────────────
+    let _allGroupMatches = [];
+
     async function loadBracketR32() {
-      const matches = await api.get("/matches/?round=round_of_32");
+      const [r32Matches, groupMatches] = await Promise.all([
+        api.get("/matches/?round=round_of_32"),
+        _allGroupMatches.length ? Promise.resolve(_allGroupMatches) : api.get("/matches/?round=group_stage"),
+      ]);
+      if (!_allGroupMatches.length) _allGroupMatches = groupMatches;
+
+      // Build 3rd-place team list per group
+      const groupStats = {};
+      groupMatches.forEach(m => {
+        const g = m.group;
+        if (!g) return;
+        if (!groupStats[g]) groupStats[g] = {};
+        [[m.home_team_id, m.home_team, m.home_flag], [m.away_team_id, m.away_team, m.away_flag]].forEach(([tid, name, flag]) => {
+          if (!tid) return;
+          if (!groupStats[g][tid]) groupStats[g][tid] = {id: tid, name, flag, pts: 0, gd: 0, gf: 0};
+        });
+        if (!m.is_finished || m.home_score == null) return;
+        const [h, a] = [m.home_score, m.away_score];
+        const hs = groupStats[g][m.home_team_id], as_ = groupStats[g][m.away_team_id];
+        if (hs) { hs.gf += h; hs.gd += h - a; if (h > a) hs.pts += 3; else if (h === a) hs.pts += 1; }
+        if (as_) { as_.gf += a; as_.gd += a - h; if (a > h) as_.pts += 3; else if (h === a) as_.pts += 1; }
+      });
+
+      // Third-place per group (index 2 after sorting)
+      const thirdByGroup = {};
+      Object.entries(groupStats).forEach(([g, teams]) => {
+        const ranked = Object.values(teams).sort((a, b) => b.pts - a.pts || b.gd - a.gd || b.gf - a.gf);
+        if (ranked.length >= 3) thirdByGroup[g] = ranked[2];
+      });
+
       const el = document.getElementById("bracket-r32-list");
-      if (!matches.length) {
-        el.innerHTML = '<p class="text-muted">No hay partidos de Ronda de 32.</p>';
-        return;
-      }
+      if (!r32Matches.length) { el.innerHTML = '<p class="text-muted">No hay partidos de Ronda de 32.</p>'; return; }
+
       let html = '<div class="table-responsive"><table class="table table-sm table-bordered align-middle">';
-      html += '<thead class="table-light"><tr><th>#</th><th>Slot Casa</th><th class="text-center">vs</th><th>Slot Visita</th><th>Fecha (CST)</th></tr></thead><tbody>';
-      matches.forEach(m => {
-        const hasHome = m.home_team && m.home_flag && m.home_flag !== '🏳️';
-        const hasAway = m.away_team && m.away_flag && m.away_flag !== '🏳️';
-        const homeCell = hasHome
-          ? `<span class="fw-semibold">${m.home_flag} ${m.home_team}</span> <span class="text-muted small d-block">${m.home_team_placeholder||''}</span>`
-          : `<span class="text-muted fst-italic">${m.home_team || m.home_team_placeholder || 'TBD'}</span>`;
-        const awayCell = hasAway
-          ? `<span class="fw-semibold">${m.away_flag} ${m.away_team}</span> <span class="text-muted small d-block">${m.away_team_placeholder||''}</span>`
-          : `<span class="text-muted fst-italic">${m.away_team || m.away_team_placeholder || 'TBD'}</span>`;
+      html += '<thead class="table-light"><tr><th>#</th><th>Casa</th><th class="text-center">vs</th><th>Visita</th><th>Fecha (CST)</th><th>Override</th></tr></thead><tbody>';
+
+      r32Matches.forEach(m => {
+        const hasHome = m.home_flag && m.home_flag !== '🏳️';
+        const hasAway = m.away_flag && m.away_flag !== '🏳️';
+
+        const teamCell = (flag, name, ph) => flag && flag !== '🏳️'
+          ? `<span class="fw-semibold">${flag} ${name}</span><br><span class="text-muted small">${ph||''}</span>`
+          : `<span class="text-muted fst-italic small">${ph || name || 'TBD'}</span>`;
+
+        // Build override dropdown for "Mejor 3°" slots
+        const overrideBtn = (side, ph, currentId) => {
+          const m2 = ph && ph.match(/Mejor\s+3\D*\(([A-L/]+)\)/);
+          if (!m2) return '';
+          const groups = m2[1].split('/').map(g => g.trim());
+          const opts = groups.map(g => {
+            const t = thirdByGroup[g];
+            if (!t) return '';
+            const sel = t.id === currentId ? ' selected' : '';
+            return `<option value="${t.id}"${sel}>${t.flag} ${t.name} (3° Gr.${g})</option>`;
+          }).join('');
+          return `<select class="form-select form-select-sm" style="min-width:160px"
+            onchange="overrideKOTeam(${m.id},'${side}',+this.value)">
+            <option value="">-- elige --</option>${opts}
+          </select>`;
+        };
+
+        const homeOvr = overrideBtn('home', m.home_team_placeholder, m.home_team_id);
+        const awayOvr = overrideBtn('away', m.away_team_placeholder, m.away_team_id);
         const bgClass = (hasHome || hasAway) ? 'table-success' : '';
+
         html += `<tr class="${bgClass}">
           <td class="text-muted small fw-bold">#${m.match_number}</td>
-          <td>${homeCell}</td>
+          <td>${teamCell(m.home_flag, m.home_team, m.home_team_placeholder)}</td>
           <td class="text-center fw-bold text-muted">vs</td>
-          <td>${awayCell}</td>
+          <td>${teamCell(m.away_flag, m.away_team, m.away_team_placeholder)}</td>
           <td class="small text-muted text-nowrap">${m.kickoff_utc ? toCST(m.kickoff_utc) : '—'}</td>
+          <td class="text-nowrap">${homeOvr}${awayOvr}</td>
         </tr>`;
       });
       html += '</tbody></table></div>';
       el.innerHTML = html;
+    }
+
+    async function overrideKOTeam(matchId, side, teamId) {
+      if (!teamId) return;
+      const body = side === 'home' ? {home_team_id: teamId} : {away_team_id: teamId};
+      const res = await api.patch(`/matches/${matchId}/teams`, body);
+      if (res.id) {
+        const el = document.getElementById("assign-ko-result");
+        el.className = "alert alert-success";
+        el.textContent = `✅ Equipo actualizado en partido #${res.match_number}.`;
+        el.classList.remove("d-none");
+        loadBracketR32();
+      }
     }
 
     document.getElementById("btn-assign-ko").addEventListener("click", async () => {
