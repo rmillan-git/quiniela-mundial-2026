@@ -82,8 +82,15 @@
       return `${local} <span class="text-muted">(${cst} CST)</span>`;
     }
 
-    function isLocked(kickoffUtc) {
-      return kickoffUtc && new Date() >= new Date(kickoffUtc);
+    // KO predictions close Jun 29 noon CDT (17:00 UTC); individual matches also lock at kickoff
+    const KO_DEADLINE = new Date("2026-06-29T17:00:00Z");
+    const KO_ROUNDS_SET = new Set(['round_of_32','round_of_16','qf','sf','final']);
+
+    function isLocked(kickoffUtc, round) {
+      const now = new Date();
+      if (kickoffUtc && now >= new Date(kickoffUtc)) return true;
+      if (KO_ROUNDS_SET.has(round) && now >= KO_DEADLINE) return true;
+      return false;
     }
 
     function validateScore(val) {
@@ -436,7 +443,7 @@
 
     function matchCard(m, predMap) {
       const isKO = m.round !== 'group_stage';
-      const locked = isLocked(m.kickoff_utc);
+      const locked = isLocked(m.kickoff_utc, m.round);
       const pred = predMap[m.id] || {};
       const ph = pred.home_score ?? "";
       const pa = pred.away_score ?? "";

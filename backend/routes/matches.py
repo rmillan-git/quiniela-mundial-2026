@@ -123,12 +123,8 @@ def reset_result(mid: int, db: Session = Depends(get_db), _: Participant = Depen
 
 @router.post("/recalculate")
 def recalculate_all(db: Session = Depends(get_db), _: Participant = Depends(get_current_admin)):
-    """Re-score predictions for finished KO matches only (group stage points are fixed)."""
-    from sqlalchemy import or_
-    matches = db.query(Match).filter(
-        Match.is_finished == True,
-        Match.round.in_(list(KNOCKOUT_ROUNDS)),
-    ).all()
+    """Re-score predictions for ALL finished matches (same scoring formula for all rounds)."""
+    matches = db.query(Match).filter(Match.is_finished == True).all()
     total = 0
     for m in matches:
         for pred in m.predictions:
@@ -176,30 +172,10 @@ def _calc_points(
     home_team_id: int | None = None,
     away_team_id: int | None = None,
 ) -> int:
-    if round_ in KNOCKOUT_ROUNDS:
-        # Determine actual winner side
-        if rh > ra:
-            actual_side = "home"
-        elif ra > rh:
-            actual_side = "away"
-        else:
-            if winner_id is None:
-                return 0  # penalty winner not set yet
-            actual_side = "home" if winner_id == home_team_id else "away"
-        # Determine predicted winner side
-        if ph > pa:
-            pred_side = "home"
-        elif pa > ph:
-            pred_side = "away"
-        else:
-            pred_side = pred_winner_side  # None if participant didn't pick penalty winner
-        if not pred_side or pred_side != actual_side:
-            return 0
-        return 5 + (2 if ph == rh else 0) + (2 if pa == ra else 0)
-    else:
-        if _outcome(ph, pa) != _outcome(rh, ra):
-            return 0
-        return 5 + (2 if ph == rh else 0) + (2 if pa == ra else 0)
+    # Same scoring for all rounds: correct outcome → 5 pts + 2 per exact score
+    if _outcome(ph, pa) != _outcome(rh, ra):
+        return 0
+    return 5 + (2 if ph == rh else 0) + (2 if pa == ra else 0)
 
 
 def _name_matches(api_name: str, db_name: str) -> bool:
