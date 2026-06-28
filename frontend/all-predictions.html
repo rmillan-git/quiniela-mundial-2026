@@ -149,6 +149,26 @@
               html += matchRow(m, participants, predMap);
             });
           });
+        } else if (round === "round_of_32") {
+          // Display R32 in official bracket pair order with R16 slot sub-headers
+          const R32_PAIRS = [
+            { nums: [74, 77], r16: 89 }, { nums: [73, 75], r16: 90 },
+            { nums: [76, 78], r16: 91 }, { nums: [79, 80], r16: 92 },
+            { nums: [81, 82], r16: 93 }, { nums: [83, 84], r16: 94 },
+            { nums: [85, 86], r16: 95 }, { nums: [87, 88], r16: 96 },
+          ];
+          const matchByNum = {};
+          roundMatches.forEach(m => matchByNum[m.match_number] = m);
+          R32_PAIRS.forEach(pair => {
+            const lbl = window.LANG === "en"
+              ? `→ Round of 16 · Match #${pair.r16}`
+              : `→ Octavos de Final · Partido #${pair.r16}`;
+            html += `<tr><td colspan="${participants.length + 2}" class="group-header">${lbl}</td></tr>`;
+            pair.nums.forEach(num => {
+              const m = matchByNum[num];
+              if (m) html += matchRow(m, participants, predMap);
+            });
+          });
         } else {
           roundMatches.forEach(m => { html += matchRow(m, participants, predMap); });
         }
