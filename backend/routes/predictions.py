@@ -40,13 +40,20 @@ PREDICTIONS_CLOSE_UTC  = datetime(2026, 6, 12, 1, 0, 0, tzinfo=timezone.utc)  # 
 
 @router.get("/all")
 def all_predictions(current=Depends(get_current_participant), db: Session = Depends(get_db)):
-    """All participants' predictions — revealed after close time (admins can always view)."""
+    """All participants' predictions — group stage always visible; KO revealed after Jun 28 12 PM CDT."""
+    now = datetime.now(timezone.utc)
+    ko_revealed = current.is_admin or now >= KO_PREDICTIONS_CLOSE_UTC
+
     participants = db.query(Participant).filter_by(is_approved=True).order_by(Participant.name).all()
     matches_q = db.query(Match).order_by(Match.match_number).all()
     preds = db.query(Prediction).join(Participant).filter(Participant.is_approved == True).all()
-    pred_map = {(p.match_id, p.participant_id): p for p in preds}
+
+    # Only expose KO predictions once the deadline has passed
+    allowed_ids = {m.id for m in matches_q if m.round not in KNOCKOUT_ROUNDS or ko_revealed}
+
     return {
         "participants": [{"id": p.id, "name": p.name} for p in participants],
+        "ko_revealed": ko_revealed,
         "matches": [
             {
                 "id": m.id, "match_number": m.match_number, "round": m.round,
@@ -66,7 +73,7 @@ def all_predictions(current=Depends(get_current_participant), db: Session = Depe
                 "match_id": p.match_id, "participant_id": p.participant_id,
                 "home_score": p.home_score, "away_score": p.away_score, "points": p.points,
             }
-            for p in preds
+            for p in preds if p.match_id in allowed_ids
         ],
     }
 
