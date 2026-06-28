@@ -17,6 +17,8 @@ class PredictionRequest(BaseModel):
 
 from routes.matches import _calc_points, KNOCKOUT_ROUNDS
 
+KO_PREDICTIONS_CLOSE_UTC = datetime(2026, 6, 28, 17, 0, 0, tzinfo=timezone.utc)  # Jun 28 12:00 PM CDT
+
 
 @router.get("/my")
 def my_predictions(current=Depends(get_current_participant), db: Session = Depends(get_db)):
@@ -80,6 +82,8 @@ def upsert_prediction(
     if not match:
         raise HTTPException(404, "Match not found")
     now = datetime.now(timezone.utc)
+    if match.round in KNOCKOUT_ROUNDS and now >= KO_PREDICTIONS_CLOSE_UTC:
+        raise HTTPException(400, "Predicciones eliminatorias cerradas — deadline Jun 28 12:00 PM CDT")
     kickoff = match.kickoff_utc if match.kickoff_utc.tzinfo else match.kickoff_utc.replace(tzinfo=timezone.utc)
     if now >= kickoff:
         raise HTTPException(400, "Predictions locked — this match has already started")

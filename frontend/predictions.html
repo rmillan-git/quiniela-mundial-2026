@@ -82,7 +82,11 @@
       return `${local} <span class="text-muted">(${cst} CST)</span>`;
     }
 
-    function isLocked(kickoffUtc) {
+    const KO_DEADLINE = new Date("2026-06-28T17:00:00Z"); // Jun 28 12:00 PM CDT
+    const KO_ROUNDS_SET = new Set(['round_of_32','round_of_16','qf','sf','final']);
+
+    function isLocked(kickoffUtc, round) {
+      if (KO_ROUNDS_SET.has(round) && new Date() >= KO_DEADLINE) return true;
       return kickoffUtc && new Date() >= new Date(kickoffUtc);
     }
 
@@ -178,6 +182,13 @@
           }
         } else {
           const isTBD = roundMatches.every(m => !m.home_flag || m.home_flag === "🏳️");
+          const koDeadlinePast = new Date() >= KO_DEADLINE;
+          if (!koDeadlinePast) {
+            html += `<div class="alert alert-warning py-2 small mb-3">
+              ⏰ <strong>${window.LANG === "en" ? "Deadline" : "Cierre"}:</strong>
+              Jun 28, 12:00 PM CDT (5:00 PM UTC) — ${window.LANG === "en" ? "all knockout predictions lock at that time." : "todas las predicciones eliminatorias se bloquean en ese momento."}
+            </div>`;
+          }
           if (isTBD) {
             html += `<div class="alert alert-info py-2 small mb-3">
               ${window.LANG === "en"
@@ -434,7 +445,7 @@
 
     function matchCard(m, predMap) {
       const isKO = m.round !== 'group_stage';
-      const locked = isLocked(m.kickoff_utc);
+      const locked = isLocked(m.kickoff_utc, m.round);
       const pred = predMap[m.id] || {};
       const ph = pred.home_score ?? "";
       const pa = pred.away_score ?? "";
