@@ -231,6 +231,19 @@ def sync_results_from_api(db: Session) -> dict:
                         candidates = [c]
                         break
 
+        # Last fallback for KO rounds: match by team names across all unfinished KO matches
+        # (handles seeded kickoff times that don't match the actual scheduled time)
+        if not candidates and api_home and api_away:
+            ko_unfinished = db.query(Match).filter(
+                Match.round != "group_stage",
+                Match.is_finished == False,
+            ).all()
+            for c in ko_unfinished:
+                if c.home_team and c.away_team:
+                    if _name_matches(api_home, c.home_team.name) and _name_matches(api_away, c.away_team.name):
+                        candidates = [c]
+                        break
+
         if not candidates:
             continue
 
