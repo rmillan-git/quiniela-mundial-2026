@@ -34,7 +34,6 @@ def my_predictions(current=Depends(get_current_participant), db: Session = Depen
 
 
 PREDICTIONS_CLOSE_UTC = datetime(2026, 6, 12, 1, 0, 0, tzinfo=timezone.utc)   # Jun 11 8:00 PM CDT
-KO_DEADLINE_UTC       = datetime(2026, 6, 29, 17, 0, 0, tzinfo=timezone.utc)  # Jun 29 noon CDT
 
 
 @router.get("/all")
@@ -86,8 +85,6 @@ def upsert_prediction(
     kickoff = match.kickoff_utc if match.kickoff_utc.tzinfo else match.kickoff_utc.replace(tzinfo=timezone.utc)
     if now >= kickoff:
         raise HTTPException(400, "Predictions locked — this match has already started")
-    if match.round in KNOCKOUT_ROUNDS and now >= KO_DEADLINE_UTC:
-        raise HTTPException(400, "Predictions locked — KO prediction deadline has passed")
 
     pred = db.query(Prediction).filter_by(participant_id=current.id, match_id=match_id).first()
     if pred:
