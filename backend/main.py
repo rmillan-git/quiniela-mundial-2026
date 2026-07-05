@@ -116,6 +116,28 @@ def _migrate():
             "UPDATE matches SET home_score_final = home_score, away_score_final = away_score "
             "WHERE round = 'group_stage' AND is_finished = TRUE AND home_score IS NOT NULL AND home_score_final IS NULL"
         ))
+        # One-time fix: flip M100 (QF) predictions home↔away because the bracket correction
+        # swapped Argentina (was away in M95) → home in M96, and Colombia home in M96 → away in M95.
+        # M100 = winner M95 (home) vs winner M96 (away), so home/away in M100 also flipped.
+        # Guard via m100_preds_flipped flag so this runs exactly once.
+        conn.execute(text("ALTER TABLE matches ADD COLUMN IF NOT EXISTS m100_preds_flipped BOOLEAN DEFAULT FALSE"))
+        row = conn.execute(text(
+            "SELECT id FROM matches WHERE match_number = 100 AND (m100_preds_flipped IS NULL OR m100_preds_flipped = FALSE)"
+        )).fetchone()
+        if row:
+            conn.execute(text("""
+                UPDATE predictions
+                SET home_score = away_score,
+                    away_score = home_score,
+                    predicted_winner_side = CASE
+                        WHEN predicted_winner_side = 'home' THEN 'away'
+                        WHEN predicted_winner_side = 'away' THEN 'home'
+                        ELSE predicted_winner_side
+                    END
+                WHERE match_id = :mid AND points IS NULL
+            """), {"mid": row[0]})
+            conn.execute(text("UPDATE matches SET m100_preds_flipped = TRUE WHERE match_number = 100"))
+            print("_migrate: flipped M100 predictions for bracket correction (one-time)")
         conn.commit()
 
 
