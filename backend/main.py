@@ -8,7 +8,7 @@ from sqlalchemy.exc import OperationalError
 from database import engine, SessionLocal, settings
 from models import Base, Participant
 from routes import auth, participants, matches, predictions, leaderboard, export
-from routes.matches import sync_results_from_api
+from routes.matches import sync_results_from_api, _do_assign_ko_from_standings
 
 
 def wait_for_db(retries: int = 15, delay: float = 2.0) -> None:
@@ -213,6 +213,13 @@ async def lifespan(app: FastAPI):
     Base.metadata.create_all(bind=engine)
     _migrate()
     _fix_ko_kickoffs()
+    # Re-resolve KO team assignments after every migration (placeholder fixes need this)
+    db = SessionLocal()
+    try:
+        _do_assign_ko_from_standings(db)
+        db.commit()
+    finally:
+        db.close()
     asyncio.create_task(_auto_sync())
     asyncio.create_task(_daily_report())
     yield
