@@ -199,22 +199,21 @@
         }
       });
 
-      // 90-min result column
-      if (m.is_finished && m.home_score != null) {
-        row += `<td class="pred-cell fw-bold text-warning">${m.home_score}–${m.away_score}</td>`;
+      // 90-min result column (home_score_final = fullTime − extraTime)
+      if (m.is_finished && m.home_score_final != null) {
+        row += `<td class="pred-cell fw-bold text-warning">${m.home_score_final}–${m.away_score_final}</td>`;
+      } else if (m.is_finished && m.home_score != null) {
+        row += `<td class="pred-cell text-warning">${m.home_score}–${m.away_score}</td>`;
       } else {
         row += `<td class="pred-cell text-muted">—</td>`;
       }
 
-      // Final result column (after ET; same as 90' if no extra time)
-      if (m.is_finished && m.home_score_final != null) {
+      // Final result column (home_score = fullTime from API, includes ET goals)
+      if (m.is_finished && m.home_score != null) {
         const isSame = m.home_score_final === m.home_score && m.away_score_final === m.away_score;
-        const penNote = m.winner_name && m.home_score_final === m.away_score_final ? ` <small class="text-muted">(${m.winner_flag}pen)</small>` : "";
+        const penNote = m.winner_name && m.home_score === m.away_score ? ` <small class="text-muted">(${m.winner_flag}pen)</small>` : "";
         const cls = isSame ? "text-success" : "text-info fw-bold";
-        row += `<td class="pred-cell ${cls}">${m.home_score_final}–${m.away_score_final}${penNote}</td>`;
-      } else if (m.is_finished && m.home_score != null) {
-        // Final not yet populated — show 90' score as fallback
-        row += `<td class="pred-cell text-success">${m.home_score}–${m.away_score}</td>`;
+        row += `<td class="pred-cell ${cls}">${m.home_score}–${m.away_score}${penNote}</td>`;
       } else {
         row += `<td class="pred-cell text-muted">—</td>`;
       }

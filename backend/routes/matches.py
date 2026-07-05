@@ -233,10 +233,15 @@ def sync_results_from_api(db: Session) -> dict:
         if home_score is None or away_score is None:
             continue
 
-        # Final score after ET (if match went to extra time); otherwise same as 90-min
+        # football-data.org: fullTime = final score including ET goals.
+        # extraTime = goals scored ONLY in ET (not cumulative).
+        # So: 90-min score = fullTime - extraTime.
+        # home_score_final stores the 90-min result; home_score stores the full final.
         et = score_obj.get("extraTime") or {}
-        home_score_final = et.get("home") if et.get("home") is not None else home_score
-        away_score_final = et.get("away") if et.get("away") is not None else away_score
+        et_home = et.get("home") or 0
+        et_away = et.get("away") or 0
+        home_score_final = home_score - et_home  # 90-min
+        away_score_final = away_score - et_away  # 90-min
 
         # Match by kickoff UTC time (strip timezone for comparison with naive DB datetimes)
         utc_date = datetime.fromisoformat(m_api["utcDate"].replace("Z", "+00:00"))
@@ -293,7 +298,8 @@ def sync_results_from_api(db: Session) -> dict:
 
         if (db_match.is_finished and db_match.home_score == home_score
                 and db_match.away_score == away_score
-                and db_match.home_score_final is not None):
+                and db_match.home_score_final == home_score_final
+                and db_match.away_score_final == away_score_final):
             continue  # already up to date
 
         db_match.home_score = home_score
