@@ -45,8 +45,10 @@ class Match(Base):
     away_team_placeholder = Column(String(50), nullable=True)
     kickoff_utc = Column(DateTime, nullable=False)
     venue = Column(String(100), nullable=True)
-    home_score = Column(Integer, nullable=True)
+    home_score = Column(Integer, nullable=True)    # score at 90 min (used for points)
     away_score = Column(Integer, nullable=True)
+    home_score_final = Column(Integer, nullable=True)  # final result after ET (same as 90 if no ET)
+    away_score_final = Column(Integer, nullable=True)
     is_finished = Column(Boolean, default=False)
 
     winner_id = Column(Integer, ForeignKey("teams.id"), nullable=True)

@@ -130,19 +130,20 @@
         html += '<div class="table-responsive">';
         html += '<table class="table table-bordered table-sm align-middle">';
 
-        // Header row: Match | P1 | P2 | ... | Result
+        // Header row: Match | P1 | P2 | ... | 90' | Final
         html += '<thead class="table-dark sticky-top"><tr>';
         html += `<th class="match-cell">${t("allpreds.match")}</th>`;
         participants.forEach(p => {
           html += `<th class="participant-header text-center" title="${p.name}">${p.name.split(" ")[0]}</th>`;
         });
-        html += `<th class="text-center text-warning">${t("allpreds.result")}</th>`;
+        html += `<th class="text-center text-warning" title="Resultado a 90 minutos">90'</th>`;
+        html += `<th class="text-center text-info" title="Resultado final (incluye prórroga)">Final</th>`;
         html += '</tr></thead><tbody>';
 
         if (round === "group_stage") {
           const groups = [...new Set(roundMatches.map(m => m.group))].sort();
           groups.forEach(g => {
-            html += `<tr><td colspan="${participants.length + 2}" class="group-header">
+            html += `<tr><td colspan="${participants.length + 3}" class="group-header">
               ${window.LANG === "en" ? "Group" : "Grupo"} ${g}
             </td></tr>`;
             roundMatches.filter(m => m.group === g).forEach(m => {
@@ -163,7 +164,7 @@
             const lbl = window.LANG === "en"
               ? `→ Round of 16 · Match #${pair.r16}`
               : `→ Octavos de Final · Partido #${pair.r16}`;
-            html += `<tr><td colspan="${participants.length + 2}" class="group-header">${lbl}</td></tr>`;
+            html += `<tr><td colspan="${participants.length + 3}" class="group-header">${lbl}</td></tr>`;
             pair.nums.forEach(num => {
               const m = matchByNum[num];
               if (m) html += matchRow(m, participants, predMap);
@@ -198,9 +199,22 @@
         }
       });
 
-      // Actual result column
+      // 90-min result column
       if (m.is_finished && m.home_score != null) {
-        row += `<td class="pred-cell fw-bold text-success">${m.home_score}–${m.away_score}</td>`;
+        row += `<td class="pred-cell fw-bold text-warning">${m.home_score}–${m.away_score}</td>`;
+      } else {
+        row += `<td class="pred-cell text-muted">—</td>`;
+      }
+
+      // Final result column (after ET; same as 90' if no extra time)
+      if (m.is_finished && m.home_score_final != null) {
+        const isSame = m.home_score_final === m.home_score && m.away_score_final === m.away_score;
+        const penNote = m.winner_name && m.home_score_final === m.away_score_final ? ` <small class="text-muted">(${m.winner_flag}pen)</small>` : "";
+        const cls = isSame ? "text-success" : "text-info fw-bold";
+        row += `<td class="pred-cell ${cls}">${m.home_score_final}–${m.away_score_final}${penNote}</td>`;
+      } else if (m.is_finished && m.home_score != null) {
+        // Final not yet populated — show 90' score as fallback
+        row += `<td class="pred-cell text-success">${m.home_score}–${m.away_score}</td>`;
       } else {
         row += `<td class="pred-cell text-muted">—</td>`;
       }

@@ -101,11 +101,21 @@ def _migrate():
     with engine.connect() as conn:
         conn.execute(text("ALTER TABLE matches ADD COLUMN IF NOT EXISTS winner_id INTEGER REFERENCES teams(id)"))
         conn.execute(text("ALTER TABLE predictions ADD COLUMN IF NOT EXISTS predicted_winner_side VARCHAR(4)"))
+        conn.execute(text("ALTER TABLE matches ADD COLUMN IF NOT EXISTS home_score_final INTEGER"))
+        conn.execute(text("ALTER TABLE matches ADD COLUMN IF NOT EXISTS away_score_final INTEGER"))
         # Fix R16 bracket pairings — seed_data.py had consecutive-pair assumption; real FIFA bracket is:
         # M89=P74/P77, M90=P73/P75, M91=P76/P78, M92=P79/P80
+        # M95=P85/P87 (Switzerland vs Colombia), M96=P86/P88 (Argentina vs Egypt)
         conn.execute(text("UPDATE matches SET home_team_placeholder='Ganador P74', away_team_placeholder='Ganador P77' WHERE match_number=89"))
         conn.execute(text("UPDATE matches SET home_team_placeholder='Ganador P73', away_team_placeholder='Ganador P75' WHERE match_number=90"))
         conn.execute(text("UPDATE matches SET home_team_placeholder='Ganador P76', away_team_placeholder='Ganador P78' WHERE match_number=91"))
+        conn.execute(text("UPDATE matches SET home_team_placeholder='Ganador P85', away_team_placeholder='Ganador P87' WHERE match_number=95"))
+        conn.execute(text("UPDATE matches SET home_team_placeholder='Ganador P86', away_team_placeholder='Ganador P88' WHERE match_number=96"))
+        # Backfill final score for group stage (no ET possible)
+        conn.execute(text(
+            "UPDATE matches SET home_score_final = home_score, away_score_final = away_score "
+            "WHERE round = 'group_stage' AND is_finished = TRUE AND home_score IS NOT NULL AND home_score_final IS NULL"
+        ))
         conn.commit()
 
 

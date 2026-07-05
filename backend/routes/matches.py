@@ -27,6 +27,8 @@ def match_to_dict(m: Match) -> dict:
         "venue": m.venue,
         "home_score": m.home_score,
         "away_score": m.away_score,
+        "home_score_final": m.home_score_final,
+        "away_score_final": m.away_score_final,
         "is_finished": m.is_finished,
         "winner_id": m.winner_id,
         "winner_name": m.winner.name if m.winner else None,
@@ -57,7 +59,9 @@ def get_match(mid: int, db: Session = Depends(get_db)):
 class ResultRequest(BaseModel):
     home_score: int
     away_score: int
-    winner_id: int | None = None  # team ID that advances — only for knockout draws (penalties)
+    winner_id: int | None = None        # team ID that advances — only for knockout draws (penalties)
+    home_score_final: int | None = None  # score after ET (leave blank if no ET)
+    away_score_final: int | None = None
 
 
 @router.patch("/{mid}/result")
@@ -67,6 +71,8 @@ def set_result(mid: int, req: ResultRequest, db: Session = Depends(get_db), _: P
         raise HTTPException(404, "Match not found")
     m.home_score = req.home_score
     m.away_score = req.away_score
+    m.home_score_final = req.home_score_final if req.home_score_final is not None else req.home_score
+    m.away_score_final = req.away_score_final if req.away_score_final is not None else req.away_score
     m.is_finished = True
     if req.winner_id is not None:
         m.winner_id = req.winner_id
@@ -178,9 +184,28 @@ def _calc_points(
     return 5 + (2 if ph == rh else 0) + (2 if pa == ra else 0)
 
 
+_NAME_ALIASES: dict[str, str] = {
+    "united states":        "usa",
+    "côte d'ivoire":        "ivory coast",
+    "cote d'ivoire":        "ivory coast",
+    "korea republic":       "south korea",
+    "republic of korea":    "south korea",
+    "bosnia and herzegovina": "bosnia-herzegovina",
+    "ir iran":              "iran",
+    "türkiye":              "turkey",
+    "turkiye":              "turkey",
+    "cape verde islands":   "cape verde",
+    "democratic republic of congo": "dr congo",
+    "congo dr":             "dr congo",
+}
+
+def _normalize(name: str) -> str:
+    n = name.lower().strip()
+    return _NAME_ALIASES.get(n, n)
+
 def _name_matches(api_name: str, db_name: str) -> bool:
-    """Loose team name comparison to handle minor differences between sources."""
-    a, b = api_name.lower().strip(), db_name.lower().strip()
+    """Loose team name comparison — handles aliases and substrings."""
+    a, b = _normalize(api_name), _normalize(db_name)
     return a == b or a in b or b in a
 
 
@@ -201,11 +226,17 @@ def sync_results_from_api(db: Session) -> dict:
 
     updated = 0
     for m_api in matches_data:
-        score = m_api.get("score", {}).get("fullTime", {})
+        score_obj = m_api.get("score", {})
+        score = score_obj.get("fullTime", {})
         home_score = score.get("home")
         away_score = score.get("away")
         if home_score is None or away_score is None:
             continue
+
+        # Final score after ET (if match went to extra time); otherwise same as 90-min
+        et = score_obj.get("extraTime") or {}
+        home_score_final = et.get("home") if et.get("home") is not None else home_score
+        away_score_final = et.get("away") if et.get("away") is not None else away_score
 
         # Match by kickoff UTC time (strip timezone for comparison with naive DB datetimes)
         utc_date = datetime.fromisoformat(m_api["utcDate"].replace("Z", "+00:00"))
@@ -260,11 +291,15 @@ def sync_results_from_api(db: Session) -> dict:
             if not db_match:
                 db_match = candidates[0]  # fallback
 
-        if db_match.is_finished and db_match.home_score == home_score and db_match.away_score == away_score:
+        if (db_match.is_finished and db_match.home_score == home_score
+                and db_match.away_score == away_score
+                and db_match.home_score_final is not None):
             continue  # already up to date
 
         db_match.home_score = home_score
         db_match.away_score = away_score
+        db_match.home_score_final = home_score_final
+        db_match.away_score_final = away_score_final
         db_match.is_finished = True
         for pred in db_match.predictions:
             pred.points = _calc_points(
