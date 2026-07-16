@@ -127,6 +127,97 @@ def reset_result(mid: int, db: Session = Depends(get_db), _: Participant = Depen
     return match_to_dict(m)
 
 
+class KOResultRequest(BaseModel):
+    home_team_name: str
+    away_team_name: str
+    home_score: int
+    away_score: int
+    round: str | None = None   # e.g. "sf", "qf", "round_of_16", "final" — narrows search
+
+
+@router.post("/ko-result")
+def set_ko_result(
+    req: KOResultRequest,
+    db: Session = Depends(get_db),
+    _: Participant = Depends(get_current_admin),
+):
+    """Assign teams + result to a knockout match identified by team names.
+    Useful when DB match slots have placeholder teams (TBD) but real game has finished.
+    """
+    # Resolve team names (fuzzy)
+    all_teams = db.query(Team).all()
+    def find_team(name: str) -> Team | None:
+        n = _normalize(name)
+        for t in all_teams:
+            if _normalize(t.name) == n or n in _normalize(t.name) or _normalize(t.name) in n:
+                return t
+        return None
+
+    home_team = find_team(req.home_team_name)
+    away_team = find_team(req.away_team_name)
+    if not home_team:
+        raise HTTPException(404, f"Home team not found: '{req.home_team_name}'")
+    if not away_team:
+        raise HTTPException(404, f"Away team not found: '{req.away_team_name}'")
+
+    # 1. Try to find already-assigned match
+    q = db.query(Match).filter(
+        Match.home_team_id == home_team.id,
+        Match.away_team_id == away_team.id,
+    )
+    if req.round:
+        q = q.filter(Match.round == req.round)
+    m = q.first()
+
+    # 2. Find an unfinished KO slot in the right round and assign teams
+    if not m:
+        ko_q = db.query(Match).filter(
+            Match.round != "group_stage",
+            Match.is_finished == False,
+            Match.home_team_id == None,
+            Match.away_team_id == None,
+        )
+        if req.round:
+            ko_q = ko_q.filter(Match.round == req.round)
+        m = ko_q.order_by(Match.match_number).first()
+        if m:
+            m.home_team_id = home_team.id
+            m.away_team_id = away_team.id
+        else:
+            # Last chance: unfinished KO slot that has one or both teams missing
+            ko_any = db.query(Match).filter(
+                Match.round != "group_stage",
+                Match.is_finished == False,
+            )
+            if req.round:
+                ko_any = ko_any.filter(Match.round == req.round)
+            m = ko_any.order_by(Match.match_number).first()
+            if m:
+                m.home_team_id = home_team.id
+                m.away_team_id = away_team.id
+
+    if not m:
+        raise HTTPException(404, "No matching knockout slot found. Check round or team names.")
+
+    m.home_score = req.home_score
+    m.away_score = req.away_score
+    m.home_score_final = req.home_score
+    m.away_score_final = req.away_score
+    m.is_finished = True
+    for pred in m.predictions:
+        pred.points = _calc_points(
+            pred.home_score, pred.away_score, req.home_score, req.away_score,
+            round_=m.round,
+            pred_winner_side=getattr(pred, "predicted_winner_side", None),
+            winner_id=m.winner_id,
+            home_team_id=m.home_team_id,
+            away_team_id=m.away_team_id,
+        )
+    _do_assign_ko_from_standings(db)
+    db.commit()
+    return {**match_to_dict(m), "home_team_resolved": home_team.name, "away_team_resolved": away_team.name}
+
+
 @router.post("/recalculate")
 def recalculate_all(db: Session = Depends(get_db), _: Participant = Depends(get_current_admin)):
     """Re-score predictions for ALL finished matches (same scoring formula for all rounds)."""

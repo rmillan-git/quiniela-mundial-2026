@@ -37,6 +37,46 @@
         <h5>Partidos Pendientes de Resultado</h5>
         <div id="results-loading" class="text-center py-3"><div class="spinner-border text-warning" role="status"></div></div>
         <div id="results-list"></div>
+
+        <!-- KO result by team names (for matches where teams are not yet assigned in DB) -->
+        <div class="card border-success mt-4">
+          <div class="card-header bg-success text-white fw-bold">🏆 Ingresar Resultado Eliminatorio por Nombre de Equipo</div>
+          <div class="card-body">
+            <p class="text-muted small mb-3">Usa esto cuando el partido no aparece arriba (los equipos aún aparecen como TBD). El sistema asignará los equipos y calculará puntos automáticamente.</p>
+            <div class="row g-2 mb-3 align-items-end">
+              <div class="col-sm-3">
+                <label class="form-label small fw-bold">Fase</label>
+                <select class="form-select form-select-sm" id="ko-round">
+                  <option value="round_of_32">Ronda de 32</option>
+                  <option value="round_of_16">Octavos</option>
+                  <option value="qf">Cuartos de Final</option>
+                  <option value="sf" selected>Semifinales</option>
+                  <option value="final">Final</option>
+                </select>
+              </div>
+              <div class="col-sm-3">
+                <label class="form-label small fw-bold">Equipo Local</label>
+                <input type="text" class="form-control form-control-sm" id="ko-home-team" placeholder="Ej: France">
+              </div>
+              <div class="col-auto">
+                <label class="form-label small fw-bold">Goles</label>
+                <div class="d-flex align-items-center gap-1">
+                  <input type="number" min="0" max="20" class="form-control form-control-sm text-center" id="ko-home-score" style="width:60px" placeholder="0">
+                  <span>–</span>
+                  <input type="number" min="0" max="20" class="form-control form-control-sm text-center" id="ko-away-score" style="width:60px" placeholder="0">
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <label class="form-label small fw-bold">Equipo Visita</label>
+                <input type="text" class="form-control form-control-sm" id="ko-away-team" placeholder="Ej: Spain">
+              </div>
+              <div class="col-auto">
+                <button class="btn btn-success btn-sm" onclick="saveKOResult()">💾 Guardar</button>
+              </div>
+            </div>
+            <div id="ko-result-alert" class="alert d-none"></div>
+          </div>
+        </div>
       </div>
 
       <!-- Participants tab -->
@@ -332,6 +372,43 @@
       const res = await api.patch(`/matches/${matchId}/result`, body);
       if (res.id) location.reload();
       else alert("Error: " + JSON.stringify(res));
+    }
+
+    async function saveKOResult() {
+      const round     = document.getElementById("ko-round").value;
+      const homeTeam  = document.getElementById("ko-home-team").value.trim();
+      const awayTeam  = document.getElementById("ko-away-team").value.trim();
+      const homeScore = parseInt(document.getElementById("ko-home-score").value);
+      const awayScore = parseInt(document.getElementById("ko-away-score").value);
+      const alertEl   = document.getElementById("ko-result-alert");
+
+      if (!homeTeam || !awayTeam) { alertEl.className = "alert alert-danger"; alertEl.textContent = "Ingresa ambos equipos."; alertEl.classList.remove("d-none"); return; }
+      if (isNaN(homeScore) || isNaN(awayScore) || homeScore < 0 || awayScore < 0) { alertEl.className = "alert alert-danger"; alertEl.textContent = "Ingresa marcadores válidos."; alertEl.classList.remove("d-none"); return; }
+
+      try {
+        const res = await api.post("/matches/ko-result", {
+          round, home_team_name: homeTeam, away_team_name: awayTeam,
+          home_score: homeScore, away_score: awayScore,
+        });
+        if (res.id) {
+          alertEl.className = "alert alert-success";
+          alertEl.innerHTML = `✅ Partido actualizado: <strong>${res.home_team_resolved} ${homeScore}–${awayScore} ${res.away_team_resolved}</strong> (partido #${res.match_number}). Puntos recalculados.`;
+          alertEl.classList.remove("d-none");
+          document.getElementById("ko-home-team").value = "";
+          document.getElementById("ko-away-team").value = "";
+          document.getElementById("ko-home-score").value = "";
+          document.getElementById("ko-away-score").value = "";
+          setTimeout(() => location.reload(), 2000);
+        } else {
+          alertEl.className = "alert alert-danger";
+          alertEl.textContent = "Error: " + (res.detail || JSON.stringify(res));
+          alertEl.classList.remove("d-none");
+        }
+      } catch(e) {
+        alertEl.className = "alert alert-danger";
+        alertEl.textContent = "Error: " + e.message;
+        alertEl.classList.remove("d-none");
+      }
     }
 
     // ── Participants ──────────────────────────────────────────────────────────
