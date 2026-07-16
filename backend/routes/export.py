@@ -313,6 +313,138 @@ def send_report(db: Session = Depends(get_db), _: Participant = Depends(get_curr
     return {"sent": sent, "failed": failed, "recipients": recipients}
 
 
+def build_by_participant_excel(db: Session) -> bytes:
+    """One sheet per participant showing their original predictions vs actual results."""
+    wb = Workbook()
+    wb.remove(wb.active)  # remove default empty sheet
+
+    participants = (
+        db.query(Participant)
+        .filter_by(is_approved=True, is_admin=False)
+        .order_by(Participant.name)
+        .all()
+    )
+    matches  = db.query(Match).order_by(Match.match_number).all()
+    preds    = db.query(Prediction).all()
+    pred_map = {(p.match_id, p.participant_id): p for p in preds}
+
+    HDRS = ["#", "Ronda", "Local", "Visita", "Tu Predicción", "Resultado Real", "Puntos"]
+    COL_WIDTHS = [5, 14, 22, 22, 14, 14, 8]
+
+    F_SECTION  = PatternFill("solid", fgColor="1F4E79")
+    F_HEADER   = PatternFill("solid", fgColor="2E75B6")
+    F_ROW_ODD  = PatternFill("solid", fgColor="EBF3FB")
+    F_EXACT    = PatternFill("solid", fgColor="C6EFCE")  # green  — exact score
+    F_WINNER   = PatternFill("solid", fgColor="DDEBF7")  # blue   — correct winner
+    F_WRONG    = PatternFill("solid", fgColor="FCE4D6")  # orange — wrong
+    F_PENDING  = PatternFill("solid", fgColor="FFFACD")  # yellow — no result yet
+    F_NO_PRED  = PatternFill("solid", fgColor="F0F0F0")  # grey   — no prediction
+
+    def row_fill(pred, match):
+        if not match.is_finished:
+            return F_PENDING if pred else F_NO_PRED
+        if not pred:
+            return F_NO_PRED
+        pts = pred.points
+        if pts is None:
+            return None
+        if pts >= 9:
+            return F_EXACT
+        if pts >= 5:
+            return F_WINNER
+        return F_WRONG
+
+    for p in participants:
+        # Sheet name max 31 chars, no special chars
+        sheet_name = p.name[:31].replace("/", "-").replace("\\", "-").replace("?", "").replace("*", "").replace("[", "").replace("]", "").replace(":", "-")
+        ws = wb.create_sheet(title=sheet_name)
+
+        # Title row
+        _merge(ws, 1, 1, 1, 7)
+        c = ws.cell(row=1, column=1, value=f"⚽ Quiniela Mundial 2026 — {p.name}")
+        c.fill = F_SECTION
+        c.font = Font(color="FFFFFF", bold=True, size=12)
+        c.alignment = Alignment(horizontal="center", vertical="center")
+        ws.row_dimensions[1].height = 26
+
+        # Header row
+        for col, (lbl, w) in enumerate(zip(HDRS, COL_WIDTHS), 1):
+            _c(ws, 2, col, lbl, fill=F_HEADER, font=WHITE_BOLD)
+            ws.column_dimensions[get_column_letter(col)].width = w
+        ws.row_dimensions[2].height = 20
+
+        row = 3
+        current_round = None
+        total_pts = 0
+        for m in matches:
+            if m.round != current_round:
+                current_round = m.round
+                _merge(ws, row, 1, row, 7)
+                c = ws.cell(row=row, column=1, value=ROUND_LABELS.get(m.round, m.round).upper())
+                c.fill = F_SECTION
+                c.font = Font(color="FFFFFF", bold=True)
+                c.alignment = Alignment(horizontal="left", vertical="center")
+                c.border = BORDER
+                ws.row_dimensions[row].height = 18
+                row += 1
+
+            pred  = pred_map.get((m.id, p.id))
+            home  = m.home_team.name if m.home_team else (m.home_team_placeholder or "TBD")
+            away  = m.away_team.name if m.away_team else (m.away_team_placeholder or "TBD")
+            real  = f"{m.home_score}–{m.away_score}" if m.is_finished else "—"
+            pick  = f"{pred.home_score}–{pred.away_score}" if pred else "—"
+            pts   = pred.points if pred else None
+            if pts:
+                total_pts += pts
+
+            rf = row_fill(pred, m)
+            odd = (row % 2 == 1)
+            base_fill = rf if rf else (F_ROW_ODD if odd else None)
+
+            _c(ws, row, 1, m.match_number, fill=base_fill, font=BOLD)
+            _c(ws, row, 2, ROUND_LABELS.get(m.round, m.round), fill=base_fill)
+            _c(ws, row, 3, home, fill=base_fill, align="left")
+            _c(ws, row, 4, away, fill=base_fill, align="left")
+            _c(ws, row, 5, pick, fill=base_fill, font=BOLD)
+            _c(ws, row, 6, real, fill=base_fill, font=BOLD if m.is_finished else None)
+            _c(ws, row, 7, pts if pts is not None else "", fill=base_fill,
+               font=Font(bold=True) if pts is not None else None)
+            row += 1
+
+        # Totals row
+        row += 1
+        _merge(ws, row, 1, row, 6)
+        c = ws.cell(row=row, column=1, value="TOTAL PUNTOS")
+        c.fill = F_SECTION; c.font = WHITE_BOLD
+        c.alignment = Alignment(horizontal="right", vertical="center")
+        c.border = BORDER
+        c2 = ws.cell(row=row, column=7, value=total_pts)
+        c2.fill = F_GOLD; c2.font = Font(bold=True, size=12)
+        c2.alignment = Alignment(horizontal="center", vertical="center")
+        c2.border = BORDER
+        ws.row_dimensions[row].height = 22
+
+        ws.freeze_panes = "A3"
+
+    buf = io.BytesIO()
+    wb.save(buf)
+    return buf.getvalue()
+
+
+@router.get("/export/by-participant")
+def export_by_participant(db: Session = Depends(get_db), _: Participant = Depends(get_current_admin)):
+    """Export one sheet per participant with their original predictions vs real results."""
+    try:
+        data = build_by_participant_excel(db)
+    except Exception as e:
+        raise HTTPException(500, detail=f"{type(e).__name__}: {e}\n{traceback.format_exc()}")
+    return Response(
+        content=data,
+        media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        headers={"Content-Disposition": "attachment; filename=quiniela-2026-por-participante.xlsx"},
+    )
+
+
 @router.get("/cron/ping")
 def cron_ping():
     """Public keep-alive endpoint — call every 10 min to prevent Render free tier sleep."""
