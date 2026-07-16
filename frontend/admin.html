@@ -85,6 +85,7 @@
           <h5 class="mb-0">Gestionar Participantes</h5>
           <button class="btn btn-success btn-sm me-1" id="btn-export-excel">📊 Exportar Excel (Grid)</button>
           <button class="btn btn-warning btn-sm me-1" id="btn-export-by-participant">📋 Excel por Participante</button>
+          <button class="btn btn-danger btn-sm me-1" id="btn-export-bracket">🏆 Excel Bracket (Clasificados)</button>
           <button class="btn btn-primary btn-sm me-1" id="btn-send-report">📧 Enviar Reporte</button>
           <button class="btn btn-outline-success btn-sm" id="btn-export-csv">📥 Exportar CSV</button>
         </div>
@@ -604,6 +605,33 @@
       }
       btn.disabled = false;
       btn.textContent = "📋 Excel por Participante";
+    });
+
+    document.getElementById("btn-export-bracket").addEventListener("click", async () => {
+      const btn = document.getElementById("btn-export-bracket");
+      btn.disabled = true;
+      btn.textContent = "Generando…";
+      try {
+        const token = localStorage.getItem("token");
+        const base = (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
+          ? "http://localhost:8000" : "https://quiniela-backend-8oak.onrender.com";
+        const res = await fetch(base + "/admin/export/bracket",
+          { headers: { "Authorization": `Bearer ${token}` } });
+        if (!res.ok) throw new Error("Export failed: " + res.status);
+        const blob = await res.blob();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `quiniela-2026-bracket-${new Date().toISOString().slice(0,10)}.xlsx`;
+        a.style.display = "none";
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 1000);
+      } catch (e) {
+        alert("Error generando Excel: " + e.message);
+      }
+      btn.disabled = false;
+      btn.textContent = "🏆 Excel Bracket (Clasificados)";
     });
 
     // ── Send Report ──────────────────────────────────────────────────────────

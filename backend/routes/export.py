@@ -313,6 +313,352 @@ def send_report(db: Session = Depends(get_db), _: Participant = Depends(get_curr
     return {"sent": sent, "failed": failed, "recipients": recipients}
 
 
+GROUPS = list("ABCDEFGHIJKL")
+
+
+def _simulate_group(group_matches: list, participant_id: int, pred_map: dict) -> list[dict]:
+    """
+    Returns [{name, flag, pts, gf, ga, gd, wins, draws, losses}, ...]
+    sorted by simulated group standing from a participant's predictions.
+    """
+    stats: dict[int, dict] = {}  # team_id → stats
+
+    def init(team_id, name, flag):
+        if team_id not in stats:
+            stats[team_id] = {"name": name, "flag": flag,
+                               "pts": 0, "gf": 0, "ga": 0,
+                               "wins": 0, "draws": 0, "losses": 0}
+
+    for m in group_matches:
+        if not m.home_team_id or not m.away_team_id:
+            continue
+        pred = pred_map.get((m.id, participant_id))
+        if not pred:
+            continue
+        ph, pa = pred.home_score, pred.away_score
+        init(m.home_team_id, m.home_team.name, m.home_team.flag_emoji)
+        init(m.away_team_id, m.away_team.name, m.away_team.flag_emoji)
+        stats[m.home_team_id]["gf"] += ph
+        stats[m.home_team_id]["ga"] += pa
+        stats[m.away_team_id]["gf"] += pa
+        stats[m.away_team_id]["ga"] += ph
+        if ph > pa:
+            stats[m.home_team_id]["pts"] += 3
+            stats[m.home_team_id]["wins"] += 1
+            stats[m.away_team_id]["losses"] += 1
+        elif pa > ph:
+            stats[m.away_team_id]["pts"] += 3
+            stats[m.away_team_id]["wins"] += 1
+            stats[m.home_team_id]["losses"] += 1
+        else:
+            stats[m.home_team_id]["pts"] += 1
+            stats[m.away_team_id]["pts"] += 1
+            stats[m.home_team_id]["draws"] += 1
+            stats[m.away_team_id]["draws"] += 1
+
+    for s in stats.values():
+        s["gd"] = s["gf"] - s["ga"]
+
+    return sorted(stats.values(), key=lambda x: (x["pts"], x["gd"], x["gf"]), reverse=True)
+
+
+def build_bracket_excel(db: Session) -> bytes:
+    """
+    Builds a bracket-based Excel:
+    - Sheet 1 "Clasificados": summary showing who each participant predicted to
+      advance (1st / 2nd) from each of the 12 groups, derived from their group
+      stage score predictions.
+    - One sheet per participant: group-by-group predictions + simulated standing
+      + their knockout round predictions.
+    """
+    wb = Workbook()
+
+    participants = (
+        db.query(Participant)
+        .filter_by(is_approved=True, is_admin=False)
+        .order_by(Participant.name)
+        .all()
+    )
+    all_matches = db.query(Match).order_by(Match.match_number).all()
+    preds       = db.query(Prediction).all()
+    pred_map    = {(p.match_id, p.participant_id): p for p in preds}
+
+    group_matches: dict[str, list] = {g: [] for g in GROUPS}
+    ko_matches:    list            = []
+    for m in all_matches:
+        if m.round == "group_stage" and m.group:
+            group_matches[m.group].append(m)
+        elif m.round != "group_stage":
+            ko_matches.append(m)
+
+    # ── Sheet 1: Clasificados (summary) ──────────────────────────────────────
+    ws = wb.active
+    ws.title = "Clasificados"
+
+    # Title
+    total_cols = 1 + len(GROUPS) * 3
+    _merge(ws, 1, 1, 1, total_cols)
+    c = ws.cell(row=1, column=1, value="⚽ Quiniela 2026 — Clasificados Predichos por Participante")
+    c.fill = F_DARK_BLUE; c.font = Font(color="FFFFFF", bold=True, size=13)
+    c.alignment = Alignment(horizontal="center", vertical="center")
+    ws.row_dimensions[1].height = 26
+
+    # Group headers
+    ws.cell(row=2, column=1, value="Participante").fill = F_MED_BLUE
+    ws.cell(row=2, column=1).font = WHITE_BOLD
+    ws.cell(row=2, column=1).border = BORDER
+    ws.cell(row=2, column=1).alignment = Alignment(horizontal="center", vertical="center")
+    col = 2
+    for g in GROUPS:
+        _merge(ws, 2, col, 2, col + 2)
+        c = ws.cell(row=2, column=col, value=f"Grupo {g}")
+        c.fill = F_MED_BLUE; c.font = WHITE_BOLD
+        c.alignment = Alignment(horizontal="center", vertical="center")
+        c.border = BORDER
+        for sub, lbl in enumerate(["1°", "2°", "3°"]):
+            _c(ws, 3, col + sub, lbl, fill=F_LIGHT_BLUE, font=BOLD)
+        col += 3
+    ws.row_dimensions[2].height = 22
+    ws.row_dimensions[3].height = 18
+
+    # Actual group advances (real results) — row 4
+    _merge(ws, 4, 1, 4, 1)
+    c = ws.cell(row=4, column=1, value="✅ REAL")
+    c.fill = F_RESULT; c.font = BOLD
+    c.alignment = Alignment(horizontal="center", vertical="center"); c.border = BORDER
+    col = 2
+    for g in GROUPS:
+        gm = group_matches[g]
+        # Build real standings from finished matches
+        real_stats: dict[int, dict] = {}
+        def _init_real(tid, name, flag):
+            if tid not in real_stats:
+                real_stats[tid] = {"name": name, "flag": flag, "pts": 0, "gf": 0, "ga": 0, "gd": 0}
+        for m in gm:
+            if not m.is_finished or m.home_team_id is None or m.away_team_id is None:
+                continue
+            _init_real(m.home_team_id, m.home_team.name, m.home_team.flag_emoji)
+            _init_real(m.away_team_id, m.away_team.name, m.away_team.flag_emoji)
+            real_stats[m.home_team_id]["gf"] += m.home_score
+            real_stats[m.home_team_id]["ga"] += m.away_score
+            real_stats[m.away_team_id]["gf"] += m.away_score
+            real_stats[m.away_team_id]["ga"] += m.home_score
+            if m.home_score > m.away_score:
+                real_stats[m.home_team_id]["pts"] += 3
+            elif m.away_score > m.home_score:
+                real_stats[m.away_team_id]["pts"] += 3
+            else:
+                real_stats[m.home_team_id]["pts"] += 1
+                real_stats[m.away_team_id]["pts"] += 1
+        for s in real_stats.values():
+            s["gd"] = s["gf"] - s["ga"]
+        real_sorted = sorted(real_stats.values(), key=lambda x: (x["pts"], x["gd"], x["gf"]), reverse=True)
+        for pos in range(3):
+            name = (real_sorted[pos]["flag"] + " " + real_sorted[pos]["name"]) if pos < len(real_sorted) else "—"
+            fill = F_RESULT if pos < 2 else None
+            _c(ws, 4, col + pos, name, fill=fill)
+        col += 3
+
+    # Per-participant rows
+    row = 5
+    for p in participants:
+        _c(ws, row, 1, p.name, fill=F_ROW, align="left", font=BOLD)
+        col = 2
+        for g in GROUPS:
+            standing = _simulate_group(group_matches[g], p.id, pred_map)
+            for pos in range(3):
+                if pos < len(standing):
+                    team = standing[pos]
+                    cell_val = f"{team['flag']} {team['name']} ({team['pts']}pts)"
+                else:
+                    cell_val = "—"
+                fill = F_LIGHT_BLUE if pos < 2 else None
+                _c(ws, row, col + pos, cell_val, fill=fill, align="left")
+            col += 3
+        row += 1
+
+    # Column widths for summary sheet
+    ws.column_dimensions["A"].width = 20
+    for i, g in enumerate(GROUPS):
+        base = 2 + i * 3
+        for offset in range(3):
+            ws.column_dimensions[get_column_letter(base + offset)].width = 22
+    ws.freeze_panes = "B5"
+
+    # ── Per-participant sheets ────────────────────────────────────────────────
+    F_GRP_WIN  = PatternFill("solid", fgColor="C6EFCE")  # green  — 1st place
+    F_GRP_2ND  = PatternFill("solid", fgColor="DDEBF7")  # blue   — 2nd place
+    F_GRP_3RD  = PatternFill("solid", fgColor="FFFACD")  # yellow — 3rd
+    F_GRP_4TH  = PatternFill("solid", fgColor="FCE4D6")  # red    — 4th
+
+    PLACE_FILLS = [F_GRP_WIN, F_GRP_2ND, F_GRP_3RD, F_GRP_4TH]
+
+    for p in participants:
+        sheet_name = p.name[:31].replace("/", "-").replace("\\", "-").replace("?", "").replace("*", "").replace("[", "").replace("]", "").replace(":", "-")
+        ws2 = wb.create_sheet(title=sheet_name)
+
+        # Title
+        _merge(ws2, 1, 1, 1, 8)
+        c = ws2.cell(row=1, column=1, value=f"⚽ Quiniela de {p.name} — Bracket por Grupo")
+        c.fill = F_DARK_BLUE; c.font = Font(color="FFFFFF", bold=True, size=12)
+        c.alignment = Alignment(horizontal="center", vertical="center")
+        ws2.row_dimensions[1].height = 26
+
+        row = 2
+        total_pts = 0
+
+        # ── Group stage section ──
+        for g in GROUPS:
+            gm = group_matches[g]
+            standing = _simulate_group(gm, p.id, pred_map)
+
+            # Group header
+            _merge(ws2, row, 1, row, 8)
+            c = ws2.cell(row=row, column=1, value=f"GRUPO {g}")
+            c.fill = F_MED_BLUE; c.font = WHITE_BOLD
+            c.alignment = Alignment(horizontal="left", vertical="center"); c.border = BORDER
+            ws2.row_dimensions[row].height = 18
+            row += 1
+
+            # Match predictions
+            _c(ws2, row, 1, "#", fill=F_LIGHT_BLUE, font=BOLD)
+            _c(ws2, row, 2, "Local", fill=F_LIGHT_BLUE, font=BOLD, align="left")
+            _c(ws2, row, 3, "Predicción", fill=F_LIGHT_BLUE, font=BOLD)
+            _c(ws2, row, 4, "Resultado Real", fill=F_LIGHT_BLUE, font=BOLD)
+            _c(ws2, row, 5, "Pts", fill=F_LIGHT_BLUE, font=BOLD)
+            _c(ws2, row, 6, "", fill=F_LIGHT_BLUE)
+            _c(ws2, row, 7, "", fill=F_LIGHT_BLUE)
+            _c(ws2, row, 8, "Visita", fill=F_LIGHT_BLUE, font=BOLD, align="left")
+            row += 1
+
+            for m in gm:
+                pred = pred_map.get((m.id, p.id))
+                home = m.home_team.name if m.home_team else "TBD"
+                away = m.away_team.name if m.away_team else "TBD"
+                pick = f"{pred.home_score}–{pred.away_score}" if pred else "—"
+                real = f"{m.home_score}–{m.away_score}" if m.is_finished else "—"
+                pts  = pred.points if pred else None
+                if pts:
+                    total_pts += pts
+                pf = (F_EXACT if pts and pts >= 9 else F_WINNER if pts and pts >= 5 else F_WRONG if (m.is_finished and pred) else None)
+                _c(ws2, row, 1, m.match_number, fill=pf, font=BOLD)
+                _c(ws2, row, 2, home, fill=pf, align="left")
+                _c(ws2, row, 3, pick, fill=pf, font=BOLD)
+                _c(ws2, row, 4, real, fill=pf, font=BOLD if m.is_finished else None)
+                _c(ws2, row, 5, pts if pts is not None else "", fill=pf, font=Font(bold=True) if pts else None)
+                _c(ws2, row, 6, "", fill=pf)
+                _c(ws2, row, 7, "", fill=pf)
+                _c(ws2, row, 8, away, fill=pf, align="left")
+                row += 1
+
+            # Simulated group standing
+            _merge(ws2, row, 1, row, 8)
+            c = ws2.cell(row=row, column=1, value=f"→ Tabla simulada Grupo {g} (según sus predicciones)")
+            c.fill = F_RESULT; c.font = Font(italic=True, bold=True)
+            c.alignment = Alignment(horizontal="left", vertical="center"); c.border = BORDER
+            ws2.row_dimensions[row].height = 16
+            row += 1
+
+            for pos, s in enumerate(standing):
+                place_fill = PLACE_FILLS[pos] if pos < 4 else None
+                place_lbl = ["🥇 1°", "🥈 2°", "🥉 3°", "4°"][pos] if pos < 4 else f"{pos+1}°"
+                _c(ws2, row, 1, place_lbl, fill=place_fill, font=BOLD)
+                _c(ws2, row, 2, f"{s['flag']} {s['name']}", fill=place_fill, align="left")
+                _c(ws2, row, 3, f"{s['pts']} pts", fill=place_fill, font=BOLD)
+                _c(ws2, row, 4, f"GD {s['gd']:+d}", fill=place_fill)
+                _c(ws2, row, 5, f"GF {s['gf']}", fill=place_fill)
+                _c(ws2, row, 6, f"GA {s['ga']}", fill=place_fill)
+                _c(ws2, row, 7, f"{s['wins']}G {s['draws']}E {s['losses']}P", fill=place_fill)
+                _c(ws2, row, 8, "✅ PASA" if pos < 2 else ("🔶 posible 3°" if pos == 2 else "❌"), fill=place_fill)
+                row += 1
+
+            row += 1  # blank row between groups
+
+        # ── Knockout predictions section ──
+        if ko_matches:
+            _merge(ws2, row, 1, row, 8)
+            c = ws2.cell(row=row, column=1, value="RONDAS ELIMINATORIAS — Predicciones Originales")
+            c.fill = F_DARK_BLUE; c.font = WHITE_BOLD
+            c.alignment = Alignment(horizontal="left", vertical="center"); c.border = BORDER
+            ws2.row_dimensions[row].height = 20
+            row += 1
+
+            _c(ws2, row, 1, "#", fill=F_LIGHT_BLUE, font=BOLD)
+            _c(ws2, row, 2, "Ronda", fill=F_LIGHT_BLUE, font=BOLD)
+            _c(ws2, row, 3, "Local Real", fill=F_LIGHT_BLUE, font=BOLD, align="left")
+            _c(ws2, row, 4, "Predicción", fill=F_LIGHT_BLUE, font=BOLD)
+            _c(ws2, row, 5, "Resultado Real", fill=F_LIGHT_BLUE, font=BOLD)
+            _c(ws2, row, 6, "Pts", fill=F_LIGHT_BLUE, font=BOLD)
+            _c(ws2, row, 7, "Visita Real", fill=F_LIGHT_BLUE, font=BOLD, align="left")
+            _c(ws2, row, 8, "Nota", fill=F_LIGHT_BLUE, font=BOLD)
+            row += 1
+
+            current_round = None
+            for m in ko_matches:
+                if m.round != current_round:
+                    current_round = m.round
+                    _merge(ws2, row, 1, row, 8)
+                    c = ws2.cell(row=row, column=1, value=ROUND_LABELS.get(m.round, m.round).upper())
+                    c.fill = F_MED_BLUE; c.font = WHITE_BOLD
+                    c.alignment = Alignment(horizontal="left", vertical="center"); c.border = BORDER
+                    ws2.row_dimensions[row].height = 16
+                    row += 1
+
+                pred  = pred_map.get((m.id, p.id))
+                home  = m.home_team.name if m.home_team else (m.home_team_placeholder or "TBD")
+                away  = m.away_team.name if m.away_team else (m.away_team_placeholder or "TBD")
+                pick  = f"{pred.home_score}–{pred.away_score}" if pred else "—"
+                real  = f"{m.home_score}–{m.away_score}" if m.is_finished else "—"
+                pts   = pred.points if pred else None
+                if pts:
+                    total_pts += pts
+                pf = (F_EXACT if pts and pts >= 9 else F_WINNER if pts and pts >= 5 else F_WRONG if (m.is_finished and pred) else None)
+                note = "⚠️ equipos TBD al predecir" if not (m.home_team and m.away_team) and pred else ""
+                _c(ws2, row, 1, m.match_number, fill=pf, font=BOLD)
+                _c(ws2, row, 2, ROUND_LABELS.get(m.round, m.round), fill=pf)
+                _c(ws2, row, 3, home, fill=pf, align="left")
+                _c(ws2, row, 4, pick, fill=pf, font=BOLD)
+                _c(ws2, row, 5, real, fill=pf, font=BOLD if m.is_finished else None)
+                _c(ws2, row, 6, pts if pts is not None else "", fill=pf, font=Font(bold=True) if pts else None)
+                _c(ws2, row, 7, away, fill=pf, align="left")
+                _c(ws2, row, 8, note, fill=pf)
+                row += 1
+
+        # Totals
+        row += 1
+        _merge(ws2, row, 1, row, 7)
+        c = ws2.cell(row=row, column=1, value="TOTAL PUNTOS (calculado automáticamente)")
+        c.fill = F_DARK_BLUE; c.font = WHITE_BOLD
+        c.alignment = Alignment(horizontal="right", vertical="center"); c.border = BORDER
+        c2 = ws2.cell(row=row, column=8, value=total_pts)
+        c2.fill = F_GOLD; c2.font = Font(bold=True, size=12)
+        c2.alignment = Alignment(horizontal="center", vertical="center"); c2.border = BORDER
+        ws2.row_dimensions[row].height = 22
+
+        # Column widths
+        for col_i, w in enumerate([5, 20, 22, 12, 14, 6, 22, 28], 1):
+            ws2.column_dimensions[get_column_letter(col_i)].width = w
+        ws2.freeze_panes = "A3"
+
+    buf = io.BytesIO()
+    wb.save(buf)
+    return buf.getvalue()
+
+
+@router.get("/export/bracket")
+def export_bracket(db: Session = Depends(get_db), _: Participant = Depends(get_current_admin)):
+    """Export bracket-based Excel: predicted group advances + per-participant bracket view."""
+    try:
+        data = build_bracket_excel(db)
+    except Exception as e:
+        raise HTTPException(500, detail=f"{type(e).__name__}: {e}\n{traceback.format_exc()}")
+    return Response(
+        content=data,
+        media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        headers={"Content-Disposition": "attachment; filename=quiniela-2026-bracket.xlsx"},
+    )
+
+
 def build_by_participant_excel(db: Session) -> bytes:
     """One sheet per participant showing their original predictions vs actual results."""
     wb = Workbook()
