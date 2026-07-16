@@ -12,6 +12,7 @@ class Settings(BaseSettings):
     football_data_api_key: str = ""
     gmail_user: str = ""
     gmail_app_password: str = ""
+    cron_secret: str = ""
 
     class Config:
         env_file = ".env"

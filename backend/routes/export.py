@@ -6,7 +6,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.base import MIMEBase
 from email.mime.text import MIMEText
 from email import encoders
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from fastapi.responses import Response
 from sqlalchemy.orm import Session
 from openpyxl import Workbook
@@ -311,3 +311,17 @@ def send_report(db: Session = Depends(get_db), _: Participant = Depends(get_curr
         raise HTTPException(500, detail=f"SMTP error: {e}")
 
     return {"sent": sent, "failed": failed, "recipients": recipients}
+
+
+@router.get("/cron/ping")
+def cron_ping():
+    """Public keep-alive endpoint — call every 10 min to prevent Render free tier sleep."""
+    return {"status": "alive"}
+
+
+@router.get("/cron/daily-report")
+def cron_daily_report(token: str = Query(...), db: Session = Depends(get_db)):
+    """Send daily report triggered by external cron service (cron-job.org)."""
+    if not settings.cron_secret or token != settings.cron_secret:
+        raise HTTPException(403, "Invalid token")
+    return send_report(db)

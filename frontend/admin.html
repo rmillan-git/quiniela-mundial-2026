@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Admin – Quiniela 2026</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="css/style.css" rel="stylesheet">
+  <link href="css/style.css?v=20260628" rel="stylesheet">
 </head>
 <body>
   <nav class="navbar navbar-dark bg-warning">
@@ -13,6 +13,7 @@
       <span class="navbar-brand fw-bold text-dark">⚽ Quiniela Admin</span>
       <div class="d-flex gap-2">
         <a href="index.html" class="btn btn-dark btn-sm">Sitio Público</a>
+        <a href="stats.html" class="btn btn-outline-dark btn-sm">Estadísticas</a>
         <button class="btn btn-outline-dark btn-sm" id="btn-logout">Salir</button>
       </div>
     </div>
@@ -24,6 +25,8 @@
     <ul class="nav nav-tabs mb-4" id="admin-tabs">
       <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#tab-results">Ingresar Resultados</a></li>
       <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab-participants">Participantes <span id="pending-badge" class="badge bg-danger d-none">0</span></a></li>
+      <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab-bracket">🏆 Ronda de 32</a></li>
+      <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab-pred-entry">✍️ Predicciones</a></li>
       <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab-simulate">🎲 Simulación</a></li>
     </ul>
 
@@ -49,6 +52,74 @@
           <thead><tr><th>Nombre</th><th>Email</th><th>Registro</th><th>Estado</th><th></th></tr></thead>
           <tbody id="part-body"></tbody>
         </table>
+      </div>
+
+      <!-- Ronda de 32 bracket assignment tab -->
+      <div class="tab-pane fade" id="tab-bracket">
+        <div class="d-flex align-items-center gap-3 mb-3 flex-wrap">
+          <div>
+            <h5 class="mb-0">Asignación Tentativa — Ronda de 32</h5>
+            <p class="text-muted small mb-0">Calcula desde los standings actuales y asigna los equipos a los 16 partidos. Puedes ejecutarlo varias veces conforme avanza el grupo.</p>
+          </div>
+          <button class="btn btn-success" id="btn-assign-ko">📊 Asignar desde Standings Actuales</button>
+        </div>
+        <div id="assign-ko-result" class="alert d-none mb-3"></div>
+        <div id="bracket-r32-list" class="text-center py-3"><div class="spinner-border text-success" role="status"></div></div>
+      </div>
+
+      <!-- Admin Prediction Entry tab -->
+      <div class="tab-pane fade" id="tab-pred-entry">
+        <div class="card border-primary mb-3">
+          <div class="card-header bg-primary text-white fw-bold">✍️ Ingresar Predicción por Participante</div>
+          <div class="card-body">
+            <p class="text-muted small">Ingresa o corrige la predicción de cualquier participante para cualquier partido (sin restricción de horario).</p>
+            <div class="row g-3 mb-3">
+              <div class="col-sm-4">
+                <label class="form-label small fw-bold">Participante</label>
+                <select class="form-select form-select-sm" id="pred-entry-participant"></select>
+              </div>
+              <div class="col-sm-4">
+                <label class="form-label small fw-bold">Partido</label>
+                <select class="form-select form-select-sm" id="pred-entry-match"></select>
+              </div>
+              <div class="col-sm-4">
+                <label class="form-label small fw-bold">Ronda (filtro)</label>
+                <select class="form-select form-select-sm" id="pred-entry-round" onchange="filterPredEntryMatches()">
+                  <option value="">Todas</option>
+                  <option value="group_stage">Fase de Grupos</option>
+                  <option value="round_of_32" selected>Ronda de 32</option>
+                  <option value="round_of_16">Octavos</option>
+                  <option value="qf">Cuartos</option>
+                  <option value="sf">Semifinales</option>
+                  <option value="final">Final</option>
+                </select>
+              </div>
+            </div>
+            <div class="row g-3 mb-3 align-items-end">
+              <div class="col-auto">
+                <label class="form-label small fw-bold">Local</label>
+                <input type="number" min="0" max="20" class="form-control form-control-sm text-center" id="pred-entry-home" style="width:70px" placeholder="0">
+              </div>
+              <div class="col-auto pt-4"><span class="fw-bold fs-5">–</span></div>
+              <div class="col-auto">
+                <label class="form-label small fw-bold">Visita</label>
+                <input type="number" min="0" max="20" class="form-control form-control-sm text-center" id="pred-entry-away" style="width:70px" placeholder="0">
+              </div>
+              <div class="col-auto" id="pred-entry-pen-wrap" style="display:none">
+                <label class="form-label small fw-bold">Avanza en penales</label>
+                <select class="form-select form-select-sm" id="pred-entry-pen">
+                  <option value="">— (no empate) —</option>
+                  <option value="home">Local</option>
+                  <option value="away">Visita</option>
+                </select>
+              </div>
+              <div class="col-auto pt-4">
+                <button class="btn btn-primary btn-sm" onclick="submitPredEntry()">💾 Guardar</button>
+              </div>
+            </div>
+            <div id="pred-entry-result" class="alert d-none"></div>
+          </div>
+        </div>
       </div>
 
       <!-- Simulate tab -->
@@ -96,6 +167,11 @@
             <p class="small text-muted mb-2"><strong>🔄 Recalcular:</strong> Si ingresaste predicciones después de correr una simulación, usa esto para puntuar todas las predicciones existentes contra los resultados actuales.</p>
             <button class="btn btn-primary btn-sm me-2" id="btn-recalc">🔄 Recalcular Todos los Puntos</button>
             <div id="recalc-result" class="alert mt-2 d-none"></div>
+
+            <hr>
+            <p class="small text-muted mb-2"><strong>🏁 Reinicio KO:</strong> Pone a cero los puntos de la fase de grupos para iniciar el conteo limpio de rondas eliminatorias. Las predicciones se conservan intactas.</p>
+            <button class="btn btn-warning btn-sm" id="btn-reset-group-pts">🏁 Resetear Puntos Fase de Grupos</button>
+            <div id="reset-group-pts-result" class="alert mt-2 d-none"></div>
 
             <hr>
             <p class="small text-muted mb-2"><strong>⚠️ Reset:</strong> Borra todos los resultados de partidos y puntos (para empezar de cero).</p>
@@ -148,8 +224,8 @@
     </div>
   </div>
 
-  <script src="js/api.js"></script>
-  <script src="js/auth.js"></script>
+  <script src="js/api.js?v=20260628"></script>
+  <script src="js/auth.js?v=20260628"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     const CST_OFFSET = -6 * 60;
@@ -174,12 +250,14 @@
         container.innerHTML = '<p class="text-muted">No hay partidos pendientes de resultado ahora mismo.</p>';
       } else {
         pending.forEach(m => {
+          const isKO = !['group_stage'].includes(m.round);
           const div = document.createElement("div");
           div.className = "card mb-2";
           div.innerHTML = `
             <div class="card-body py-2 px-3">
               <div class="d-flex align-items-center gap-2 flex-wrap">
                 <span class="text-muted small">#${m.match_number} · ${toCST(m.kickoff_utc)} · ${m.venue||""}</span>
+                ${isKO ? '<span class="badge bg-info text-dark">Eliminatoria</span>' : ''}
               </div>
               <div class="d-flex align-items-center gap-2 flex-wrap mt-1">
                 <strong>${m.home_flag} ${m.home_team}</strong>
@@ -187,8 +265,20 @@
                 <span>–</span>
                 <input type="number" min="0" max="20" step="1" class="form-control form-control-sm text-center" id="a-${m.id}" style="width:60px" placeholder="0">
                 <strong>${m.away_flag} ${m.away_team}</strong>
-                <button class="btn btn-warning btn-sm ms-auto" onclick="saveResult(${m.id})">Guardar</button>
+                <button class="btn btn-warning btn-sm ms-auto" onclick="saveResult(${m.id},${isKO},${m.home_team_id||'null'},${m.away_team_id||'null'})">Guardar</button>
               </div>
+              ${isKO ? `
+              <div id="pen-section-${m.id}" class="mt-2 d-none">
+                <span class="small text-danger fw-semibold">🏆 Empate — ¿quién avanzó en penales?</span>
+                <div class="btn-group btn-group-sm ms-2">
+                  <button type="button" class="btn btn-outline-danger admin-pen-btn" data-match="${m.id}" data-team="${m.home_team_id}" onclick="selectPenWinner(${m.id},${m.home_team_id})">
+                    ${m.home_flag} ${m.home_team}
+                  </button>
+                  <button type="button" class="btn btn-outline-danger admin-pen-btn" data-match="${m.id}" data-team="${m.away_team_id}" onclick="selectPenWinner(${m.id},${m.away_team_id})">
+                    ${m.away_team} ${m.away_flag}
+                  </button>
+                </div>
+              </div>` : ''}
             </div>`;
           container.appendChild(div);
         });
@@ -209,11 +299,36 @@
       }
     }
 
-    async function saveResult(matchId) {
+    const adminPenWinners = {}; // matchId → teamId
+
+    function selectPenWinner(matchId, teamId) {
+      adminPenWinners[matchId] = teamId;
+      document.querySelectorAll(`.admin-pen-btn[data-match="${matchId}"]`).forEach(btn => {
+        const isSelected = +btn.dataset.team === teamId;
+        btn.classList.toggle('btn-danger', isSelected);
+        btn.classList.toggle('btn-outline-danger', !isSelected);
+      });
+    }
+
+    async function saveResult(matchId, isKO = false, homeTeamId = null, awayTeamId = null) {
       const h = parseInt(document.getElementById(`h-${matchId}`).value);
       const a = parseInt(document.getElementById(`a-${matchId}`).value);
       if (isNaN(h) || isNaN(a) || h < 0 || a < 0) return alert("Ingresa marcadores válidos (0 o más).");
-      const res = await api.patch(`/matches/${matchId}/result`, { home_score: h, away_score: a });
+
+      // Show penalty section if KO match ends in draw
+      if (isKO) {
+        const penSec = document.getElementById(`pen-section-${matchId}`);
+        if (penSec) penSec.classList.toggle('d-none', h !== a);
+        if (h === a && !adminPenWinners[matchId]) {
+          return alert("Es eliminatoria y hay empate — selecciona quién avanzó en penales.");
+        }
+      }
+
+      const body = { home_score: h, away_score: a };
+      if (isKO && h === a && adminPenWinners[matchId]) {
+        body.winner_id = adminPenWinners[matchId];
+      }
+      const res = await api.patch(`/matches/${matchId}/result`, body);
       if (res.id) location.reload();
       else alert("Error: " + JSON.stringify(res));
     }
@@ -504,8 +619,9 @@
       const el = document.getElementById("sync-result");
       try {
         const res = await api.post("/matches/sync", {});
+        if (res.error || res.detail) throw new Error(res.error || res.detail);
         el.className = "alert alert-success mt-2";
-        let syncMsg = `✅ Sincronización completa — ${res.updated} partido(s) actualizado(s) de ${res.total_finished} terminado(s).`;
+        let syncMsg = `✅ Sincronización completa — ${res.updated ?? 0} partido(s) actualizado(s) de ${res.total_finished ?? 0} terminado(s).`;
         if (res.not_found && res.not_found.length > 0) {
           syncMsg += `<br><strong>⚠️ ${res.not_found.length} partido(s) no encontrado(s) en BD (ingresar manualmente):</strong><ul class="mb-0 mt-1">`;
           res.not_found.forEach(m => { syncMsg += `<li>${m.home} vs ${m.away} (${m.date ? m.date.slice(0,10) : "?"})</li>`; });
@@ -554,6 +670,218 @@
       el.classList.remove("d-none");
       document.getElementById("sim-progress").classList.add("d-none");
     }
+
+    // ── Ronda de 32 bracket assignment ───────────────────────────────────────
+    let _allGroupMatches = [];
+
+    async function loadBracketR32() {
+      const [r32Matches, groupMatches] = await Promise.all([
+        api.get("/matches/?round=round_of_32"),
+        _allGroupMatches.length ? Promise.resolve(_allGroupMatches) : api.get("/matches/?round=group_stage"),
+      ]);
+      if (!_allGroupMatches.length) _allGroupMatches = groupMatches;
+
+      // Build 3rd-place team list per group
+      const groupStats = {};
+      groupMatches.forEach(m => {
+        const g = m.group;
+        if (!g) return;
+        if (!groupStats[g]) groupStats[g] = {};
+        [[m.home_team_id, m.home_team, m.home_flag], [m.away_team_id, m.away_team, m.away_flag]].forEach(([tid, name, flag]) => {
+          if (!tid) return;
+          if (!groupStats[g][tid]) groupStats[g][tid] = {id: tid, name, flag, pts: 0, gd: 0, gf: 0};
+        });
+        if (!m.is_finished || m.home_score == null) return;
+        const [h, a] = [m.home_score, m.away_score];
+        const hs = groupStats[g][m.home_team_id], as_ = groupStats[g][m.away_team_id];
+        if (hs) { hs.gf += h; hs.gd += h - a; if (h > a) hs.pts += 3; else if (h === a) hs.pts += 1; }
+        if (as_) { as_.gf += a; as_.gd += a - h; if (a > h) as_.pts += 3; else if (h === a) as_.pts += 1; }
+      });
+
+      // Third-place per group (index 2 after sorting)
+      const thirdByGroup = {};
+      Object.entries(groupStats).forEach(([g, teams]) => {
+        const ranked = Object.values(teams).sort((a, b) => b.pts - a.pts || b.gd - a.gd || b.gf - a.gf);
+        if (ranked.length >= 3) thirdByGroup[g] = ranked[2];
+      });
+
+      const el = document.getElementById("bracket-r32-list");
+      if (!r32Matches.length) { el.innerHTML = '<p class="text-muted">No hay partidos de Ronda de 32.</p>'; return; }
+
+      let html = '<div class="table-responsive"><table class="table table-sm table-bordered align-middle">';
+      html += '<thead class="table-light"><tr><th>#</th><th>Casa</th><th class="text-center">vs</th><th>Visita</th><th>Fecha (CST)</th><th>Override</th></tr></thead><tbody>';
+
+      r32Matches.forEach(m => {
+        const hasHome = m.home_flag && m.home_flag !== '🏳️';
+        const hasAway = m.away_flag && m.away_flag !== '🏳️';
+
+        const teamCell = (flag, name, ph) => flag && flag !== '🏳️'
+          ? `<span class="fw-semibold">${flag} ${name}</span><br><span class="text-muted small">${ph||''}</span>`
+          : `<span class="text-muted fst-italic small">${ph || name || 'TBD'}</span>`;
+
+        // Build override dropdown for "Mejor 3°" slots
+        const overrideBtn = (side, ph, currentId) => {
+          const m2 = ph && ph.match(/Mejor\s+3\D*\(([A-L/]+)\)/);
+          if (!m2) return '';
+          const groups = m2[1].split('/').map(g => g.trim());
+          const opts = groups.map(g => {
+            const t = thirdByGroup[g];
+            if (!t) return '';
+            const sel = t.id === currentId ? ' selected' : '';
+            return `<option value="${t.id}"${sel}>${t.flag} ${t.name} (3° Gr.${g})</option>`;
+          }).join('');
+          return `<select class="form-select form-select-sm" style="min-width:160px"
+            onchange="overrideKOTeam(${m.id},'${side}',+this.value)">
+            <option value="">-- elige --</option>${opts}
+          </select>`;
+        };
+
+        const homeOvr = overrideBtn('home', m.home_team_placeholder, m.home_team_id);
+        const awayOvr = overrideBtn('away', m.away_team_placeholder, m.away_team_id);
+        const bgClass = (hasHome || hasAway) ? 'table-success' : '';
+
+        html += `<tr class="${bgClass}">
+          <td class="text-muted small fw-bold">#${m.match_number}</td>
+          <td>${teamCell(m.home_flag, m.home_team, m.home_team_placeholder)}</td>
+          <td class="text-center fw-bold text-muted">vs</td>
+          <td>${teamCell(m.away_flag, m.away_team, m.away_team_placeholder)}</td>
+          <td class="small text-muted text-nowrap">${m.kickoff_utc ? toCST(m.kickoff_utc) : '—'}</td>
+          <td class="text-nowrap">${homeOvr}${awayOvr}</td>
+        </tr>`;
+      });
+      html += '</tbody></table></div>';
+      el.innerHTML = html;
+    }
+
+    async function overrideKOTeam(matchId, side, teamId) {
+      if (!teamId) return;
+      const body = side === 'home' ? {home_team_id: teamId} : {away_team_id: teamId};
+      const res = await api.patch(`/matches/${matchId}/teams`, body);
+      if (res.id) {
+        const el = document.getElementById("assign-ko-result");
+        el.className = "alert alert-success";
+        el.textContent = `✅ Equipo actualizado en partido #${res.match_number}.`;
+        el.classList.remove("d-none");
+        loadBracketR32();
+      }
+    }
+
+    document.getElementById("btn-assign-ko").addEventListener("click", async () => {
+      const btn = document.getElementById("btn-assign-ko");
+      const alertEl = document.getElementById("assign-ko-result");
+      btn.disabled = true;
+      btn.textContent = "Asignando…";
+      alertEl.className = "alert d-none";
+      try {
+        const res = await api.post("/matches/assign-ko-from-standings", {});
+        alertEl.className = "alert alert-success";
+        alertEl.textContent = `✅ ${res.assigned} partido(s) actualizado(s) con equipos tentantivos de los standings actuales.`;
+        alertEl.classList.remove("d-none");
+        loadBracketR32();
+      } catch(e) {
+        alertEl.className = "alert alert-danger";
+        alertEl.textContent = "❌ Error: " + (e.message || JSON.stringify(e));
+        alertEl.classList.remove("d-none");
+      }
+      btn.disabled = false;
+      btn.textContent = "📊 Asignar desde Standings Actuales";
+    });
+
+    document.querySelector('a[href="#tab-bracket"]').addEventListener("click", () => {
+      loadBracketR32();
+    });
+
+    // ── Reset Group Stage Points ─────────────────────────────────────────────
+    document.getElementById("btn-reset-group-pts").addEventListener("click", async () => {
+      if (!confirm("⚠️ ¿Poner a CERO los puntos de la fase de grupos para todos los participantes?\n\nLas predicciones se conservan. Solo se borran los puntos acumulados en fase de grupos.")) return;
+      const btn = document.getElementById("btn-reset-group-pts");
+      btn.disabled = true;
+      btn.textContent = "Reseteando…";
+      try {
+        const res = await api.post("/matches/reset-group-stage-points", {});
+        const el = document.getElementById("reset-group-pts-result");
+        el.className = "alert alert-success mt-2";
+        el.textContent = `✅ ${res.zeroed} predicciones de fase de grupos reseteadas a 0.`;
+        el.classList.remove("d-none");
+      } catch(e) {
+        const el = document.getElementById("reset-group-pts-result");
+        el.className = "alert alert-danger mt-2";
+        el.textContent = "❌ Error: " + (e.message || JSON.stringify(e));
+        el.classList.remove("d-none");
+      }
+      btn.disabled = false;
+      btn.textContent = "🏁 Resetear Puntos Fase de Grupos";
+    });
+
+    // ── Admin Prediction Entry ───────────────────────────────────────────────
+    let _allMatchesForPred = [];
+
+    async function loadPredEntryData() {
+      const [participants, matches] = await Promise.all([
+        api.get("/participants/"),
+        api.get("/matches/"),
+      ]);
+      _allMatchesForPred = matches;
+
+      const partSel = document.getElementById("pred-entry-participant");
+      partSel.innerHTML = '<option value="">-- elige participante --</option>';
+      participants.filter(p => p.is_approved).forEach(p => {
+        partSel.innerHTML += `<option value="${p.id}">${p.name}</option>`;
+      });
+
+      filterPredEntryMatches();
+    }
+
+    function filterPredEntryMatches() {
+      const round = document.getElementById("pred-entry-round").value;
+      const matchSel = document.getElementById("pred-entry-match");
+      matchSel.innerHTML = '<option value="">-- elige partido --</option>';
+      _allMatchesForPred
+        .filter(m => !round || m.round === round)
+        .forEach(m => {
+          const hName = m.home_team || m.home_team_placeholder || 'TBD';
+          const aName = m.away_team || m.away_team_placeholder || 'TBD';
+          matchSel.innerHTML += `<option value="${m.id}">#${m.match_number} ${hName} vs ${aName}</option>`;
+        });
+    }
+
+    async function submitPredEntry() {
+      const pid = document.getElementById("pred-entry-participant").value;
+      const mid = document.getElementById("pred-entry-match").value;
+      const home = parseInt(document.getElementById("pred-entry-home").value);
+      const away = parseInt(document.getElementById("pred-entry-away").value);
+      const pen = document.getElementById("pred-entry-pen").value || null;
+      const el = document.getElementById("pred-entry-result");
+
+      if (!pid || !mid) { el.className = "alert alert-warning"; el.textContent = "Selecciona participante y partido."; el.classList.remove("d-none"); return; }
+      if (isNaN(home) || isNaN(away) || home < 0 || away < 0) { el.className = "alert alert-warning"; el.textContent = "Ingresa marcadores válidos."; el.classList.remove("d-none"); return; }
+
+      const body = { home_score: home, away_score: away, predicted_winner_side: pen };
+      try {
+        const res = await api.put(`/predictions/admin/${pid}/${mid}`, body);
+        el.className = "alert alert-success";
+        el.textContent = `✅ Predicción guardada para ${res.participant} — partido #${res.match_id}`;
+      } catch(e) {
+        el.className = "alert alert-danger";
+        el.textContent = "❌ Error: " + (e.message || JSON.stringify(e));
+      }
+      el.classList.remove("d-none");
+    }
+
+    // Show/hide penalty selector when scores tie
+    ["pred-entry-home","pred-entry-away"].forEach(id => {
+      document.getElementById(id).addEventListener("input", () => {
+        const h = parseInt(document.getElementById("pred-entry-home").value);
+        const a = parseInt(document.getElementById("pred-entry-away").value);
+        const wrap = document.getElementById("pred-entry-pen-wrap");
+        wrap.style.display = (!isNaN(h) && !isNaN(a) && h === a) ? "" : "none";
+        if (!isNaN(h) && !isNaN(a) && h !== a) document.getElementById("pred-entry-pen").value = "";
+      });
+    });
+
+    document.querySelector('a[href="#tab-pred-entry"]').addEventListener("click", () => {
+      if (!_allMatchesForPred.length) loadPredEntryData();
+    });
 
     // ── Init ─────────────────────────────────────────────────────────────────
     async function init() {
