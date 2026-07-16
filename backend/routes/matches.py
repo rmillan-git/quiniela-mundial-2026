@@ -1,7 +1,7 @@
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, aliased
 import httpx
 from database import get_db, settings
 from models import Match, Team, Participant
@@ -136,13 +136,14 @@ def sync_results_from_api(db: Session) -> dict:
     resp = httpx.get(
         "https://api.football-data.org/v4/competitions/WC/matches",
         headers={"X-Auth-Token": api_key},
-        params={"status": "FINISHED"},
+        params={"status": "FINISHED", "season": "2026"},
         timeout=15,
     )
     resp.raise_for_status()
     matches_data = resp.json().get("matches", [])
 
     updated = 0
+    not_found = []
     for m_api in matches_data:
         score = m_api.get("score", {}).get("fullTime", {})
         home_score = score.get("home")
@@ -150,12 +151,37 @@ def sync_results_from_api(db: Session) -> dict:
         if home_score is None or away_score is None:
             continue
 
-        # Match by kickoff UTC time (strip timezone for comparison with naive DB datetimes)
         utc_date = datetime.fromisoformat(m_api["utcDate"].replace("Z", "+00:00"))
         naive_utc = utc_date.replace(tzinfo=None)
 
+        # 1. Try exact kickoff time match
         db_match = db.query(Match).filter(Match.kickoff_utc == naive_utc).first()
+
+        # 2. Fallback: match by team names (knockout matches where time may differ in DB)
         if not db_match:
+            api_home = m_api.get("homeTeam", {}).get("name", "")
+            api_away = m_api.get("awayTeam", {}).get("name", "")
+            if api_home and api_away:
+                HomeTeam = aliased(Team)
+                AwayTeam = aliased(Team)
+                db_match = (
+                    db.query(Match)
+                    .join(HomeTeam, Match.home_team_id == HomeTeam.id)
+                    .join(AwayTeam, Match.away_team_id == AwayTeam.id)
+                    .filter(HomeTeam.name == api_home, AwayTeam.name == api_away)
+                    .first()
+                )
+                if db_match:
+                    # Fix the stored kickoff time so future syncs find it by time
+                    db_match.kickoff_utc = naive_utc
+
+        if not db_match:
+            not_found.append({
+                "api_id": m_api.get("id"),
+                "home": m_api.get("homeTeam", {}).get("name"),
+                "away": m_api.get("awayTeam", {}).get("name"),
+                "date": m_api.get("utcDate"),
+            })
             continue
 
         if db_match.is_finished and db_match.home_score == home_score and db_match.away_score == away_score:
@@ -169,7 +195,7 @@ def sync_results_from_api(db: Session) -> dict:
         updated += 1
 
     db.commit()
-    return {"updated": updated, "total_finished": len(matches_data)}
+    return {"updated": updated, "total_finished": len(matches_data), "not_found": not_found}
 
 
 @router.post("/sync")

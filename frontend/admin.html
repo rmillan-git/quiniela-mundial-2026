@@ -505,7 +505,13 @@
       try {
         const res = await api.post("/matches/sync", {});
         el.className = "alert alert-success mt-2";
-        el.textContent = `✅ Sincronización completa — ${res.updated} partido(s) actualizado(s) de ${res.total_finished} terminado(s).`;
+        let syncMsg = `✅ Sincronización completa — ${res.updated} partido(s) actualizado(s) de ${res.total_finished} terminado(s).`;
+        if (res.not_found && res.not_found.length > 0) {
+          syncMsg += `<br><strong>⚠️ ${res.not_found.length} partido(s) no encontrado(s) en BD (ingresar manualmente):</strong><ul class="mb-0 mt-1">`;
+          res.not_found.forEach(m => { syncMsg += `<li>${m.home} vs ${m.away} (${m.date ? m.date.slice(0,10) : "?"})</li>`; });
+          syncMsg += "</ul>";
+        }
+        el.innerHTML = syncMsg;
       } catch (e) {
         el.className = "alert alert-danger mt-2";
         el.textContent = "❌ Error al sincronizar. Revisa que FOOTBALL_DATA_API_KEY esté configurado en Render.";
