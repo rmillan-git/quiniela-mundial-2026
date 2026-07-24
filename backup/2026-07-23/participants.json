@@ -1,0 +1,82 @@
+[
+  {
+    "id": 1,
+    "name": "Ricardo Millan",
+    "email": "millan.ricardo@gmail.com",
+    "is_admin": true,
+    "is_approved": true,
+    "registered_at": "2026-05-08T20:57:38.000157"
+  },
+  {
+    "id": 2,
+    "name": "Ricardo Millan - Usuario",
+    "email": "ricardo.millan@yahoo.com",
+    "is_admin": false,
+    "is_approved": true,
+    "registered_at": "2026-05-08T21:09:58.800983"
+  },
+  {
+    "id": 4,
+    "name": "Rafael Millan III",
+    "email": "rafaelmillanp@yahoo.com",
+    "is_admin": false,
+    "is_approved": true,
+    "registered_at": "2026-05-09T16:02:49.168193"
+  },
+  {
+    "id": 7,
+    "name": "Ramiro El Bonito",
+    "email": "remillan1975@hotmail.com",
+    "is_admin": false,
+    "is_approved": true,
+    "registered_at": "2026-06-11T13:17:42.732975"
+  },
+  {
+    "id": 8,
+    "name": "Alvaro Carrasco",
+    "email": "alvaro_car1@hotmail.com",
+    "is_admin": false,
+    "is_approved": true,
+    "registered_at": "2026-06-11T13:24:51.052303"
+  },
+  {
+    "id": 9,
+    "name": "Carlievy Millán",
+    "email": "carlievymp@gmail.com",
+    "is_admin": false,
+    "is_approved": true,
+    "registered_at": "2026-06-11T13:32:03.619863"
+  },
+  {
+    "id": 11,
+    "name": "rafael millan papa",
+    "email": "greenpropiedades.info@gmail.com",
+    "is_admin": false,
+    "is_approved": true,
+    "registered_at": "2026-06-11T15:38:31.272706"
+  },
+  {
+    "id": 12,
+    "name": "Reynaldo Millán",
+    "email": "remith.03@gmail.com",
+    "is_admin": false,
+    "is_approved": true,
+    "registered_at": "2026-06-11T16:39:16.506277"
+  },
+  {
+    "id": 13,
+    "name": "Ricky",
+    "email": "rianmipo@hotmail.com",
+    "is_admin": false,
+    "is_approved": true,
+    "registered_at": "2026-06-28T18:42:40.712500"
+  },
+  {
+    "id": 14,
+    "name": "Ariadna",
+    "email": "ariadna.millan@hotmail.com",
+    "is_admin": false,
+    "is_approved": true,
+    "registered_at": "2026-06-28T20:06:18.816984"
+  }
+]

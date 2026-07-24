@@ -1,0 +1,290 @@
+[
+  {
+    "id": 1,
+    "name": "Mexico",
+    "group": "A",
+    "flag_emoji": "🇲🇽"
+  },
+  {
+    "id": 2,
+    "name": "South Africa",
+    "group": "A",
+    "flag_emoji": "🇿🇦"
+  },
+  {
+    "id": 3,
+    "name": "South Korea",
+    "group": "A",
+    "flag_emoji": "🇰🇷"
+  },
+  {
+    "id": 4,
+    "name": "Czechia",
+    "group": "A",
+    "flag_emoji": "🇨🇿"
+  },
+  {
+    "id": 5,
+    "name": "Canada",
+    "group": "B",
+    "flag_emoji": "🇨🇦"
+  },
+  {
+    "id": 6,
+    "name": "Bosnia-Herzegovina",
+    "group": "B",
+    "flag_emoji": "🇧🇦"
+  },
+  {
+    "id": 7,
+    "name": "Qatar",
+    "group": "B",
+    "flag_emoji": "🇶🇦"
+  },
+  {
+    "id": 8,
+    "name": "Switzerland",
+    "group": "B",
+    "flag_emoji": "🇨🇭"
+  },
+  {
+    "id": 9,
+    "name": "Brazil",
+    "group": "C",
+    "flag_emoji": "🇧🇷"
+  },
+  {
+    "id": 10,
+    "name": "Morocco",
+    "group": "C",
+    "flag_emoji": "🇲🇦"
+  },
+  {
+    "id": 11,
+    "name": "Scotland",
+    "group": "C",
+    "flag_emoji": "🏴󠁧󠁢󠁳󠁣󠁴󠁿"
+  },
+  {
+    "id": 12,
+    "name": "Haiti",
+    "group": "C",
+    "flag_emoji": "🇭🇹"
+  },
+  {
+    "id": 13,
+    "name": "USA",
+    "group": "D",
+    "flag_emoji": "🇺🇸"
+  },
+  {
+    "id": 14,
+    "name": "Paraguay",
+    "group": "D",
+    "flag_emoji": "🇵🇾"
+  },
+  {
+    "id": 15,
+    "name": "Australia",
+    "group": "D",
+    "flag_emoji": "🇦🇺"
+  },
+  {
+    "id": 16,
+    "name": "Türkiye",
+    "group": "D",
+    "flag_emoji": "🇹🇷"
+  },
+  {
+    "id": 17,
+    "name": "Germany",
+    "group": "E",
+    "flag_emoji": "🇩🇪"
+  },
+  {
+    "id": 18,
+    "name": "Ecuador",
+    "group": "E",
+    "flag_emoji": "🇪🇨"
+  },
+  {
+    "id": 19,
+    "name": "Ivory Coast",
+    "group": "E",
+    "flag_emoji": "🇨🇮"
+  },
+  {
+    "id": 20,
+    "name": "Curaçao",
+    "group": "E",
+    "flag_emoji": "🇨🇼"
+  },
+  {
+    "id": 21,
+    "name": "Netherlands",
+    "group": "F",
+    "flag_emoji": "🇳🇱"
+  },
+  {
+    "id": 22,
+    "name": "Japan",
+    "group": "F",
+    "flag_emoji": "🇯🇵"
+  },
+  {
+    "id": 23,
+    "name": "Tunisia",
+    "group": "F",
+    "flag_emoji": "🇹🇳"
+  },
+  {
+    "id": 24,
+    "name": "Sweden",
+    "group": "F",
+    "flag_emoji": "🇸🇪"
+  },
+  {
+    "id": 25,
+    "name": "Belgium",
+    "group": "G",
+    "flag_emoji": "🇧🇪"
+  },
+  {
+    "id": 26,
+    "name": "Iran",
+    "group": "G",
+    "flag_emoji": "🇮🇷"
+  },
+  {
+    "id": 27,
+    "name": "Egypt",
+    "group": "G",
+    "flag_emoji": "🇪🇬"
+  },
+  {
+    "id": 28,
+    "name": "New Zealand",
+    "group": "G",
+    "flag_emoji": "🇳🇿"
+  },
+  {
+    "id": 29,
+    "name": "Spain",
+    "group": "H",
+    "flag_emoji": "🇪🇸"
+  },
+  {
+    "id": 30,
+    "name": "Uruguay",
+    "group": "H",
+    "flag_emoji": "🇺🇾"
+  },
+  {
+    "id": 31,
+    "name": "Saudi Arabia",
+    "group": "H",
+    "flag_emoji": "🇸🇦"
+  },
+  {
+    "id": 32,
+    "name": "Cape Verde",
+    "group": "H",
+    "flag_emoji": "🇨🇻"
+  },
+  {
+    "id": 33,
+    "name": "France",
+    "group": "I",
+    "flag_emoji": "🇫🇷"
+  },
+  {
+    "id": 34,
+    "name": "Senegal",
+    "group": "I",
+    "flag_emoji": "🇸🇳"
+  },
+  {
+    "id": 35,
+    "name": "Norway",
+    "group": "I",
+    "flag_emoji": "🇳🇴"
+  },
+  {
+    "id": 36,
+    "name": "Iraq",
+    "group": "I",
+    "flag_emoji": "🇮🇶"
+  },
+  {
+    "id": 37,
+    "name": "Argentina",
+    "group": "J",
+    "flag_emoji": "🇦🇷"
+  },
+  {
+    "id": 38,
+    "name": "Algeria",
+    "group": "J",
+    "flag_emoji": "🇩🇿"
+  },
+  {
+    "id": 39,
+    "name": "Austria",
+    "group": "J",
+    "flag_emoji": "🇦🇹"
+  },
+  {
+    "id": 40,
+    "name": "Jordan",
+    "group": "J",
+    "flag_emoji": "🇯🇴"
+  },
+  {
+    "id": 41,
+    "name": "Portugal",
+    "group": "K",
+    "flag_emoji": "🇵🇹"
+  },
+  {
+    "id": 42,
+    "name": "Colombia",
+    "group": "K",
+    "flag_emoji": "🇨🇴"
+  },
+  {
+    "id": 43,
+    "name": "Uzbekistan",
+    "group": "K",
+    "flag_emoji": "🇺🇿"
+  },
+  {
+    "id": 44,
+    "name": "DR Congo",
+    "group": "K",
+    "flag_emoji": "🇨🇩"
+  },
+  {
+    "id": 45,
+    "name": "England",
+    "group": "L",
+    "flag_emoji": "🏴󠁧󠁢󠁥󠁮󠁧󠁿"
+  },
+  {
+    "id": 46,
+    "name": "Croatia",
+    "group": "L",
+    "flag_emoji": "🇭🇷"
+  },
+  {
+    "id": 47,
+    "name": "Ghana",
+    "group": "L",
+    "flag_emoji": "🇬🇭"
+  },
+  {
+    "id": 48,
+    "name": "Panama",
+    "group": "L",
+    "flag_emoji": "🇵🇦"
+  }
+]

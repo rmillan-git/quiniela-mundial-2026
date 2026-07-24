@@ -1,0 +1,7512 @@
+[
+  {
+    "id": 676,
+    "participant_id": 13,
+    "match_id": 99,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 9,
+    "submitted_at": "2026-06-28T21:57:48.756700",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 3,
+    "participant_id": 2,
+    "match_id": 2,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T14:41:17.635420",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 4,
+    "participant_id": 2,
+    "match_id": 7,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T14:41:17.878257",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 5,
+    "participant_id": 1,
+    "match_id": 2,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 9,
+    "submitted_at": "2026-06-11T14:45:28.680756",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 28,
+    "participant_id": 9,
+    "match_id": 2,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-11T15:27:55.483694",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 8,
+    "participant_id": 1,
+    "match_id": 7,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T14:45:29.228381",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 33,
+    "participant_id": 9,
+    "match_id": 7,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T15:27:57.555089",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 105,
+    "participant_id": 11,
+    "match_id": 7,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:08:33.758085",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 21,
+    "participant_id": 2,
+    "match_id": 19,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-11T15:08:04.347881",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 45,
+    "participant_id": 9,
+    "match_id": 19,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-11T15:28:02.483362",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 117,
+    "participant_id": 11,
+    "match_id": 19,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 5,
+    "submitted_at": "2026-06-11T16:08:38.883986",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 9,
+    "participant_id": 1,
+    "match_id": 8,
+    "home_score": 1,
+    "away_score": 1,
+    "points": 9,
+    "submitted_at": "2026-06-11T14:45:29.452660",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 16,
+    "participant_id": 2,
+    "match_id": 8,
+    "home_score": 0,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T15:08:03.281615",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 34,
+    "participant_id": 9,
+    "match_id": 8,
+    "home_score": 0,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T15:27:57.961640",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 106,
+    "participant_id": 11,
+    "match_id": 8,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:08:34.192021",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 39,
+    "participant_id": 9,
+    "match_id": 13,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T15:28:00.029161",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 111,
+    "participant_id": 11,
+    "match_id": 13,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:08:36.338981",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 40,
+    "participant_id": 9,
+    "match_id": 14,
+    "home_score": 1,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T15:28:00.423129",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 112,
+    "participant_id": 11,
+    "match_id": 14,
+    "home_score": 1,
+    "away_score": 3,
+    "points": 5,
+    "submitted_at": "2026-06-11T16:08:36.744891",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 22,
+    "participant_id": 2,
+    "match_id": 20,
+    "home_score": 1,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-11T15:08:04.564944",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 46,
+    "participant_id": 9,
+    "match_id": 20,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 9,
+    "submitted_at": "2026-06-11T15:28:02.898366",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 118,
+    "participant_id": 11,
+    "match_id": 20,
+    "home_score": 1,
+    "away_score": 3,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:08:39.326697",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 51,
+    "participant_id": 9,
+    "match_id": 25,
+    "home_score": 1,
+    "away_score": 0,
+    "points": 5,
+    "submitted_at": "2026-06-11T15:28:04.924689",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 123,
+    "participant_id": 11,
+    "match_id": 25,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 5,
+    "submitted_at": "2026-06-11T16:08:41.431839",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 57,
+    "participant_id": 9,
+    "match_id": 31,
+    "home_score": 3,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T15:28:07.461461",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 129,
+    "participant_id": 11,
+    "match_id": 31,
+    "home_score": 2,
+    "away_score": 3,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:08:44.100362",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 52,
+    "participant_id": 9,
+    "match_id": 26,
+    "home_score": 0,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T15:28:05.322879",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 124,
+    "participant_id": 11,
+    "match_id": 26,
+    "home_score": 0,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:08:41.874967",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 58,
+    "participant_id": 9,
+    "match_id": 32,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 5,
+    "submitted_at": "2026-06-11T15:28:07.853597",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 130,
+    "participant_id": 11,
+    "match_id": 32,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:08:44.575020",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 63,
+    "participant_id": 9,
+    "match_id": 37,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T15:28:09.973138",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 135,
+    "participant_id": 11,
+    "match_id": 37,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:08:46.653059",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 75,
+    "participant_id": 9,
+    "match_id": 49,
+    "home_score": 4,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-11T15:28:14.946718",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 76,
+    "participant_id": 9,
+    "match_id": 50,
+    "home_score": 1,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T15:28:15.477641",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 81,
+    "participant_id": 9,
+    "match_id": 55,
+    "home_score": 4,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-11T15:28:17.684750",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 82,
+    "participant_id": 9,
+    "match_id": 56,
+    "home_score": 1,
+    "away_score": 0,
+    "points": 5,
+    "submitted_at": "2026-06-11T15:28:18.111092",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 87,
+    "participant_id": 9,
+    "match_id": 61,
+    "home_score": 4,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T15:28:20.258133",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 93,
+    "participant_id": 9,
+    "match_id": 67,
+    "home_score": 3,
+    "away_score": 2,
+    "points": 7,
+    "submitted_at": "2026-06-11T15:28:22.855735",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 94,
+    "participant_id": 9,
+    "match_id": 68,
+    "home_score": 0,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T15:28:23.298500",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 88,
+    "participant_id": 9,
+    "match_id": 62,
+    "home_score": 0,
+    "away_score": 2,
+    "points": 5,
+    "submitted_at": "2026-06-11T15:28:20.713453",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 6,
+    "participant_id": 1,
+    "match_id": 3,
+    "home_score": 1,
+    "away_score": 1,
+    "points": 9,
+    "submitted_at": "2026-06-11T14:45:28.921357",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 12,
+    "participant_id": 2,
+    "match_id": 3,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T15:08:02.134850",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 10,
+    "participant_id": 1,
+    "match_id": 9,
+    "home_score": 1,
+    "away_score": 0,
+    "points": 5,
+    "submitted_at": "2026-06-11T14:45:29.655609",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 17,
+    "participant_id": 2,
+    "match_id": 9,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 5,
+    "submitted_at": "2026-06-11T15:08:03.517958",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 35,
+    "participant_id": 9,
+    "match_id": 9,
+    "home_score": 1,
+    "away_score": 0,
+    "points": 5,
+    "submitted_at": "2026-06-11T15:27:58.375443",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 11,
+    "participant_id": 1,
+    "match_id": 10,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-11T14:45:29.858557",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 18,
+    "participant_id": 2,
+    "match_id": 10,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-11T15:08:03.733438",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 36,
+    "participant_id": 9,
+    "match_id": 10,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-11T15:27:58.796768",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 108,
+    "participant_id": 11,
+    "match_id": 10,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:08:34.993589",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 70,
+    "participant_id": 9,
+    "match_id": 44,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T15:28:12.792871",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 69,
+    "participant_id": 9,
+    "match_id": 43,
+    "home_score": 4,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T15:28:12.381184",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 64,
+    "participant_id": 9,
+    "match_id": 38,
+    "home_score": 0,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T15:28:10.358961",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 136,
+    "participant_id": 11,
+    "match_id": 38,
+    "home_score": 3,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:08:47.059075",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 23,
+    "participant_id": 2,
+    "match_id": 21,
+    "home_score": 1,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T15:08:04.816409",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 47,
+    "participant_id": 9,
+    "match_id": 21,
+    "home_score": 2,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T15:28:03.306459",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 119,
+    "participant_id": 11,
+    "match_id": 21,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:08:39.741586",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 41,
+    "participant_id": 9,
+    "match_id": 15,
+    "home_score": 0,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T15:28:00.839510",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 113,
+    "participant_id": 11,
+    "match_id": 15,
+    "home_score": 2,
+    "away_score": 3,
+    "points": 5,
+    "submitted_at": "2026-06-11T16:08:37.137520",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 59,
+    "participant_id": 9,
+    "match_id": 33,
+    "home_score": 3,
+    "away_score": 2,
+    "points": 5,
+    "submitted_at": "2026-06-11T15:28:08.296302",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 131,
+    "participant_id": 11,
+    "match_id": 33,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:08:44.977189",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 53,
+    "participant_id": 9,
+    "match_id": 27,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-11T15:28:05.816040",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 125,
+    "participant_id": 11,
+    "match_id": 27,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:08:42.362289",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 54,
+    "participant_id": 9,
+    "match_id": 28,
+    "home_score": 1,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-11T15:28:06.249844",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 126,
+    "participant_id": 11,
+    "match_id": 28,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:08:42.803838",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 7,
+    "participant_id": 1,
+    "match_id": 4,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T14:45:29.116346",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 13,
+    "participant_id": 2,
+    "match_id": 4,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-11T15:08:02.383228",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 30,
+    "participant_id": 9,
+    "match_id": 4,
+    "home_score": 2,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T15:27:56.312505",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 42,
+    "participant_id": 9,
+    "match_id": 16,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-11T15:28:01.219486",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 114,
+    "participant_id": 11,
+    "match_id": 16,
+    "home_score": 4,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:08:37.566969",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 24,
+    "participant_id": 2,
+    "match_id": 22,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 5,
+    "submitted_at": "2026-06-11T15:08:05.037087",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 48,
+    "participant_id": 9,
+    "match_id": 22,
+    "home_score": 0,
+    "away_score": 3,
+    "points": 7,
+    "submitted_at": "2026-06-11T15:28:03.695317",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 120,
+    "participant_id": 11,
+    "match_id": 22,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:08:40.145210",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 60,
+    "participant_id": 9,
+    "match_id": 34,
+    "home_score": 0,
+    "away_score": 3,
+    "points": 7,
+    "submitted_at": "2026-06-11T15:28:08.729328",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 132,
+    "participant_id": 11,
+    "match_id": 34,
+    "home_score": 0,
+    "away_score": 2,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:08:45.366014",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 71,
+    "participant_id": 9,
+    "match_id": 45,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-11T15:28:13.195764",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 65,
+    "participant_id": 9,
+    "match_id": 39,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T15:28:10.758867",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 72,
+    "participant_id": 9,
+    "match_id": 46,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T15:28:13.645085",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 66,
+    "participant_id": 9,
+    "match_id": 40,
+    "home_score": 2,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T15:28:11.151516",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 83,
+    "participant_id": 9,
+    "match_id": 57,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-11T15:28:18.510807",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 77,
+    "participant_id": 9,
+    "match_id": 51,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 9,
+    "submitted_at": "2026-06-11T15:28:15.923254",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 78,
+    "participant_id": 9,
+    "match_id": 52,
+    "home_score": 0,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T15:28:16.359524",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 84,
+    "participant_id": 9,
+    "match_id": 58,
+    "home_score": 0,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T15:28:18.947234",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 89,
+    "participant_id": 9,
+    "match_id": 63,
+    "home_score": 4,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-11T15:28:21.122512",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 95,
+    "participant_id": 9,
+    "match_id": 69,
+    "home_score": 4,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T15:28:23.757060",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 96,
+    "participant_id": 9,
+    "match_id": 70,
+    "home_score": 1,
+    "away_score": 3,
+    "points": 5,
+    "submitted_at": "2026-06-11T15:28:24.179705",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 90,
+    "participant_id": 9,
+    "match_id": 64,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-11T15:28:21.554112",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 43,
+    "participant_id": 9,
+    "match_id": 17,
+    "home_score": 0,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-11T15:28:01.635275",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 44,
+    "participant_id": 9,
+    "match_id": 18,
+    "home_score": 0,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T15:28:02.057515",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 19,
+    "participant_id": 2,
+    "match_id": 11,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 9,
+    "submitted_at": "2026-06-11T15:08:03.939409",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 37,
+    "participant_id": 9,
+    "match_id": 11,
+    "home_score": 2,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T15:27:59.202785",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 109,
+    "participant_id": 11,
+    "match_id": 11,
+    "home_score": 3,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:08:35.476278",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 20,
+    "participant_id": 2,
+    "match_id": 12,
+    "home_score": 1,
+    "away_score": 0,
+    "points": 5,
+    "submitted_at": "2026-06-11T15:08:04.149721",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 38,
+    "participant_id": 9,
+    "match_id": 12,
+    "home_score": 1,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T15:27:59.627838",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 110,
+    "participant_id": 11,
+    "match_id": 12,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:08:35.911494",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 14,
+    "participant_id": 2,
+    "match_id": 5,
+    "home_score": 1,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T15:08:02.594219",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 31,
+    "participant_id": 9,
+    "match_id": 5,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 9,
+    "submitted_at": "2026-06-11T15:27:56.740575",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 103,
+    "participant_id": 11,
+    "match_id": 5,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:08:32.898507",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 15,
+    "participant_id": 2,
+    "match_id": 6,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-11T15:08:02.813639",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 32,
+    "participant_id": 9,
+    "match_id": 6,
+    "home_score": 2,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T15:27:57.153233",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 104,
+    "participant_id": 11,
+    "match_id": 6,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-11T16:08:33.324194",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 55,
+    "participant_id": 9,
+    "match_id": 29,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T15:28:06.677370",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 56,
+    "participant_id": 9,
+    "match_id": 30,
+    "home_score": 0,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T15:28:07.063315",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 127,
+    "participant_id": 11,
+    "match_id": 29,
+    "home_score": 3,
+    "away_score": 2,
+    "points": 5,
+    "submitted_at": "2026-06-11T16:08:43.239986",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 62,
+    "participant_id": 9,
+    "match_id": 36,
+    "home_score": 0,
+    "away_score": 3,
+    "points": 7,
+    "submitted_at": "2026-06-11T15:28:09.556076",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 134,
+    "participant_id": 11,
+    "match_id": 36,
+    "home_score": 0,
+    "away_score": 2,
+    "points": 5,
+    "submitted_at": "2026-06-11T16:08:46.207497",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 61,
+    "participant_id": 9,
+    "match_id": 35,
+    "home_score": 2,
+    "away_score": 3,
+    "points": 0,
+    "submitted_at": "2026-06-11T15:28:09.167021",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 133,
+    "participant_id": 11,
+    "match_id": 35,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:08:45.803169",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 25,
+    "participant_id": 2,
+    "match_id": 23,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T15:08:05.259916",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 26,
+    "participant_id": 2,
+    "match_id": 24,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T15:08:05.477632",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 49,
+    "participant_id": 9,
+    "match_id": 23,
+    "home_score": 0,
+    "away_score": 3,
+    "points": 0,
+    "submitted_at": "2026-06-11T15:28:04.119645",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 50,
+    "participant_id": 9,
+    "match_id": 24,
+    "home_score": 2,
+    "away_score": 3,
+    "points": 0,
+    "submitted_at": "2026-06-11T15:28:04.546542",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 79,
+    "participant_id": 9,
+    "match_id": 53,
+    "home_score": 0,
+    "away_score": 4,
+    "points": 7,
+    "submitted_at": "2026-06-11T15:28:16.780573",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 80,
+    "participant_id": 9,
+    "match_id": 54,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-11T15:28:17.250749",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 73,
+    "participant_id": 9,
+    "match_id": 47,
+    "home_score": 0,
+    "away_score": 0,
+    "points": 9,
+    "submitted_at": "2026-06-11T15:28:14.101610",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 74,
+    "participant_id": 9,
+    "match_id": 48,
+    "home_score": 2,
+    "away_score": 3,
+    "points": 5,
+    "submitted_at": "2026-06-11T15:28:14.504475",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 68,
+    "participant_id": 9,
+    "match_id": 42,
+    "home_score": 2,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T15:28:11.961326",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 67,
+    "participant_id": 9,
+    "match_id": 41,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T15:28:11.552018",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 97,
+    "participant_id": 9,
+    "match_id": 71,
+    "home_score": 1,
+    "away_score": 3,
+    "points": 5,
+    "submitted_at": "2026-06-11T15:28:24.584027",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 98,
+    "participant_id": 9,
+    "match_id": 72,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-11T15:28:24.998205",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 91,
+    "participant_id": 9,
+    "match_id": 65,
+    "home_score": 2,
+    "away_score": 3,
+    "points": 0,
+    "submitted_at": "2026-06-11T15:28:21.986016",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 92,
+    "participant_id": 9,
+    "match_id": 66,
+    "home_score": 0,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T15:28:22.428121",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 86,
+    "participant_id": 9,
+    "match_id": 60,
+    "home_score": 0,
+    "away_score": 3,
+    "points": 7,
+    "submitted_at": "2026-06-11T15:28:19.848669",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 85,
+    "participant_id": 9,
+    "match_id": 59,
+    "home_score": 0,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T15:28:19.405606",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 147,
+    "participant_id": 11,
+    "match_id": 49,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:08:51.779171",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 153,
+    "participant_id": 11,
+    "match_id": 55,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:08:54.472131",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 159,
+    "participant_id": 11,
+    "match_id": 61,
+    "home_score": 4,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:08:57.199686",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 165,
+    "participant_id": 11,
+    "match_id": 67,
+    "home_score": 2,
+    "away_score": 3,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:08:59.686046",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 166,
+    "participant_id": 11,
+    "match_id": 68,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:09:00.094320",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 141,
+    "participant_id": 11,
+    "match_id": 43,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:08:49.100271",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 143,
+    "participant_id": 11,
+    "match_id": 45,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-11T16:08:49.952906",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 137,
+    "participant_id": 11,
+    "match_id": 39,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:08:47.468923",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 155,
+    "participant_id": 11,
+    "match_id": 57,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 9,
+    "submitted_at": "2026-06-11T16:08:55.373508",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 149,
+    "participant_id": 11,
+    "match_id": 51,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 9,
+    "submitted_at": "2026-06-11T16:08:52.753067",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 161,
+    "participant_id": 11,
+    "match_id": 63,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:08:58.003464",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 167,
+    "participant_id": 11,
+    "match_id": 69,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:09:00.543969",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 151,
+    "participant_id": 11,
+    "match_id": 53,
+    "home_score": 1,
+    "away_score": 4,
+    "points": 9,
+    "submitted_at": "2026-06-11T16:08:53.586565",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 145,
+    "participant_id": 11,
+    "match_id": 47,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:08:50.887615",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 139,
+    "participant_id": 11,
+    "match_id": 41,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:08:48.285871",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 169,
+    "participant_id": 11,
+    "match_id": 71,
+    "home_score": 1,
+    "away_score": 3,
+    "points": 5,
+    "submitted_at": "2026-06-11T16:09:01.353141",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 163,
+    "participant_id": 11,
+    "match_id": 65,
+    "home_score": 1,
+    "away_score": 4,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:08:58.839973",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 157,
+    "participant_id": 11,
+    "match_id": 59,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:08:56.233043",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 226,
+    "participant_id": 12,
+    "match_id": 2,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:47:04.761369",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 231,
+    "participant_id": 12,
+    "match_id": 7,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:47:06.996312",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 232,
+    "participant_id": 12,
+    "match_id": 8,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:47:07.376335",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 171,
+    "participant_id": 2,
+    "match_id": 13,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:20:03.653719",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 172,
+    "participant_id": 2,
+    "match_id": 14,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 5,
+    "submitted_at": "2026-06-11T16:20:03.893417",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 238,
+    "participant_id": 12,
+    "match_id": 14,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 5,
+    "submitted_at": "2026-06-11T16:47:09.592224",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 244,
+    "participant_id": 12,
+    "match_id": 20,
+    "home_score": 4,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:47:11.849012",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 177,
+    "participant_id": 2,
+    "match_id": 25,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 5,
+    "submitted_at": "2026-06-11T16:20:06.420293",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 249,
+    "participant_id": 12,
+    "match_id": 25,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:47:13.925113",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 183,
+    "participant_id": 2,
+    "match_id": 31,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:20:07.944904",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 255,
+    "participant_id": 12,
+    "match_id": 31,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:47:16.317390",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 178,
+    "participant_id": 2,
+    "match_id": 26,
+    "home_score": 1,
+    "away_score": 3,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:20:06.674817",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 250,
+    "participant_id": 12,
+    "match_id": 26,
+    "home_score": 0,
+    "away_score": 3,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:47:14.314476",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 184,
+    "participant_id": 2,
+    "match_id": 32,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 5,
+    "submitted_at": "2026-06-11T16:20:08.184788",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 256,
+    "participant_id": 12,
+    "match_id": 32,
+    "home_score": 1,
+    "away_score": 0,
+    "points": 5,
+    "submitted_at": "2026-06-11T16:47:16.688310",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 189,
+    "participant_id": 2,
+    "match_id": 37,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:20:09.305084",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 201,
+    "participant_id": 2,
+    "match_id": 49,
+    "home_score": 1,
+    "away_score": 0,
+    "points": 5,
+    "submitted_at": "2026-06-11T16:20:11.980624",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 273,
+    "participant_id": 12,
+    "match_id": 49,
+    "home_score": 3,
+    "away_score": 2,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:47:23.075519",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 148,
+    "participant_id": 11,
+    "match_id": 50,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:08:52.189351",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 202,
+    "participant_id": 2,
+    "match_id": 50,
+    "home_score": 0,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-11T16:20:12.248158",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 207,
+    "participant_id": 2,
+    "match_id": 55,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 9,
+    "submitted_at": "2026-06-11T16:20:13.365603",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 279,
+    "participant_id": 12,
+    "match_id": 55,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:47:25.254298",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 154,
+    "participant_id": 11,
+    "match_id": 56,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 9,
+    "submitted_at": "2026-06-11T16:08:54.912135",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 208,
+    "participant_id": 2,
+    "match_id": 56,
+    "home_score": 0,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:20:13.579754",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 280,
+    "participant_id": 12,
+    "match_id": 56,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 5,
+    "submitted_at": "2026-06-11T16:47:25.623398",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 213,
+    "participant_id": 2,
+    "match_id": 61,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:21:18.548708",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 285,
+    "participant_id": 12,
+    "match_id": 61,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:47:27.580146",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 219,
+    "participant_id": 2,
+    "match_id": 67,
+    "home_score": 1,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:21:19.843581",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 220,
+    "participant_id": 2,
+    "match_id": 68,
+    "home_score": 1,
+    "away_score": 0,
+    "points": 9,
+    "submitted_at": "2026-06-11T16:21:20.077089",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 160,
+    "participant_id": 11,
+    "match_id": 62,
+    "home_score": 0,
+    "away_score": 3,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:08:57.606693",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 214,
+    "participant_id": 2,
+    "match_id": 62,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:21:18.774202",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 227,
+    "participant_id": 12,
+    "match_id": 3,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:47:05.133630",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 233,
+    "participant_id": 12,
+    "match_id": 9,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:47:07.762446",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 234,
+    "participant_id": 12,
+    "match_id": 10,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-11T16:47:08.127624",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 142,
+    "participant_id": 11,
+    "match_id": 44,
+    "home_score": 0,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:08:49.536073",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 196,
+    "participant_id": 2,
+    "match_id": 44,
+    "home_score": 1,
+    "away_score": 3,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:20:10.810306",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 268,
+    "participant_id": 12,
+    "match_id": 44,
+    "home_score": 1,
+    "away_score": 3,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:47:21.220473",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 195,
+    "participant_id": 2,
+    "match_id": 43,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:20:10.578405",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 267,
+    "participant_id": 12,
+    "match_id": 43,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:47:20.853960",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 190,
+    "participant_id": 2,
+    "match_id": 38,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:20:09.521752",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 262,
+    "participant_id": 12,
+    "match_id": 38,
+    "home_score": 0,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:47:18.903054",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 245,
+    "participant_id": 12,
+    "match_id": 21,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:47:12.242907",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 173,
+    "participant_id": 2,
+    "match_id": 15,
+    "home_score": 0,
+    "away_score": 2,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:20:04.128832",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 239,
+    "participant_id": 12,
+    "match_id": 15,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:47:09.957475",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 185,
+    "participant_id": 2,
+    "match_id": 33,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:20:08.434417",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 257,
+    "participant_id": 12,
+    "match_id": 33,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:47:17.053174",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 179,
+    "participant_id": 2,
+    "match_id": 27,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 9,
+    "submitted_at": "2026-06-11T16:20:06.922375",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 251,
+    "participant_id": 12,
+    "match_id": 27,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:47:14.720452",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 180,
+    "participant_id": 2,
+    "match_id": 28,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:20:07.122459",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 252,
+    "participant_id": 12,
+    "match_id": 28,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:47:15.092738",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 228,
+    "participant_id": 12,
+    "match_id": 4,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:47:05.507444",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 174,
+    "participant_id": 2,
+    "match_id": 16,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 9,
+    "submitted_at": "2026-06-11T16:20:04.377377",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 240,
+    "participant_id": 12,
+    "match_id": 16,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 9,
+    "submitted_at": "2026-06-11T16:47:10.327508",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 246,
+    "participant_id": 12,
+    "match_id": 22,
+    "home_score": 0,
+    "away_score": 2,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:47:12.634727",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 186,
+    "participant_id": 2,
+    "match_id": 34,
+    "home_score": 0,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:20:08.667354",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 258,
+    "participant_id": 12,
+    "match_id": 34,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 5,
+    "submitted_at": "2026-06-11T16:47:17.423206",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 197,
+    "participant_id": 2,
+    "match_id": 45,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:20:11.044332",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 269,
+    "participant_id": 12,
+    "match_id": 45,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-11T16:47:21.587488",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 191,
+    "participant_id": 2,
+    "match_id": 39,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:20:09.730226",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 144,
+    "participant_id": 11,
+    "match_id": 46,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:08:50.472424",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 198,
+    "participant_id": 2,
+    "match_id": 46,
+    "home_score": 1,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:20:11.274955",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 138,
+    "participant_id": 11,
+    "match_id": 40,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:08:47.879524",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 192,
+    "participant_id": 2,
+    "match_id": 40,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:20:09.947791",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 264,
+    "participant_id": 12,
+    "match_id": 40,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:47:19.633110",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 209,
+    "participant_id": 2,
+    "match_id": 57,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:20:13.813302",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 281,
+    "participant_id": 12,
+    "match_id": 57,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-11T16:47:26.074547",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 203,
+    "participant_id": 2,
+    "match_id": 51,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 9,
+    "submitted_at": "2026-06-11T16:20:12.467396",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 275,
+    "participant_id": 12,
+    "match_id": 51,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-11T16:47:23.812098",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 150,
+    "participant_id": 11,
+    "match_id": 52,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:08:53.166082",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 204,
+    "participant_id": 2,
+    "match_id": 52,
+    "home_score": 1,
+    "away_score": 3,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:20:12.690485",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 276,
+    "participant_id": 12,
+    "match_id": 52,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-11T16:47:24.170216",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 156,
+    "participant_id": 11,
+    "match_id": 58,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 9,
+    "submitted_at": "2026-06-11T16:08:55.792285",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 210,
+    "participant_id": 2,
+    "match_id": 58,
+    "home_score": 0,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:20:14.039263",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 215,
+    "participant_id": 2,
+    "match_id": 63,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:21:18.970821",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 287,
+    "participant_id": 12,
+    "match_id": 63,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:47:28.555886",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 221,
+    "participant_id": 2,
+    "match_id": 69,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:21:20.264496",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 168,
+    "participant_id": 11,
+    "match_id": 70,
+    "home_score": 0,
+    "away_score": 2,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:09:00.952122",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 222,
+    "participant_id": 2,
+    "match_id": 70,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 5,
+    "submitted_at": "2026-06-11T16:21:20.487231",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 162,
+    "participant_id": 11,
+    "match_id": 64,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:08:58.413921",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 216,
+    "participant_id": 2,
+    "match_id": 64,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:21:19.205625",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 288,
+    "participant_id": 12,
+    "match_id": 64,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-11T16:47:28.937764",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 175,
+    "participant_id": 2,
+    "match_id": 17,
+    "home_score": 0,
+    "away_score": 2,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:20:04.601826",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 176,
+    "participant_id": 2,
+    "match_id": 18,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 5,
+    "submitted_at": "2026-06-11T16:20:04.829518",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 241,
+    "participant_id": 12,
+    "match_id": 17,
+    "home_score": 1,
+    "away_score": 3,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:47:10.688848",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 235,
+    "participant_id": 12,
+    "match_id": 11,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:47:08.492441",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 236,
+    "participant_id": 12,
+    "match_id": 12,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:47:08.853790",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 229,
+    "participant_id": 12,
+    "match_id": 5,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-11T16:47:06.239747",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 230,
+    "participant_id": 12,
+    "match_id": 6,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:47:06.620546",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 181,
+    "participant_id": 2,
+    "match_id": 29,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:20:07.472242",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 182,
+    "participant_id": 2,
+    "match_id": 30,
+    "home_score": 0,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:20:07.725421",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 253,
+    "participant_id": 12,
+    "match_id": 29,
+    "home_score": 2,
+    "away_score": 3,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:47:15.494949",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 188,
+    "participant_id": 2,
+    "match_id": 36,
+    "home_score": 0,
+    "away_score": 3,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:20:09.112683",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 260,
+    "participant_id": 12,
+    "match_id": 36,
+    "home_score": 0,
+    "away_score": 2,
+    "points": 5,
+    "submitted_at": "2026-06-11T16:47:18.173689",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 187,
+    "participant_id": 2,
+    "match_id": 35,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:20:08.896220",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 259,
+    "participant_id": 12,
+    "match_id": 35,
+    "home_score": 1,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:47:17.801192",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 247,
+    "participant_id": 12,
+    "match_id": 23,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:47:13.058427",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 248,
+    "participant_id": 12,
+    "match_id": 24,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:47:13.436546",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 205,
+    "participant_id": 2,
+    "match_id": 53,
+    "home_score": 0,
+    "away_score": 2,
+    "points": 5,
+    "submitted_at": "2026-06-11T16:20:12.902454",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 277,
+    "participant_id": 12,
+    "match_id": 53,
+    "home_score": 1,
+    "away_score": 3,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:47:24.529206",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 152,
+    "participant_id": 11,
+    "match_id": 54,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:08:54.031058",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 206,
+    "participant_id": 2,
+    "match_id": 54,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:20:13.166906",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 278,
+    "participant_id": 12,
+    "match_id": 54,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:47:24.891960",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 199,
+    "participant_id": 2,
+    "match_id": 47,
+    "home_score": 0,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:20:11.517259",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 271,
+    "participant_id": 12,
+    "match_id": 47,
+    "home_score": 0,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:47:22.338088",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 146,
+    "participant_id": 11,
+    "match_id": 48,
+    "home_score": 2,
+    "away_score": 3,
+    "points": 5,
+    "submitted_at": "2026-06-11T16:08:51.341093",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 200,
+    "participant_id": 2,
+    "match_id": 48,
+    "home_score": 0,
+    "away_score": 1,
+    "points": 9,
+    "submitted_at": "2026-06-11T16:20:11.739281",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 272,
+    "participant_id": 12,
+    "match_id": 48,
+    "home_score": 3,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:47:22.713566",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 140,
+    "participant_id": 11,
+    "match_id": 42,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:08:48.684882",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 194,
+    "participant_id": 2,
+    "match_id": 42,
+    "home_score": 0,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-11T16:20:10.377044",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 266,
+    "participant_id": 12,
+    "match_id": 42,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:47:20.498421",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 170,
+    "participant_id": 11,
+    "match_id": 72,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 5,
+    "submitted_at": "2026-06-11T16:09:01.756563",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 265,
+    "participant_id": 12,
+    "match_id": 41,
+    "home_score": 1,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:47:19.998764",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 193,
+    "participant_id": 2,
+    "match_id": 41,
+    "home_score": 1,
+    "away_score": 1,
+    "points": 9,
+    "submitted_at": "2026-06-11T16:20:10.170593",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 223,
+    "participant_id": 2,
+    "match_id": 71,
+    "home_score": 0,
+    "away_score": 2,
+    "points": 9,
+    "submitted_at": "2026-06-11T16:21:20.689613",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 217,
+    "participant_id": 2,
+    "match_id": 65,
+    "home_score": 1,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-11T16:21:19.415853",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 289,
+    "participant_id": 12,
+    "match_id": 65,
+    "home_score": 2,
+    "away_score": 3,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:47:29.311135",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 164,
+    "participant_id": 11,
+    "match_id": 66,
+    "home_score": 3,
+    "away_score": 2,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:08:59.251991",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 218,
+    "participant_id": 2,
+    "match_id": 66,
+    "home_score": 0,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:21:19.633193",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 290,
+    "participant_id": 12,
+    "match_id": 66,
+    "home_score": 1,
+    "away_score": 0,
+    "points": 5,
+    "submitted_at": "2026-06-11T16:47:29.677813",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 158,
+    "participant_id": 11,
+    "match_id": 60,
+    "home_score": 1,
+    "away_score": 4,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:08:56.703907",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 212,
+    "participant_id": 2,
+    "match_id": 60,
+    "home_score": 0,
+    "away_score": 4,
+    "points": 5,
+    "submitted_at": "2026-06-11T16:20:14.484073",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 284,
+    "participant_id": 12,
+    "match_id": 60,
+    "home_score": 1,
+    "away_score": 3,
+    "points": 9,
+    "submitted_at": "2026-06-11T16:47:27.206579",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 211,
+    "participant_id": 2,
+    "match_id": 59,
+    "home_score": 0,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:20:14.254212",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 283,
+    "participant_id": 12,
+    "match_id": 59,
+    "home_score": 0,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:47:26.841134",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 1,
+    "participant_id": 1,
+    "match_id": 1,
+    "home_score": 0,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T12:36:41.935887",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 2,
+    "participant_id": 2,
+    "match_id": 1,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 9,
+    "submitted_at": "2026-06-11T14:40:09.047578",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 27,
+    "participant_id": 9,
+    "match_id": 1,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-11T15:27:55.035979",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 99,
+    "participant_id": 11,
+    "match_id": 1,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 9,
+    "submitted_at": "2026-06-11T16:08:30.816836",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 225,
+    "participant_id": 12,
+    "match_id": 1,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:47:04.322358",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 297,
+    "participant_id": 8,
+    "match_id": 1,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-11T17:13:00.804468",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 303,
+    "participant_id": 8,
+    "match_id": 7,
+    "home_score": 1,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T17:20:20.838958",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 337,
+    "participant_id": 7,
+    "match_id": 7,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:41:10.746779",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 302,
+    "participant_id": 8,
+    "match_id": 19,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-11T17:13:58.320933",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 349,
+    "participant_id": 7,
+    "match_id": 19,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:41:13.169914",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 420,
+    "participant_id": 4,
+    "match_id": 19,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-11T23:54:31.858333",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 309,
+    "participant_id": 8,
+    "match_id": 16,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 9,
+    "submitted_at": "2026-06-11T17:20:22.074237",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 336,
+    "participant_id": 7,
+    "match_id": 6,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-11T23:41:10.553303",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 307,
+    "participant_id": 8,
+    "match_id": 14,
+    "home_score": 0,
+    "away_score": 1,
+    "points": 9,
+    "submitted_at": "2026-06-11T17:20:21.669292",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 341,
+    "participant_id": 7,
+    "match_id": 11,
+    "home_score": 1,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:41:11.515596",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 322,
+    "participant_id": 8,
+    "match_id": 31,
+    "home_score": 1,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-11T17:20:24.736729",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 380,
+    "participant_id": 7,
+    "match_id": 50,
+    "home_score": 0,
+    "away_score": 2,
+    "points": 5,
+    "submitted_at": "2026-06-11T23:41:19.730858",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 304,
+    "participant_id": 8,
+    "match_id": 8,
+    "home_score": 0,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T17:20:21.053471",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 338,
+    "participant_id": 7,
+    "match_id": 8,
+    "home_score": 0,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:41:10.940750",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 409,
+    "participant_id": 4,
+    "match_id": 8,
+    "home_score": 1,
+    "away_score": 4,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:54:29.438726",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 306,
+    "participant_id": 8,
+    "match_id": 13,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T17:20:21.476986",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 343,
+    "participant_id": 7,
+    "match_id": 13,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:41:11.929370",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 344,
+    "participant_id": 7,
+    "match_id": 14,
+    "home_score": 0,
+    "away_score": 3,
+    "points": 7,
+    "submitted_at": "2026-06-11T23:41:12.128866",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 415,
+    "participant_id": 4,
+    "match_id": 14,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 5,
+    "submitted_at": "2026-06-11T23:54:30.784338",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 312,
+    "participant_id": 8,
+    "match_id": 20,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-11T17:20:22.755709",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 350,
+    "participant_id": 7,
+    "match_id": 20,
+    "home_score": 0,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:41:13.376835",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 421,
+    "participant_id": 4,
+    "match_id": 20,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:54:32.062570",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 316,
+    "participant_id": 8,
+    "match_id": 25,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 5,
+    "submitted_at": "2026-06-11T17:20:23.540156",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 355,
+    "participant_id": 7,
+    "match_id": 25,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 5,
+    "submitted_at": "2026-06-11T23:41:14.382810",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 361,
+    "participant_id": 7,
+    "match_id": 31,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:41:15.595887",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 317,
+    "participant_id": 8,
+    "match_id": 26,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T17:20:23.751144",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 356,
+    "participant_id": 7,
+    "match_id": 26,
+    "home_score": 2,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:41:14.581305",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 323,
+    "participant_id": 8,
+    "match_id": 32,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-11T17:20:24.927322",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 362,
+    "participant_id": 7,
+    "match_id": 32,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 5,
+    "submitted_at": "2026-06-11T23:41:15.853394",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 300,
+    "participant_id": 8,
+    "match_id": 4,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-11T17:13:01.428545",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 329,
+    "participant_id": 8,
+    "match_id": 45,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-11T17:20:26.278219",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 369,
+    "participant_id": 7,
+    "match_id": 39,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:41:17.522698",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 391,
+    "participant_id": 7,
+    "match_id": 61,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:41:21.893647",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 313,
+    "participant_id": 8,
+    "match_id": 21,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-11T17:20:22.938459",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 326,
+    "participant_id": 8,
+    "match_id": 37,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T17:20:25.710922",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 367,
+    "participant_id": 7,
+    "match_id": 37,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:41:17.128528",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 386,
+    "participant_id": 7,
+    "match_id": 56,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 9,
+    "submitted_at": "2026-06-11T23:41:20.916611",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 331,
+    "participant_id": 8,
+    "match_id": 49,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 5,
+    "submitted_at": "2026-06-11T17:20:26.682766",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 379,
+    "participant_id": 7,
+    "match_id": 49,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-11T23:41:19.524061",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 385,
+    "participant_id": 7,
+    "match_id": 55,
+    "home_score": 5,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-11T23:41:20.721213",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 291,
+    "participant_id": 12,
+    "match_id": 67,
+    "home_score": 2,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:47:30.037943",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 397,
+    "participant_id": 7,
+    "match_id": 67,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-11T23:41:23.103335",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 292,
+    "participant_id": 12,
+    "match_id": 68,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-11T16:47:30.402146",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 398,
+    "participant_id": 7,
+    "match_id": 68,
+    "home_score": 0,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:41:23.314742",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 392,
+    "participant_id": 7,
+    "match_id": 62,
+    "home_score": 1,
+    "away_score": 3,
+    "points": 9,
+    "submitted_at": "2026-06-11T23:41:22.089182",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 299,
+    "participant_id": 8,
+    "match_id": 3,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T17:13:01.209024",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 305,
+    "participant_id": 8,
+    "match_id": 9,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-11T17:20:21.274283",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 339,
+    "participant_id": 7,
+    "match_id": 9,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 5,
+    "submitted_at": "2026-06-11T23:41:11.129925",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 410,
+    "participant_id": 4,
+    "match_id": 9,
+    "home_score": 0,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:54:29.664539",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 340,
+    "participant_id": 7,
+    "match_id": 10,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-11T23:41:11.323137",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 411,
+    "participant_id": 4,
+    "match_id": 10,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-11T23:54:29.878306",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 328,
+    "participant_id": 8,
+    "match_id": 44,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T17:20:26.092276",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 374,
+    "participant_id": 7,
+    "match_id": 44,
+    "home_score": 0,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:41:18.532742",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 327,
+    "participant_id": 8,
+    "match_id": 43,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T17:20:25.903725",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 373,
+    "participant_id": 7,
+    "match_id": 43,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:41:18.329556",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 368,
+    "participant_id": 7,
+    "match_id": 38,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:41:17.327451",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 351,
+    "participant_id": 7,
+    "match_id": 21,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-11T23:41:13.574282",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 308,
+    "participant_id": 8,
+    "match_id": 15,
+    "home_score": 1,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T17:20:21.875313",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 345,
+    "participant_id": 7,
+    "match_id": 15,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 5,
+    "submitted_at": "2026-06-11T23:41:12.334894",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 324,
+    "participant_id": 8,
+    "match_id": 33,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-11T17:20:25.118907",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 363,
+    "participant_id": 7,
+    "match_id": 33,
+    "home_score": 1,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:41:16.182847",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 318,
+    "participant_id": 8,
+    "match_id": 27,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-11T17:20:23.942360",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 357,
+    "participant_id": 7,
+    "match_id": 27,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 9,
+    "submitted_at": "2026-06-11T23:41:14.775693",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 319,
+    "participant_id": 8,
+    "match_id": 28,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T17:20:24.132375",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 358,
+    "participant_id": 7,
+    "match_id": 28,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:41:14.975553",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 334,
+    "participant_id": 7,
+    "match_id": 4,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-11T23:41:10.160474",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 405,
+    "participant_id": 4,
+    "match_id": 4,
+    "home_score": 0,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:54:28.570547",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 346,
+    "participant_id": 7,
+    "match_id": 16,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 9,
+    "submitted_at": "2026-06-11T23:41:12.543643",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 417,
+    "participant_id": 4,
+    "match_id": 16,
+    "home_score": 4,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-11T23:54:31.204449",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 314,
+    "participant_id": 8,
+    "match_id": 22,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 5,
+    "submitted_at": "2026-06-11T17:20:23.131961",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 352,
+    "participant_id": 7,
+    "match_id": 22,
+    "home_score": 1,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:41:13.776011",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 325,
+    "participant_id": 8,
+    "match_id": 34,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 5,
+    "submitted_at": "2026-06-11T17:20:25.377229",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 364,
+    "participant_id": 7,
+    "match_id": 34,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 5,
+    "submitted_at": "2026-06-11T23:41:16.448677",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 375,
+    "participant_id": 7,
+    "match_id": 45,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-11T23:41:18.725463",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 330,
+    "participant_id": 8,
+    "match_id": 46,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T17:20:26.494514",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 376,
+    "participant_id": 7,
+    "match_id": 46,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:41:18.931627",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 370,
+    "participant_id": 7,
+    "match_id": 40,
+    "home_score": 0,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:41:17.721934",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 387,
+    "participant_id": 7,
+    "match_id": 57,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-11T23:41:21.113058",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 381,
+    "participant_id": 7,
+    "match_id": 51,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-11T23:41:19.930204",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 382,
+    "participant_id": 7,
+    "match_id": 52,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-11T23:41:20.140897",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 388,
+    "participant_id": 7,
+    "match_id": 58,
+    "home_score": 1,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:41:21.312898",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 393,
+    "participant_id": 7,
+    "match_id": 63,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-11T23:41:22.291838",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 293,
+    "participant_id": 12,
+    "match_id": 69,
+    "home_score": 4,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:47:30.768428",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 399,
+    "participant_id": 7,
+    "match_id": 69,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:41:23.515317",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 294,
+    "participant_id": 12,
+    "match_id": 70,
+    "home_score": 0,
+    "away_score": 3,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:47:31.288815",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 400,
+    "participant_id": 7,
+    "match_id": 70,
+    "home_score": 0,
+    "away_score": 1,
+    "points": 9,
+    "submitted_at": "2026-06-11T23:41:23.713695",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 394,
+    "participant_id": 7,
+    "match_id": 64,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-11T23:41:22.496800",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 310,
+    "participant_id": 8,
+    "match_id": 17,
+    "home_score": 0,
+    "away_score": 2,
+    "points": 7,
+    "submitted_at": "2026-06-11T17:20:22.263904",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 412,
+    "participant_id": 4,
+    "match_id": 11,
+    "home_score": 1,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:54:30.096882",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 342,
+    "participant_id": 7,
+    "match_id": 12,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-11T23:41:11.717244",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 413,
+    "participant_id": 4,
+    "match_id": 12,
+    "home_score": 1,
+    "away_score": 0,
+    "points": 5,
+    "submitted_at": "2026-06-11T23:54:30.325401",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 301,
+    "participant_id": 8,
+    "match_id": 5,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-11T17:13:01.624349",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 335,
+    "participant_id": 7,
+    "match_id": 5,
+    "home_score": 1,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:41:10.360904",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 406,
+    "participant_id": 4,
+    "match_id": 5,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-11T23:54:28.782428",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 407,
+    "participant_id": 4,
+    "match_id": 6,
+    "home_score": 0,
+    "away_score": 3,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:54:28.992513",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 320,
+    "participant_id": 8,
+    "match_id": 29,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T17:20:24.338002",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 321,
+    "participant_id": 8,
+    "match_id": 30,
+    "home_score": 0,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-11T17:20:24.538521",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 359,
+    "participant_id": 7,
+    "match_id": 29,
+    "home_score": 1,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:41:15.169313",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 360,
+    "participant_id": 7,
+    "match_id": 30,
+    "home_score": 0,
+    "away_score": 2,
+    "points": 9,
+    "submitted_at": "2026-06-11T23:41:15.369902",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 366,
+    "participant_id": 7,
+    "match_id": 36,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 7,
+    "submitted_at": "2026-06-11T23:41:16.919583",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 365,
+    "participant_id": 7,
+    "match_id": 35,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:41:16.654377",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 315,
+    "participant_id": 8,
+    "match_id": 23,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T17:20:23.331768",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 353,
+    "participant_id": 7,
+    "match_id": 23,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:41:13.976665",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 354,
+    "participant_id": 7,
+    "match_id": 24,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:41:14.179898",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 383,
+    "participant_id": 7,
+    "match_id": 53,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 7,
+    "submitted_at": "2026-06-11T23:41:20.338758",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 384,
+    "participant_id": 7,
+    "match_id": 54,
+    "home_score": 2,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:41:20.528063",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 377,
+    "participant_id": 7,
+    "match_id": 47,
+    "home_score": 1,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-11T23:41:19.123353",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 378,
+    "participant_id": 7,
+    "match_id": 48,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 5,
+    "submitted_at": "2026-06-11T23:41:19.321044",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 372,
+    "participant_id": 7,
+    "match_id": 42,
+    "home_score": 0,
+    "away_score": 3,
+    "points": 5,
+    "submitted_at": "2026-06-11T23:41:18.131264",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 371,
+    "participant_id": 7,
+    "match_id": 41,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:41:17.931324",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 295,
+    "participant_id": 12,
+    "match_id": 71,
+    "home_score": 0,
+    "away_score": 3,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:47:31.657073",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 296,
+    "participant_id": 12,
+    "match_id": 72,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 9,
+    "submitted_at": "2026-06-11T16:47:32.043749",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 401,
+    "participant_id": 7,
+    "match_id": 71,
+    "home_score": 0,
+    "away_score": 2,
+    "points": 9,
+    "submitted_at": "2026-06-11T23:41:23.910776",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 402,
+    "participant_id": 7,
+    "match_id": 72,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 9,
+    "submitted_at": "2026-06-11T23:41:24.115144",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 395,
+    "participant_id": 7,
+    "match_id": 65,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:41:22.698729",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 396,
+    "participant_id": 7,
+    "match_id": 66,
+    "home_score": 0,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:41:22.898353",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 390,
+    "participant_id": 7,
+    "match_id": 60,
+    "home_score": 0,
+    "away_score": 2,
+    "points": 5,
+    "submitted_at": "2026-06-11T23:41:21.697491",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 389,
+    "participant_id": 7,
+    "match_id": 59,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:41:21.503534",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 426,
+    "participant_id": 4,
+    "match_id": 25,
+    "home_score": 4,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-11T23:54:33.153382",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 432,
+    "participant_id": 4,
+    "match_id": 31,
+    "home_score": 1,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:54:34.464437",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 438,
+    "participant_id": 4,
+    "match_id": 37,
+    "home_score": 1,
+    "away_score": 1,
+    "points": 9,
+    "submitted_at": "2026-06-11T23:54:35.834093",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 450,
+    "participant_id": 4,
+    "match_id": 49,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 9,
+    "submitted_at": "2026-06-11T23:54:38.456880",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 456,
+    "participant_id": 4,
+    "match_id": 55,
+    "home_score": 4,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-11T23:54:39.770659",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 462,
+    "participant_id": 4,
+    "match_id": 61,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:54:41.082307",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 468,
+    "participant_id": 4,
+    "match_id": 67,
+    "home_score": 1,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:54:42.425451",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 469,
+    "participant_id": 4,
+    "match_id": 68,
+    "home_score": 0,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:54:42.643161",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 444,
+    "participant_id": 4,
+    "match_id": 43,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:54:37.134949",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 422,
+    "participant_id": 4,
+    "match_id": 21,
+    "home_score": 2,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:54:32.284402",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 434,
+    "participant_id": 4,
+    "match_id": 33,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-11T23:54:34.898303",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 428,
+    "participant_id": 4,
+    "match_id": 27,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-11T23:54:33.589812",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 446,
+    "participant_id": 4,
+    "match_id": 45,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-11T23:54:37.580119",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 440,
+    "participant_id": 4,
+    "match_id": 39,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:54:36.257807",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 458,
+    "participant_id": 4,
+    "match_id": 57,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 9,
+    "submitted_at": "2026-06-11T23:54:40.217788",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 452,
+    "participant_id": 4,
+    "match_id": 51,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 9,
+    "submitted_at": "2026-06-11T23:54:38.890932",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 464,
+    "participant_id": 4,
+    "match_id": 63,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-11T23:54:41.536813",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 470,
+    "participant_id": 4,
+    "match_id": 69,
+    "home_score": 4,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:54:42.874669",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 430,
+    "participant_id": 4,
+    "match_id": 29,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:54:34.011545",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 436,
+    "participant_id": 4,
+    "match_id": 35,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:54:35.370163",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 424,
+    "participant_id": 4,
+    "match_id": 23,
+    "home_score": 1,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:54:32.730272",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 454,
+    "participant_id": 4,
+    "match_id": 53,
+    "home_score": 1,
+    "away_score": 3,
+    "points": 7,
+    "submitted_at": "2026-06-11T23:54:39.325439",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 448,
+    "participant_id": 4,
+    "match_id": 47,
+    "home_score": 0,
+    "away_score": 0,
+    "points": 9,
+    "submitted_at": "2026-06-11T23:54:38.012418",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 442,
+    "participant_id": 4,
+    "match_id": 41,
+    "home_score": 1,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:54:36.706914",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 472,
+    "participant_id": 4,
+    "match_id": 71,
+    "home_score": 1,
+    "away_score": 3,
+    "points": 5,
+    "submitted_at": "2026-06-11T23:54:43.290557",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 466,
+    "participant_id": 4,
+    "match_id": 65,
+    "home_score": 1,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-11T23:54:41.982087",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 460,
+    "participant_id": 4,
+    "match_id": 59,
+    "home_score": 0,
+    "away_score": 0,
+    "points": 5,
+    "submitted_at": "2026-06-11T23:54:40.650635",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 100,
+    "participant_id": 11,
+    "match_id": 2,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:08:31.614131",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 298,
+    "participant_id": 8,
+    "match_id": 2,
+    "home_score": 1,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T17:13:01.005342",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 332,
+    "participant_id": 7,
+    "match_id": 2,
+    "home_score": 0,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:41:09.763558",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 403,
+    "participant_id": 4,
+    "match_id": 2,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-11T23:54:28.010963",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 408,
+    "participant_id": 4,
+    "match_id": 7,
+    "home_score": 1,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:54:29.223725",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 243,
+    "participant_id": 12,
+    "match_id": 19,
+    "home_score": 1,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:47:11.436160",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 237,
+    "participant_id": 12,
+    "match_id": 13,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:47:09.229423",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 414,
+    "participant_id": 4,
+    "match_id": 13,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:54:30.550025",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 427,
+    "participant_id": 4,
+    "match_id": 26,
+    "home_score": 1,
+    "away_score": 3,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:54:33.369828",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 433,
+    "participant_id": 4,
+    "match_id": 32,
+    "home_score": 0,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:54:34.680889",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 261,
+    "participant_id": 12,
+    "match_id": 37,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:47:18.537196",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 274,
+    "participant_id": 12,
+    "match_id": 50,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:47:23.439073",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 451,
+    "participant_id": 4,
+    "match_id": 50,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 7,
+    "submitted_at": "2026-06-11T23:54:38.677472",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 488,
+    "participant_id": 8,
+    "match_id": 50,
+    "home_score": 0,
+    "away_score": 2,
+    "points": 5,
+    "submitted_at": "2026-06-13T12:43:38.004976",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 493,
+    "participant_id": 8,
+    "match_id": 55,
+    "home_score": 4,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-13T12:43:38.907862",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 457,
+    "participant_id": 4,
+    "match_id": 56,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 5,
+    "submitted_at": "2026-06-11T23:54:39.997707",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 494,
+    "participant_id": 8,
+    "match_id": 56,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-13T12:43:39.076292",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 499,
+    "participant_id": 8,
+    "match_id": 61,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-13T12:43:39.940369",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 505,
+    "participant_id": 8,
+    "match_id": 67,
+    "home_score": 2,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-13T12:43:41.013139",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 506,
+    "participant_id": 8,
+    "match_id": 68,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-13T12:43:41.190900",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 286,
+    "participant_id": 12,
+    "match_id": 62,
+    "home_score": 1,
+    "away_score": 3,
+    "points": 9,
+    "submitted_at": "2026-06-11T16:47:28.175710",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 463,
+    "participant_id": 4,
+    "match_id": 62,
+    "home_score": 0,
+    "away_score": 3,
+    "points": 7,
+    "submitted_at": "2026-06-11T23:54:41.305083",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 500,
+    "participant_id": 8,
+    "match_id": 62,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 7,
+    "submitted_at": "2026-06-13T12:43:40.119478",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 29,
+    "participant_id": 9,
+    "match_id": 3,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T15:27:55.902557",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 101,
+    "participant_id": 11,
+    "match_id": 3,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:08:32.035380",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 333,
+    "participant_id": 7,
+    "match_id": 3,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:41:09.957308",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 404,
+    "participant_id": 4,
+    "match_id": 3,
+    "home_score": 1,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:54:28.371339",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 107,
+    "participant_id": 11,
+    "match_id": 9,
+    "home_score": 1,
+    "away_score": 0,
+    "points": 5,
+    "submitted_at": "2026-06-11T16:08:34.596202",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 475,
+    "participant_id": 8,
+    "match_id": 10,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-13T12:43:31.113650",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 445,
+    "participant_id": 4,
+    "match_id": 44,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:54:37.346987",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 439,
+    "participant_id": 4,
+    "match_id": 38,
+    "home_score": 1,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:54:36.036619",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 481,
+    "participant_id": 8,
+    "match_id": 38,
+    "home_score": 0,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-13T12:43:35.871392",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 416,
+    "participant_id": 4,
+    "match_id": 15,
+    "home_score": 1,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:54:30.993349",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 429,
+    "participant_id": 4,
+    "match_id": 28,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:54:33.797175",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 102,
+    "participant_id": 11,
+    "match_id": 4,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:08:32.466466",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 423,
+    "participant_id": 4,
+    "match_id": 22,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 5,
+    "submitted_at": "2026-06-11T23:54:32.512946",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 435,
+    "participant_id": 4,
+    "match_id": 34,
+    "home_score": 1,
+    "away_score": 3,
+    "points": 5,
+    "submitted_at": "2026-06-11T23:54:35.111721",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 263,
+    "participant_id": 12,
+    "match_id": 39,
+    "home_score": 1,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:47:19.265540",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 482,
+    "participant_id": 8,
+    "match_id": 39,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-13T12:43:36.047556",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 270,
+    "participant_id": 12,
+    "match_id": 46,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:47:21.964163",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 447,
+    "participant_id": 4,
+    "match_id": 46,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:54:37.798360",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 441,
+    "participant_id": 4,
+    "match_id": 40,
+    "home_score": 0,
+    "away_score": 2,
+    "points": 5,
+    "submitted_at": "2026-06-11T23:54:36.479336",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 483,
+    "participant_id": 8,
+    "match_id": 40,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-13T12:43:36.228820",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 495,
+    "participant_id": 8,
+    "match_id": 57,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-13T12:43:39.248660",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 489,
+    "participant_id": 8,
+    "match_id": 51,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 9,
+    "submitted_at": "2026-06-13T12:43:38.185579",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 453,
+    "participant_id": 4,
+    "match_id": 52,
+    "home_score": 1,
+    "away_score": 0,
+    "points": 5,
+    "submitted_at": "2026-06-11T23:54:39.109828",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 490,
+    "participant_id": 8,
+    "match_id": 52,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 5,
+    "submitted_at": "2026-06-13T12:43:38.368978",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 282,
+    "participant_id": 12,
+    "match_id": 58,
+    "home_score": 1,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:47:26.476060",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 459,
+    "participant_id": 4,
+    "match_id": 58,
+    "home_score": 0,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:54:40.435291",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 496,
+    "participant_id": 8,
+    "match_id": 58,
+    "home_score": 1,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-13T12:43:39.419738",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 501,
+    "participant_id": 8,
+    "match_id": 63,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-13T12:43:40.298454",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 507,
+    "participant_id": 8,
+    "match_id": 69,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-13T12:43:41.365724",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 471,
+    "participant_id": 4,
+    "match_id": 70,
+    "home_score": 0,
+    "away_score": 2,
+    "points": 7,
+    "submitted_at": "2026-06-11T23:54:43.076229",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 508,
+    "participant_id": 8,
+    "match_id": 70,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 5,
+    "submitted_at": "2026-06-13T12:43:41.556507",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 465,
+    "participant_id": 4,
+    "match_id": 64,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-11T23:54:41.755309",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 502,
+    "participant_id": 8,
+    "match_id": 64,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-13T12:43:40.464058",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 115,
+    "participant_id": 11,
+    "match_id": 17,
+    "home_score": 0,
+    "away_score": 3,
+    "points": 9,
+    "submitted_at": "2026-06-11T16:08:37.986155",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 116,
+    "participant_id": 11,
+    "match_id": 18,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 5,
+    "submitted_at": "2026-06-11T16:08:38.424432",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 242,
+    "participant_id": 12,
+    "match_id": 18,
+    "home_score": 1,
+    "away_score": 0,
+    "points": 5,
+    "submitted_at": "2026-06-11T16:47:11.056556",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 311,
+    "participant_id": 8,
+    "match_id": 18,
+    "home_score": 1,
+    "away_score": 0,
+    "points": 5,
+    "submitted_at": "2026-06-11T17:20:22.458677",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 347,
+    "participant_id": 7,
+    "match_id": 17,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 5,
+    "submitted_at": "2026-06-11T23:41:12.743443",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 348,
+    "participant_id": 7,
+    "match_id": 18,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 5,
+    "submitted_at": "2026-06-11T23:41:12.966592",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 418,
+    "participant_id": 4,
+    "match_id": 17,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 5,
+    "submitted_at": "2026-06-11T23:54:31.417389",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 419,
+    "participant_id": 4,
+    "match_id": 18,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 5,
+    "submitted_at": "2026-06-11T23:54:31.640257",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 476,
+    "participant_id": 8,
+    "match_id": 11,
+    "home_score": 1,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-13T12:43:31.294925",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 477,
+    "participant_id": 8,
+    "match_id": 12,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-13T12:43:31.470401",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 474,
+    "participant_id": 8,
+    "match_id": 6,
+    "home_score": 0,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-13T12:43:30.581273",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 128,
+    "participant_id": 11,
+    "match_id": 30,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:08:43.679991",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 254,
+    "participant_id": 12,
+    "match_id": 30,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:47:15.885426",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 431,
+    "participant_id": 4,
+    "match_id": 30,
+    "home_score": 2,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:54:34.231430",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 437,
+    "participant_id": 4,
+    "match_id": 36,
+    "home_score": 0,
+    "away_score": 3,
+    "points": 7,
+    "submitted_at": "2026-06-11T23:54:35.605941",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 480,
+    "participant_id": 8,
+    "match_id": 36,
+    "home_score": 0,
+    "away_score": 2,
+    "points": 5,
+    "submitted_at": "2026-06-13T12:43:35.502267",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 479,
+    "participant_id": 8,
+    "match_id": 35,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-13T12:43:35.325888",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 121,
+    "participant_id": 11,
+    "match_id": 23,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:08:40.559955",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 122,
+    "participant_id": 11,
+    "match_id": 24,
+    "home_score": 3,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T16:08:40.968261",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 425,
+    "participant_id": 4,
+    "match_id": 24,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:54:32.940721",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 478,
+    "participant_id": 8,
+    "match_id": 24,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-13T12:43:33.403947",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 491,
+    "participant_id": 8,
+    "match_id": 53,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 7,
+    "submitted_at": "2026-06-13T12:43:38.549765",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 455,
+    "participant_id": 4,
+    "match_id": 54,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-11T23:54:39.539090",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 492,
+    "participant_id": 8,
+    "match_id": 54,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-13T12:43:38.728816",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 511,
+    "participant_id": 7,
+    "match_id": 73,
+    "home_score": 0,
+    "away_score": 1,
+    "points": 9,
+    "submitted_at": "2026-06-27T00:22:12.834683",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 516,
+    "participant_id": 7,
+    "match_id": 78,
+    "home_score": 2,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-27T00:22:13.612764",
+    "predicted_winner_side": "away"
+  },
+  {
+    "id": 512,
+    "participant_id": 7,
+    "match_id": 74,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-27T00:22:13.017668",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 520,
+    "participant_id": 7,
+    "match_id": 82,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-27T00:22:14.238671",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 523,
+    "participant_id": 7,
+    "match_id": 85,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 9,
+    "submitted_at": "2026-06-27T00:22:14.727096",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 544,
+    "participant_id": 2,
+    "match_id": 90,
+    "home_score": 0,
+    "away_score": 2,
+    "points": 7,
+    "submitted_at": "2026-06-28T03:14:11.403476",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 486,
+    "participant_id": 8,
+    "match_id": 47,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-13T12:43:37.451709",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 449,
+    "participant_id": 4,
+    "match_id": 48,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 5,
+    "submitted_at": "2026-06-11T23:54:38.235812",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 487,
+    "participant_id": 8,
+    "match_id": 48,
+    "home_score": 2,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-13T12:43:37.638130",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 443,
+    "participant_id": 4,
+    "match_id": 42,
+    "home_score": 1,
+    "away_score": 3,
+    "points": 7,
+    "submitted_at": "2026-06-11T23:54:36.925206",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 485,
+    "participant_id": 8,
+    "match_id": 42,
+    "home_score": 2,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-13T12:43:36.575952",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 484,
+    "participant_id": 8,
+    "match_id": 41,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-13T12:43:36.403883",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 515,
+    "participant_id": 7,
+    "match_id": 77,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-27T00:22:13.400899",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 518,
+    "participant_id": 7,
+    "match_id": 80,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 9,
+    "submitted_at": "2026-06-27T00:22:13.858362",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 519,
+    "participant_id": 7,
+    "match_id": 81,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-27T00:22:14.104046",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 224,
+    "participant_id": 2,
+    "match_id": 72,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-11T16:21:20.918093",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 473,
+    "participant_id": 4,
+    "match_id": 72,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-11T23:54:43.522221",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 509,
+    "participant_id": 8,
+    "match_id": 71,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 7,
+    "submitted_at": "2026-06-13T12:43:41.729676",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 510,
+    "participant_id": 8,
+    "match_id": 72,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 9,
+    "submitted_at": "2026-06-13T12:43:41.902443",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 503,
+    "participant_id": 8,
+    "match_id": 65,
+    "home_score": 2,
+    "away_score": 2,
+    "points": 5,
+    "submitted_at": "2026-06-13T12:43:40.643755",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 467,
+    "participant_id": 4,
+    "match_id": 66,
+    "home_score": 2,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-11T23:54:42.206444",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 504,
+    "participant_id": 8,
+    "match_id": 66,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-13T12:43:40.833563",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 521,
+    "participant_id": 7,
+    "match_id": 83,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 9,
+    "submitted_at": "2026-06-27T00:22:14.359637",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 497,
+    "participant_id": 8,
+    "match_id": 59,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-13T12:43:39.588798",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 513,
+    "participant_id": 7,
+    "match_id": 75,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-27T00:22:13.152634",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 531,
+    "participant_id": 2,
+    "match_id": 77,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 9,
+    "submitted_at": "2026-06-28T03:12:45.942942",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 536,
+    "participant_id": 2,
+    "match_id": 82,
+    "home_score": 1,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-28T03:12:47.362850",
+    "predicted_winner_side": "home"
+  },
+  {
+    "id": 535,
+    "participant_id": 2,
+    "match_id": 81,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 9,
+    "submitted_at": "2026-06-28T03:12:46.968864",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 545,
+    "participant_id": 2,
+    "match_id": 91,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-28T03:14:11.612975",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 543,
+    "participant_id": 2,
+    "match_id": 89,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 5,
+    "submitted_at": "2026-06-28T03:14:11.144752",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 524,
+    "participant_id": 7,
+    "match_id": 86,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-27T00:22:14.854974",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 526,
+    "participant_id": 7,
+    "match_id": 88,
+    "home_score": 1,
+    "away_score": 1,
+    "points": 9,
+    "submitted_at": "2026-06-27T00:22:15.171395",
+    "predicted_winner_side": "home"
+  },
+  {
+    "id": 514,
+    "participant_id": 7,
+    "match_id": 76,
+    "home_score": 1,
+    "away_score": 0,
+    "points": 5,
+    "submitted_at": "2026-06-27T00:22:13.273535",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 530,
+    "participant_id": 2,
+    "match_id": 76,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-28T03:12:45.577243",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 528,
+    "participant_id": 2,
+    "match_id": 74,
+    "home_score": 4,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-28T03:12:44.720037",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 532,
+    "participant_id": 2,
+    "match_id": 78,
+    "home_score": 1,
+    "away_score": 3,
+    "points": 7,
+    "submitted_at": "2026-06-28T03:12:46.148734",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 517,
+    "participant_id": 7,
+    "match_id": 79,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-27T00:22:13.737986",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 533,
+    "participant_id": 2,
+    "match_id": 79,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-28T03:12:46.442902",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 534,
+    "participant_id": 2,
+    "match_id": 80,
+    "home_score": 1,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-28T03:12:46.648729",
+    "predicted_winner_side": "home"
+  },
+  {
+    "id": 522,
+    "participant_id": 7,
+    "match_id": 84,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-27T00:22:14.598129",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 538,
+    "participant_id": 2,
+    "match_id": 84,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-28T03:12:47.992529",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 539,
+    "participant_id": 2,
+    "match_id": 85,
+    "home_score": 1,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-28T03:12:48.402864",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 537,
+    "participant_id": 2,
+    "match_id": 83,
+    "home_score": 1,
+    "away_score": 0,
+    "points": 5,
+    "submitted_at": "2026-06-28T03:12:47.674420",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 540,
+    "participant_id": 2,
+    "match_id": 86,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 5,
+    "submitted_at": "2026-06-28T03:12:48.696486",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 525,
+    "participant_id": 7,
+    "match_id": 87,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-27T00:22:14.975457",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 541,
+    "participant_id": 2,
+    "match_id": 87,
+    "home_score": 1,
+    "away_score": 0,
+    "points": 9,
+    "submitted_at": "2026-06-28T03:12:49.096569",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 542,
+    "participant_id": 2,
+    "match_id": 88,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-28T03:12:49.434311",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 554,
+    "participant_id": 2,
+    "match_id": 100,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 7,
+    "submitted_at": "2026-06-28T03:15:06.431598",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 546,
+    "participant_id": 2,
+    "match_id": 92,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-28T03:14:11.832426",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 549,
+    "participant_id": 2,
+    "match_id": 95,
+    "home_score": 0,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-28T03:14:12.774476",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 551,
+    "participant_id": 2,
+    "match_id": 97,
+    "home_score": 1,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-28T03:15:05.600528",
+    "predicted_winner_side": "home"
+  },
+  {
+    "id": 556,
+    "participant_id": 2,
+    "match_id": 102,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-28T03:18:00.478290",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 547,
+    "participant_id": 2,
+    "match_id": 93,
+    "home_score": 1,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-28T03:14:12.142055",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 550,
+    "participant_id": 2,
+    "match_id": 96,
+    "home_score": 1,
+    "away_score": 0,
+    "points": 5,
+    "submitted_at": "2026-06-28T03:14:12.956555",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 552,
+    "participant_id": 2,
+    "match_id": 98,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-28T03:15:05.943865",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 557,
+    "participant_id": 2,
+    "match_id": 103,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-28T03:18:20.995526",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 461,
+    "participant_id": 4,
+    "match_id": 60,
+    "home_score": 0,
+    "away_score": 3,
+    "points": 7,
+    "submitted_at": "2026-06-11T23:54:40.874762",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 498,
+    "participant_id": 8,
+    "match_id": 60,
+    "home_score": 0,
+    "away_score": 3,
+    "points": 7,
+    "submitted_at": "2026-06-13T12:43:39.761539",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 553,
+    "participant_id": 2,
+    "match_id": 99,
+    "home_score": 0,
+    "away_score": 2,
+    "points": 7,
+    "submitted_at": "2026-06-28T03:15:06.221496",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 584,
+    "participant_id": 7,
+    "match_id": 99,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 9,
+    "submitted_at": "2026-06-28T13:24:53.736547",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 615,
+    "participant_id": 11,
+    "match_id": 99,
+    "home_score": 0,
+    "away_score": 2,
+    "points": 7,
+    "submitted_at": "2026-06-28T15:53:52.157150",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 629,
+    "participant_id": 4,
+    "match_id": 99,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 9,
+    "submitted_at": "2026-06-28T15:57:51.352555",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 578,
+    "participant_id": 7,
+    "match_id": 93,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-28T13:23:07.813586",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 585,
+    "participant_id": 7,
+    "match_id": 100,
+    "home_score": 2,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-28T13:24:53.914916",
+    "predicted_winner_side": "away"
+  },
+  {
+    "id": 616,
+    "participant_id": 11,
+    "match_id": 100,
+    "home_score": 1,
+    "away_score": 3,
+    "points": 9,
+    "submitted_at": "2026-06-28T15:53:52.586125",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 677,
+    "participant_id": 13,
+    "match_id": 100,
+    "home_score": 2,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-28T21:57:49.082371",
+    "predicted_winner_side": "away"
+  },
+  {
+    "id": 555,
+    "participant_id": 2,
+    "match_id": 101,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-28T03:18:00.153800",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 586,
+    "participant_id": 7,
+    "match_id": 101,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-28T13:25:40.361362",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 574,
+    "participant_id": 7,
+    "match_id": 89,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 5,
+    "submitted_at": "2026-06-28T13:23:07.204150",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 548,
+    "participant_id": 2,
+    "match_id": 94,
+    "home_score": 0,
+    "away_score": 2,
+    "points": 7,
+    "submitted_at": "2026-06-28T03:14:12.488574",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 583,
+    "participant_id": 7,
+    "match_id": 98,
+    "home_score": 1,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-28T13:24:53.598297",
+    "predicted_winner_side": "home"
+  },
+  {
+    "id": 587,
+    "participant_id": 7,
+    "match_id": 102,
+    "home_score": 1,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-28T13:25:40.563274",
+    "predicted_winner_side": "away"
+  },
+  {
+    "id": 617,
+    "participant_id": 11,
+    "match_id": 101,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-28T15:55:14.453817",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 630,
+    "participant_id": 4,
+    "match_id": 101,
+    "home_score": 4,
+    "away_score": 3,
+    "points": 0,
+    "submitted_at": "2026-06-28T15:57:51.590727",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 566,
+    "participant_id": 4,
+    "match_id": 81,
+    "home_score": 0,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-28T03:32:01.654986",
+    "predicted_winner_side": "away"
+  },
+  {
+    "id": 568,
+    "participant_id": 4,
+    "match_id": 83,
+    "home_score": 1,
+    "away_score": 0,
+    "points": 5,
+    "submitted_at": "2026-06-28T03:32:02.289412",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 558,
+    "participant_id": 4,
+    "match_id": 73,
+    "home_score": 1,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-28T03:31:59.023075",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 618,
+    "participant_id": 11,
+    "match_id": 102,
+    "home_score": 1,
+    "away_score": 3,
+    "points": 7,
+    "submitted_at": "2026-06-28T15:55:14.871035",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 561,
+    "participant_id": 4,
+    "match_id": 76,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-28T03:32:00.143661",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 592,
+    "participant_id": 11,
+    "match_id": 76,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 5,
+    "submitted_at": "2026-06-28T15:40:41.699801",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 636,
+    "participant_id": 9,
+    "match_id": 76,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-28T16:15:05.159194",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 653,
+    "participant_id": 13,
+    "match_id": 76,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-28T21:53:36.205573",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 559,
+    "participant_id": 4,
+    "match_id": 74,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-28T03:31:59.534969",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 590,
+    "participant_id": 11,
+    "match_id": 74,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-28T15:40:40.803260",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 634,
+    "participant_id": 9,
+    "match_id": 74,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-28T16:15:04.325221",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 651,
+    "participant_id": 13,
+    "match_id": 74,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-28T21:53:35.176997",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 681,
+    "participant_id": 8,
+    "match_id": 74,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-29T02:33:55.733966",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 576,
+    "participant_id": 7,
+    "match_id": 91,
+    "home_score": 1,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-28T13:23:07.556033",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 563,
+    "participant_id": 4,
+    "match_id": 78,
+    "home_score": 0,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-28T03:32:00.726196",
+    "predicted_winner_side": "away"
+  },
+  {
+    "id": 594,
+    "participant_id": 11,
+    "match_id": 78,
+    "home_score": 1,
+    "away_score": 3,
+    "points": 7,
+    "submitted_at": "2026-06-28T15:40:42.671677",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 607,
+    "participant_id": 11,
+    "match_id": 91,
+    "home_score": 4,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-28T15:51:30.964866",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 638,
+    "participant_id": 9,
+    "match_id": 78,
+    "home_score": 1,
+    "away_score": 3,
+    "points": 7,
+    "submitted_at": "2026-06-28T16:15:06.004987",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 652,
+    "participant_id": 13,
+    "match_id": 75,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-28T21:53:35.717745",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 682,
+    "participant_id": 8,
+    "match_id": 75,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-29T02:33:55.969121",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 655,
+    "participant_id": 13,
+    "match_id": 78,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 9,
+    "submitted_at": "2026-06-28T21:53:37.158450",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 562,
+    "participant_id": 4,
+    "match_id": 77,
+    "home_score": 3,
+    "away_score": 2,
+    "points": 7,
+    "submitted_at": "2026-06-28T03:32:00.437869",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 593,
+    "participant_id": 11,
+    "match_id": 77,
+    "home_score": 4,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-28T15:40:42.187153",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 637,
+    "participant_id": 9,
+    "match_id": 77,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-28T16:15:05.579871",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 654,
+    "participant_id": 13,
+    "match_id": 77,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-28T21:53:36.674540",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 684,
+    "participant_id": 8,
+    "match_id": 77,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 9,
+    "submitted_at": "2026-06-29T02:33:56.460089",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 597,
+    "participant_id": 11,
+    "match_id": 81,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-28T15:40:44.174397",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 564,
+    "participant_id": 4,
+    "match_id": 79,
+    "home_score": 0,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-28T03:32:01.037211",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 595,
+    "participant_id": 11,
+    "match_id": 79,
+    "home_score": 3,
+    "away_score": 2,
+    "points": 5,
+    "submitted_at": "2026-06-28T15:40:43.126306",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 639,
+    "participant_id": 9,
+    "match_id": 79,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-28T16:15:06.447905",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 656,
+    "participant_id": 13,
+    "match_id": 79,
+    "home_score": 1,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-28T21:53:37.789897",
+    "predicted_winner_side": "home"
+  },
+  {
+    "id": 565,
+    "participant_id": 4,
+    "match_id": 80,
+    "home_score": 1,
+    "away_score": 0,
+    "points": 5,
+    "submitted_at": "2026-06-28T03:32:01.355796",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 596,
+    "participant_id": 11,
+    "match_id": 80,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 5,
+    "submitted_at": "2026-06-28T15:40:43.603804",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 640,
+    "participant_id": 9,
+    "match_id": 80,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 5,
+    "submitted_at": "2026-06-28T16:15:06.841018",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 657,
+    "participant_id": 13,
+    "match_id": 80,
+    "home_score": 1,
+    "away_score": 0,
+    "points": 5,
+    "submitted_at": "2026-06-28T21:53:38.274068",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 567,
+    "participant_id": 4,
+    "match_id": 82,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-28T03:32:01.957875",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 598,
+    "participant_id": 11,
+    "match_id": 82,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-28T15:40:44.612430",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 642,
+    "participant_id": 9,
+    "match_id": 82,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-28T16:15:07.736266",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 659,
+    "participant_id": 13,
+    "match_id": 82,
+    "home_score": 0,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-28T21:53:39.395235",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 641,
+    "participant_id": 9,
+    "match_id": 81,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-28T16:15:07.292241",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 658,
+    "participant_id": 13,
+    "match_id": 81,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 9,
+    "submitted_at": "2026-06-28T21:53:38.915751",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 569,
+    "participant_id": 4,
+    "match_id": 84,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-28T03:32:02.704303",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 600,
+    "participant_id": 11,
+    "match_id": 84,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-28T15:40:45.771722",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 644,
+    "participant_id": 9,
+    "match_id": 84,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-28T16:15:08.609109",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 661,
+    "participant_id": 13,
+    "match_id": 84,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-28T21:53:40.356321",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 570,
+    "participant_id": 4,
+    "match_id": 85,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-28T03:32:03.089190",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 601,
+    "participant_id": 11,
+    "match_id": 85,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-28T15:40:46.208954",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 643,
+    "participant_id": 9,
+    "match_id": 83,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-28T16:15:08.165961",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 599,
+    "participant_id": 11,
+    "match_id": 83,
+    "home_score": 3,
+    "away_score": 2,
+    "points": 5,
+    "submitted_at": "2026-06-28T15:40:45.152713",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 645,
+    "participant_id": 9,
+    "match_id": 85,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-28T16:15:09.029632",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 662,
+    "participant_id": 13,
+    "match_id": 85,
+    "home_score": 1,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-28T21:53:40.835038",
+    "predicted_winner_side": "home"
+  },
+  {
+    "id": 622,
+    "participant_id": 4,
+    "match_id": 91,
+    "home_score": 5,
+    "away_score": 3,
+    "points": 0,
+    "submitted_at": "2026-06-28T15:57:49.556926",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 604,
+    "participant_id": 11,
+    "match_id": 88,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-28T15:40:47.575554",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 648,
+    "participant_id": 9,
+    "match_id": 88,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-28T16:15:10.284148",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 668,
+    "participant_id": 13,
+    "match_id": 91,
+    "home_score": 2,
+    "away_score": 3,
+    "points": 5,
+    "submitted_at": "2026-06-28T21:55:52.393379",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 571,
+    "participant_id": 4,
+    "match_id": 86,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-28T03:32:03.400862",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 602,
+    "participant_id": 11,
+    "match_id": 86,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-28T15:40:46.677038",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 646,
+    "participant_id": 9,
+    "match_id": 86,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-28T16:15:09.463733",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 663,
+    "participant_id": 13,
+    "match_id": 86,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-28T21:53:41.480320",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 575,
+    "participant_id": 7,
+    "match_id": 90,
+    "home_score": 1,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-28T13:23:07.420405",
+    "predicted_winner_side": "home"
+  },
+  {
+    "id": 603,
+    "participant_id": 11,
+    "match_id": 87,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-28T15:40:47.125641",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 647,
+    "participant_id": 9,
+    "match_id": 87,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-28T16:15:09.891310",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 606,
+    "participant_id": 11,
+    "match_id": 90,
+    "home_score": 1,
+    "away_score": 3,
+    "points": 7,
+    "submitted_at": "2026-06-28T15:51:30.522284",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 572,
+    "participant_id": 4,
+    "match_id": 87,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-28T03:32:03.804522",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 664,
+    "participant_id": 13,
+    "match_id": 87,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-28T21:53:41.937244",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 621,
+    "participant_id": 4,
+    "match_id": 90,
+    "home_score": 2,
+    "away_score": 3,
+    "points": 7,
+    "submitted_at": "2026-06-28T15:57:49.329194",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 605,
+    "participant_id": 11,
+    "match_id": 89,
+    "home_score": 1,
+    "away_score": 3,
+    "points": 5,
+    "submitted_at": "2026-06-28T15:51:30.114401",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 620,
+    "participant_id": 4,
+    "match_id": 89,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 5,
+    "submitted_at": "2026-06-28T15:57:49.100976",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 666,
+    "participant_id": 13,
+    "match_id": 89,
+    "home_score": 1,
+    "away_score": 3,
+    "points": 5,
+    "submitted_at": "2026-06-28T21:55:51.740409",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 678,
+    "participant_id": 13,
+    "match_id": 101,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-28T21:57:49.446803",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 631,
+    "participant_id": 4,
+    "match_id": 102,
+    "home_score": 5,
+    "away_score": 4,
+    "points": 0,
+    "submitted_at": "2026-06-28T15:57:51.818098",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 679,
+    "participant_id": 13,
+    "match_id": 102,
+    "home_score": 3,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-28T21:57:49.784262",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 560,
+    "participant_id": 4,
+    "match_id": 75,
+    "home_score": 1,
+    "away_score": 1,
+    "points": 9,
+    "submitted_at": "2026-06-28T03:31:59.844024",
+    "predicted_winner_side": "home"
+  },
+  {
+    "id": 573,
+    "participant_id": 4,
+    "match_id": 88,
+    "home_score": 0,
+    "away_score": 0,
+    "points": 5,
+    "submitted_at": "2026-06-28T03:32:04.225718",
+    "predicted_winner_side": "away"
+  },
+  {
+    "id": 591,
+    "participant_id": 11,
+    "match_id": 75,
+    "home_score": 1,
+    "away_score": 3,
+    "points": 0,
+    "submitted_at": "2026-06-28T15:40:41.257748",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 577,
+    "participant_id": 7,
+    "match_id": 92,
+    "home_score": 1,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-28T13:23:07.686783",
+    "predicted_winner_side": "home"
+  },
+  {
+    "id": 608,
+    "participant_id": 11,
+    "match_id": 92,
+    "home_score": 0,
+    "away_score": 2,
+    "points": 5,
+    "submitted_at": "2026-06-28T15:51:31.434866",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 669,
+    "participant_id": 13,
+    "match_id": 92,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 5,
+    "submitted_at": "2026-06-28T21:55:52.705556",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 579,
+    "participant_id": 7,
+    "match_id": 94,
+    "home_score": 0,
+    "away_score": 1,
+    "points": 9,
+    "submitted_at": "2026-06-28T13:23:08.003194",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 610,
+    "participant_id": 11,
+    "match_id": 94,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-28T15:51:32.334875",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 624,
+    "participant_id": 4,
+    "match_id": 94,
+    "home_score": 5,
+    "away_score": 6,
+    "points": 5,
+    "submitted_at": "2026-06-28T15:57:50.173288",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 609,
+    "participant_id": 11,
+    "match_id": 93,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-28T15:51:31.872546",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 623,
+    "participant_id": 4,
+    "match_id": 93,
+    "home_score": 1,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-28T15:57:49.873400",
+    "predicted_winner_side": "away"
+  },
+  {
+    "id": 670,
+    "participant_id": 13,
+    "match_id": 93,
+    "home_score": 1,
+    "away_score": 3,
+    "points": 7,
+    "submitted_at": "2026-06-28T21:55:53.004533",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 581,
+    "participant_id": 7,
+    "match_id": 96,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 5,
+    "submitted_at": "2026-06-28T13:23:08.258324",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 612,
+    "participant_id": 11,
+    "match_id": 96,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 5,
+    "submitted_at": "2026-06-28T15:51:33.214898",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 626,
+    "participant_id": 4,
+    "match_id": 96,
+    "home_score": 1,
+    "away_score": 0,
+    "points": 5,
+    "submitted_at": "2026-06-28T15:57:50.657753",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 673,
+    "participant_id": 13,
+    "match_id": 96,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-28T21:55:53.959405",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 580,
+    "participant_id": 7,
+    "match_id": 95,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-28T13:23:08.137365",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 611,
+    "participant_id": 11,
+    "match_id": 95,
+    "home_score": 0,
+    "away_score": 3,
+    "points": 0,
+    "submitted_at": "2026-06-28T15:51:32.766765",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 625,
+    "participant_id": 4,
+    "match_id": 95,
+    "home_score": 1,
+    "away_score": 3,
+    "points": 0,
+    "submitted_at": "2026-06-28T15:57:50.418361",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 672,
+    "participant_id": 13,
+    "match_id": 95,
+    "home_score": 0,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-28T21:55:53.636892",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 582,
+    "participant_id": 7,
+    "match_id": 97,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-28T13:24:53.461077",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 613,
+    "participant_id": 11,
+    "match_id": 97,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-28T15:53:51.306569",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 627,
+    "participant_id": 4,
+    "match_id": 97,
+    "home_score": 0,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-28T15:57:50.886330",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 674,
+    "participant_id": 13,
+    "match_id": 97,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-28T21:57:48.102243",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 614,
+    "participant_id": 11,
+    "match_id": 98,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-28T15:53:51.741073",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 628,
+    "participant_id": 4,
+    "match_id": 98,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-28T15:57:51.117148",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 675,
+    "participant_id": 13,
+    "match_id": 98,
+    "home_score": 1,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-28T21:57:48.440962",
+    "predicted_winner_side": "away"
+  },
+  {
+    "id": 588,
+    "participant_id": 7,
+    "match_id": 103,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-28T13:25:54.524973",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 619,
+    "participant_id": 11,
+    "match_id": 103,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-28T15:56:01.502699",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 632,
+    "participant_id": 4,
+    "match_id": 103,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-28T15:57:52.066697",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 680,
+    "participant_id": 13,
+    "match_id": 103,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-28T21:57:50.200293",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 720,
+    "participant_id": 9,
+    "match_id": 99,
+    "home_score": 1,
+    "away_score": 3,
+    "points": 7,
+    "submitted_at": "2026-06-29T03:00:06.060098",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 707,
+    "participant_id": 8,
+    "match_id": 100,
+    "home_score": 0,
+    "away_score": 2,
+    "points": 5,
+    "submitted_at": "2026-06-29T02:41:14.207724",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 709,
+    "participant_id": 8,
+    "match_id": 102,
+    "home_score": 1,
+    "away_score": 3,
+    "points": 7,
+    "submitted_at": "2026-06-29T02:43:04.833935",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 723,
+    "participant_id": 9,
+    "match_id": 102,
+    "home_score": 2,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-29T03:04:57.822033",
+    "predicted_winner_side": "away"
+  },
+  {
+    "id": 725,
+    "participant_id": 8,
+    "match_id": 103,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-29T03:06:07.252252",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 686,
+    "participant_id": 8,
+    "match_id": 79,
+    "home_score": 1,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-29T02:33:56.956553",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 688,
+    "participant_id": 8,
+    "match_id": 81,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 9,
+    "submitted_at": "2026-06-29T02:33:57.445386",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 690,
+    "participant_id": 8,
+    "match_id": 83,
+    "home_score": 1,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-29T02:33:57.915707",
+    "predicted_winner_side": "away"
+  },
+  {
+    "id": 692,
+    "participant_id": 8,
+    "match_id": 85,
+    "home_score": 1,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-29T02:33:58.404794",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 694,
+    "participant_id": 8,
+    "match_id": 87,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-29T02:33:58.886183",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 697,
+    "participant_id": 8,
+    "match_id": 90,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 5,
+    "submitted_at": "2026-06-29T02:39:01.022843",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 710,
+    "participant_id": 9,
+    "match_id": 89,
+    "home_score": 1,
+    "away_score": 3,
+    "points": 5,
+    "submitted_at": "2026-06-29T02:58:32.156777",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 635,
+    "participant_id": 9,
+    "match_id": 75,
+    "home_score": 1,
+    "away_score": 1,
+    "points": 9,
+    "submitted_at": "2026-06-28T16:15:04.739517",
+    "predicted_winner_side": "home"
+  },
+  {
+    "id": 712,
+    "participant_id": 9,
+    "match_id": 91,
+    "home_score": 3,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-29T02:58:33.001906",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 699,
+    "participant_id": 8,
+    "match_id": 92,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 5,
+    "submitted_at": "2026-06-29T02:39:01.502288",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 701,
+    "participant_id": 8,
+    "match_id": 94,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-29T02:39:01.980660",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 714,
+    "participant_id": 9,
+    "match_id": 93,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-29T02:58:34.001699",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 703,
+    "participant_id": 8,
+    "match_id": 96,
+    "home_score": 1,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-29T02:39:02.462370",
+    "predicted_winner_side": "home"
+  },
+  {
+    "id": 716,
+    "participant_id": 9,
+    "match_id": 95,
+    "home_score": 2,
+    "away_score": 3,
+    "points": 0,
+    "submitted_at": "2026-06-29T02:58:34.824540",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 718,
+    "participant_id": 9,
+    "match_id": 97,
+    "home_score": 2,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-29T03:00:05.162314",
+    "predicted_winner_side": "home"
+  },
+  {
+    "id": 705,
+    "participant_id": 8,
+    "match_id": 98,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-29T02:41:13.575318",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 527,
+    "participant_id": 2,
+    "match_id": 73,
+    "home_score": 0,
+    "away_score": 1,
+    "points": 9,
+    "submitted_at": "2026-06-28T03:12:42.867299",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 589,
+    "participant_id": 11,
+    "match_id": 73,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 5,
+    "submitted_at": "2026-06-28T15:40:40.334840",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 633,
+    "participant_id": 9,
+    "match_id": 73,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 5,
+    "submitted_at": "2026-06-28T16:15:03.870245",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 649,
+    "participant_id": 8,
+    "match_id": 73,
+    "home_score": 1,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-28T21:47:50.025690",
+    "predicted_winner_side": "away"
+  },
+  {
+    "id": 650,
+    "participant_id": 13,
+    "match_id": 73,
+    "home_score": 0,
+    "away_score": 1,
+    "points": 9,
+    "submitted_at": "2026-06-28T21:48:32.739937",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 683,
+    "participant_id": 8,
+    "match_id": 76,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 9,
+    "submitted_at": "2026-06-29T02:33:56.220264",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 728,
+    "participant_id": 14,
+    "match_id": 76,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 9,
+    "submitted_at": "2026-06-29T13:40:09.549221",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 726,
+    "participant_id": 14,
+    "match_id": 74,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-29T13:40:09.074055",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 706,
+    "participant_id": 8,
+    "match_id": 99,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-29T02:41:13.931684",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 721,
+    "participant_id": 9,
+    "match_id": 100,
+    "home_score": 2,
+    "away_score": 4,
+    "points": 5,
+    "submitted_at": "2026-06-29T03:00:06.460838",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 529,
+    "participant_id": 2,
+    "match_id": 75,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-28T03:12:45.157877",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 727,
+    "participant_id": 14,
+    "match_id": 75,
+    "home_score": 3,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-29T13:40:09.322997",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 708,
+    "participant_id": 8,
+    "match_id": 101,
+    "home_score": 2,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-29T02:43:04.592553",
+    "predicted_winner_side": "away"
+  },
+  {
+    "id": 722,
+    "participant_id": 9,
+    "match_id": 101,
+    "home_score": 3,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-29T03:04:57.404511",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 724,
+    "participant_id": 9,
+    "match_id": 103,
+    "home_score": 3,
+    "away_score": 2,
+    "points": 5,
+    "submitted_at": "2026-06-29T03:05:41.952933",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 685,
+    "participant_id": 8,
+    "match_id": 78,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 9,
+    "submitted_at": "2026-06-29T02:33:56.694379",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 730,
+    "participant_id": 14,
+    "match_id": 78,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 9,
+    "submitted_at": "2026-06-29T13:40:10.172756",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 741,
+    "participant_id": 12,
+    "match_id": 78,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-30T13:27:14.169324",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 729,
+    "participant_id": 14,
+    "match_id": 77,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-29T13:40:09.918108",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 740,
+    "participant_id": 12,
+    "match_id": 77,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-30T13:27:13.748427",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 731,
+    "participant_id": 14,
+    "match_id": 79,
+    "home_score": 0,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-29T13:40:10.479500",
+    "predicted_winner_side": "away"
+  },
+  {
+    "id": 742,
+    "participant_id": 12,
+    "match_id": 79,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-30T13:27:14.546385",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 687,
+    "participant_id": 8,
+    "match_id": 80,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-29T02:33:57.198674",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 732,
+    "participant_id": 14,
+    "match_id": 80,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 9,
+    "submitted_at": "2026-06-29T13:40:10.820835",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 743,
+    "participant_id": 12,
+    "match_id": 80,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 9,
+    "submitted_at": "2026-06-30T13:27:14.978157",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 689,
+    "participant_id": 8,
+    "match_id": 82,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-29T02:33:57.670540",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 734,
+    "participant_id": 14,
+    "match_id": 82,
+    "home_score": 0,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-29T13:40:11.369088",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 745,
+    "participant_id": 12,
+    "match_id": 82,
+    "home_score": 0,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-30T13:27:15.737913",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 733,
+    "participant_id": 14,
+    "match_id": 81,
+    "home_score": 0,
+    "away_score": 0,
+    "points": 0,
+    "submitted_at": "2026-06-29T13:40:11.108929",
+    "predicted_winner_side": "home"
+  },
+  {
+    "id": 744,
+    "participant_id": 12,
+    "match_id": 81,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-30T13:27:15.378250",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 691,
+    "participant_id": 8,
+    "match_id": 84,
+    "home_score": 1,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-29T02:33:58.150294",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 736,
+    "participant_id": 14,
+    "match_id": 84,
+    "home_score": 2,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-29T13:40:11.927276",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 747,
+    "participant_id": 12,
+    "match_id": 84,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-30T13:27:16.589295",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 746,
+    "participant_id": 12,
+    "match_id": 83,
+    "home_score": 2,
+    "away_score": 3,
+    "points": 0,
+    "submitted_at": "2026-06-30T13:27:16.181595",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 660,
+    "participant_id": 13,
+    "match_id": 83,
+    "home_score": 2,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-28T21:53:39.894258",
+    "predicted_winner_side": "home"
+  },
+  {
+    "id": 735,
+    "participant_id": 14,
+    "match_id": 83,
+    "home_score": 1,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-29T13:40:11.614632",
+    "predicted_winner_side": "home"
+  },
+  {
+    "id": 748,
+    "participant_id": 12,
+    "match_id": 85,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-30T13:27:17.037982",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 693,
+    "participant_id": 8,
+    "match_id": 86,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-29T02:33:58.652799",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 737,
+    "participant_id": 14,
+    "match_id": 86,
+    "home_score": 1,
+    "away_score": 0,
+    "points": 5,
+    "submitted_at": "2026-06-29T13:40:12.229884",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 749,
+    "participant_id": 12,
+    "match_id": 86,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-30T13:27:17.420545",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 738,
+    "participant_id": 14,
+    "match_id": 87,
+    "home_score": 1,
+    "away_score": 0,
+    "points": 9,
+    "submitted_at": "2026-06-29T13:40:12.633898",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 750,
+    "participant_id": 12,
+    "match_id": 87,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-30T13:27:17.813401",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 667,
+    "participant_id": 13,
+    "match_id": 90,
+    "home_score": 0,
+    "away_score": 2,
+    "points": 7,
+    "submitted_at": "2026-06-28T21:55:52.061532",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 711,
+    "participant_id": 9,
+    "match_id": 90,
+    "home_score": 1,
+    "away_score": 3,
+    "points": 7,
+    "submitted_at": "2026-06-29T02:58:32.581685",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 696,
+    "participant_id": 8,
+    "match_id": 89,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 5,
+    "submitted_at": "2026-06-29T02:39:00.782325",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 665,
+    "participant_id": 13,
+    "match_id": 88,
+    "home_score": 2,
+    "away_score": 2,
+    "points": 5,
+    "submitted_at": "2026-06-28T21:53:42.269956",
+    "predicted_winner_side": "away"
+  },
+  {
+    "id": 695,
+    "participant_id": 8,
+    "match_id": 88,
+    "home_score": 1,
+    "away_score": 1,
+    "points": 9,
+    "submitted_at": "2026-06-29T02:33:59.134258",
+    "predicted_winner_side": "home"
+  },
+  {
+    "id": 739,
+    "participant_id": 14,
+    "match_id": 88,
+    "home_score": 0,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-29T13:40:12.944124",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 751,
+    "participant_id": 12,
+    "match_id": 88,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-30T13:27:18.318891",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 698,
+    "participant_id": 8,
+    "match_id": 91,
+    "home_score": 0,
+    "away_score": 1,
+    "points": 5,
+    "submitted_at": "2026-06-29T02:39:01.265030",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 713,
+    "participant_id": 9,
+    "match_id": 92,
+    "home_score": 2,
+    "away_score": 3,
+    "points": 9,
+    "submitted_at": "2026-06-29T02:58:33.595465",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 671,
+    "participant_id": 13,
+    "match_id": 94,
+    "home_score": 2,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-28T21:55:53.326385",
+    "predicted_winner_side": "home"
+  },
+  {
+    "id": 715,
+    "participant_id": 9,
+    "match_id": 94,
+    "home_score": 3,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-29T02:58:34.411559",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 700,
+    "participant_id": 8,
+    "match_id": 93,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 0,
+    "submitted_at": "2026-06-29T02:39:01.739238",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 717,
+    "participant_id": 9,
+    "match_id": 96,
+    "home_score": 3,
+    "away_score": 0,
+    "points": 7,
+    "submitted_at": "2026-06-29T02:58:35.231609",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 702,
+    "participant_id": 8,
+    "match_id": 95,
+    "home_score": 1,
+    "away_score": 2,
+    "points": 0,
+    "submitted_at": "2026-06-29T02:39:02.218755",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 704,
+    "participant_id": 8,
+    "match_id": 97,
+    "home_score": 2,
+    "away_score": 1,
+    "points": 7,
+    "submitted_at": "2026-06-29T02:41:13.178071",
+    "predicted_winner_side": null
+  },
+  {
+    "id": 719,
+    "participant_id": 9,
+    "match_id": 98,
+    "home_score": 2,
+    "away_score": 3,
+    "points": 5,
+    "submitted_at": "2026-06-29T03:00:05.650997",
+    "predicted_winner_side": null
+  }
+]
