@@ -7,10 +7,11 @@
 - Personal email: millan.ricardo@yahoo.com (Yahoo — Ricardo's login account)
 
 ## Deployment (Render.com)
-- Frontend: https://quiniela-frontend-l8j1.onrender.com
-- Backend API: https://quiniela-backend-XXXX.onrender.com (check Render dashboard)
+- Status as of 2026-07-23: **decommissioned** — 2026 World Cup ended, all Render services (frontend, backend, PostgreSQL DB) were backed up and deleted. Next iteration expected ~2030; these will need to be recreated from scratch.
+- Frontend: https://quiniela-frontend-l8j1.onrender.com (was live during the 2026 tournament)
+- Backend API: https://quiniela-backend-8oak.onrender.com (was live during the 2026 tournament)
 - Deploy is automatic: every `git push` to main triggers a redeploy on Render
-- Free tier — backend may sleep after inactivity
+- ⚠️ **"Free tier" was NOT actually free** — despite that assumption throughout this doc, Render billed $5.22 (May 2026) and $11.09 (June 2026) to Ricardo's account, most likely because the PostgreSQL database (and/or a service) had drifted onto a paid plan. **Suspending a service does not stop billing on a paid plan — only deleting the resource does.** Next time: verify each service's actual plan tier in Billing → Usage regularly, and set a Render spending-notification alert immediately after deploy.
 
 ## Tech Stack
 - Backend: FastAPI (Python)
@@ -138,6 +139,7 @@ quiniela-mundial-2026/
 - Mobile browsers were caching old JS — fixed with _headers file (Cache-Control: no-cache) and meta tags in predictions.html.
 - Empty prediction fields were blocking the entire save — fixed to skip empty fields and only block truly invalid values (out of range).
 - Excel merge_cells requires keyword args in openpyxl (not positional) — the `_merge()` helper in export.py handles this.
+- 2026-07-23: Site decommissioned after the tournament ended. Full backup taken (DB tables + admin Excel exports) into `backup/2026-07-23/` in this repo and `~/backups/quiniela-mundial-2026/2026-07-23/` locally (unredacted copy with password hashes, not in git) before deleting the Render services. Discovered Render had been billing Ricardo ($5.22 May 2026, $11.09 June 2026) despite the "free tier" assumption in this doc — suspending services did not stop the charges; only deleting the resources did. **Lesson for the next iteration (~2030): confirm plan tier in Render Billing → Usage periodically, and set a spending-notification alert right after initial deploy.**
 
 ## Participants
 - Open registration — anyone with the link can join
